@@ -28,11 +28,24 @@ const platforms = [
     { value: 'opencart', label: 'OpenCart', color: 'bg-[#239cd3]' },
 ];
 
+const platformPlans: Record<string, string[]> = {
+    shopify: ['Basic', 'Grow', 'Advanced', 'Plus'],
+    woocommerce: ['Free', 'Hosting Bundle', 'VIP'],
+    wix: ['Basic', 'Business', 'Business Elite', 'Enterprise'],
+    bigcommerce: ['Standard', 'Plus', 'Pro', 'Enterprise'],
+    ideasosoft: ['Akıllı', 'Pro', 'Entegre', 'Enterprise'],
+    ticimax: ['Soft', 'Plus', 'Special', 'Premium'],
+    magento: ['Open Source', 'Commerce', 'Cloud'],
+    opencart: ['Free', 'Cloud Start', 'Cloud Pro'],
+};
+
 export default function Hero() {
     const [searchValue, setSearchValue] = useState('');
     const [open, setOpen] = useState(false);
     const [isComparing, setIsComparing] = useState(false);
-    const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+    const [selectedItems, setSelectedItems] = useState<{ platform: string, plan: string }[]>([]);
+    const [currentStep, setCurrentStep] = useState<'platform' | 'plan'>('platform');
+    const [tempPlatform, setTempPlatform] = useState<typeof platforms[0] | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Typing Effect Logic
@@ -75,33 +88,63 @@ export default function Hero() {
     }, [charIndex, isDeleting, placeholderIndex]);
 
     const handleSelect = (platform: typeof platforms[0]) => {
-        if (selectedPlatforms.length >= 2) {
-            setSelectedPlatforms([platform.value]);
-            setSearchValue(platform.label + ' vs ');
-        } else if (selectedPlatforms.length === 1) {
-            if (selectedPlatforms[0] === platform.value) return;
-            setSelectedPlatforms([...selectedPlatforms, platform.value]);
-            setSearchValue(platforms.find(p => p.value === selectedPlatforms[0])?.label + ' vs ' + platform.label);
-            setOpen(false);
+        setTempPlatform(platform);
+        setCurrentStep('plan');
+    };
+
+    const handlePlanSelect = (plan: string) => {
+        if (!tempPlatform) return;
+
+        const newItem = { platform: tempPlatform.value, plan };
+        
+        let newItems;
+        if (selectedItems.length >= 2) {
+            newItems = [newItem];
+        } else if (selectedItems.length === 1) {
+            // Avoid duplicate platform+plan combination if needed, but usually comparing same platform different plans is valid
+            newItems = [...selectedItems, newItem];
         } else {
-            setSelectedPlatforms([platform.value]);
-            setSearchValue(platform.label + ' vs ');
+            newItems = [newItem];
+        }
+
+        setSelectedItems(newItems);
+        
+        // Update search value
+        const displayValue = newItems.map(item => {
+            const p = platforms.find(p => p.value === item.platform);
+            return `${p?.label} (${item.plan})`;
+        }).join(' vs ');
+        
+        setSearchValue(displayValue + (newItems.length === 1 ? ' vs ' : ''));
+        
+        // Reset step
+        setCurrentStep('platform');
+        setTempPlatform(null);
+        
+        if (newItems.length === 2) {
+            setOpen(false);
         }
     };
 
     const handleCompare = () => {
-        if (selectedPlatforms.length < 2) return;
+        if (selectedItems.length < 2) return;
         setIsComparing(true);
         setTimeout(() => setIsComparing(false), 2000);
     };
 
     const clearSearch = () => {
         setSearchValue('');
-        setSelectedPlatforms([]);
+        setSelectedItems([]);
+        setCurrentStep('platform');
+        setTempPlatform(null);
     };
 
     useEffect(() => {
-        if (searchValue === '') setSelectedPlatforms([]);
+        if (searchValue === '') {
+            setSelectedItems([]);
+            setCurrentStep('platform');
+            setTempPlatform(null);
+        }
     }, [searchValue]);
 
     return (
@@ -182,11 +225,11 @@ export default function Hero() {
                                                 e.stopPropagation();
                                                 handleCompare();
                                             }}
-                                            disabled={selectedPlatforms.length < 2 || isComparing}
+                                            disabled={selectedItems.length < 2 || isComparing}
                                             size="lg"
                                             className={cn(
                                                 "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed",
-                                                selectedPlatforms.length >= 2 
+                                                selectedItems.length >= 2 
                                                     ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20" 
                                                     : "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 border border-transparent dark:border-white/5"
                                             )}
@@ -217,30 +260,62 @@ export default function Hero() {
                                                     <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
                                                         <Search className="h-6 w-6 text-gray-300" />
                                                     </div>
-                                                    <p className="text-sm text-gray-500">Platform bulunamadı.</p>
+                                                    <p className="text-sm text-gray-500">
+                                                        {currentStep === 'platform' ? 'Platform bulunamadı.' : 'Paket bulunamadı.'}
+                                                    </p>
                                                 </div>
                                             </CommandEmpty>
-                                            <CommandGroup heading="Platform Seçin" className="p-3">
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                    {platforms.map((platform) => (
-                                                        <CommandItem
-                                                            key={platform.value}
-                                                            value={platform.value}
-                                                            onSelect={() => handleSelect(platform)}
-                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
-                                                        >
-                                                            <div className={cn("h-3 w-3 rounded-full shrink-0", platform.color)} />
-                                                            <div className="flex flex-col">
-                                                                <span className="font-bold text-gray-900 dark:text-slate-100">{platform.label}</span>
-                                                                <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Ekosistem Analizi</span>
-                                                            </div>
-                                                            {selectedPlatforms.includes(platform.value) && (
-                                                                <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
-                                                            )}
-                                                        </CommandItem>
-                                                    ))}
-                                                </div>
-                                            </CommandGroup>
+                                            
+                                            {currentStep === 'platform' ? (
+                                                <CommandGroup heading="Platform Seçin" className="p-3">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                        {platforms.map((platform) => (
+                                                            <CommandItem
+                                                                key={platform.value}
+                                                                value={platform.value}
+                                                                onSelect={() => handleSelect(platform)}
+                                                                className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
+                                                            >
+                                                                <div className={cn("h-3 w-3 rounded-full shrink-0", platform.color)} />
+                                                                <div className="flex flex-col">
+                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{platform.label}</span>
+                                                                    <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Ekosistem Analizi</span>
+                                                                </div>
+                                                                {selectedItems.some(item => item.platform === platform.value) && (
+                                                                    <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
+                                                                )}
+                                                            </CommandItem>
+                                                        ))}
+                                                    </div>
+                                                </CommandGroup>
+                                            ) : (
+                                                <CommandGroup heading={`${tempPlatform?.label} Paketi Seçin`} className="p-3">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                        {tempPlatform && platformPlans[tempPlatform.value]?.map((plan) => (
+                                                            <CommandItem
+                                                                key={plan}
+                                                                value={plan}
+                                                                onSelect={() => handlePlanSelect(plan)}
+                                                                className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
+                                                            >
+                                                                <div className="flex flex-col">
+                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{plan}</span>
+                                                                    <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Plan Özellikleri</span>
+                                                                </div>
+                                                                {selectedItems.some(item => item.platform === tempPlatform.value && item.plan === plan) && (
+                                                                    <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
+                                                                )}
+                                                            </CommandItem>
+                                                        ))}
+                                                    </div>
+                                                    <button 
+                                                        onClick={() => setCurrentStep('platform')}
+                                                        className="mt-4 w-full p-2 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                                                    >
+                                                        ← Platform Seçimine Dön
+                                                    </button>
+                                                </CommandGroup>
+                                            )}
                                         </CommandList>
                                     </CommandUI>
                                 </PopoverContent>
@@ -256,15 +331,18 @@ export default function Hero() {
                                 Hızlı Kıyasla:
                             </span>
                             {[
-                                { a: 'shopify', b: 'woocommerce', label: 'Shopify vs WooCommerce' },
-                                { a: 'ticimax', b: 'ideasosoft', label: 'Ticimax vs Ideasosoft' },
-                                { a: 'wix', b: 'shopify', label: 'Wix vs Shopify' }
+                                { a: { p: 'shopify', pl: 'Basic' }, b: { p: 'woocommerce', pl: 'Free' }, label: 'Shopify (Basic) vs WooCommerce (Free)' },
+                                { a: { p: 'ticimax', pl: 'Plus' }, b: { p: 'ideasosoft', pl: 'Pro' }, label: 'Ticimax (Plus) vs Ideasosoft (Pro)' },
+                                { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'magento', pl: 'Commerce' }, label: 'Shopify (Plus) vs Magento (Commerce)' }
                             ].map((s, i) => (
                                     <button 
                                         key={i}
                                         onClick={() => {
-                                            setSelectedPlatforms([s.a, s.b]);
-                                            setSearchValue(`${platforms.find(p => p.value === s.a)?.label} vs ${platforms.find(p => p.value === s.b)?.label}`);
+                                            setSelectedItems([
+                                                { platform: s.a.p, plan: s.a.pl },
+                                                { platform: s.b.p, plan: s.b.pl }
+                                            ]);
+                                            setSearchValue(s.label);
                                         }}
                                         className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
                                     >
