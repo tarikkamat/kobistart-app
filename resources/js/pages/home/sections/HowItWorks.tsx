@@ -32,6 +32,8 @@ export default function HowItWorks() {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
+        let intervalId: ReturnType<typeof setInterval>;
+        
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -39,25 +41,33 @@ export default function HowItWorks() {
                     
                     // Start staggered activation
                     let step = 0;
-                    const interval = setInterval(() => {
+                    if (intervalId) clearInterval(intervalId);
+                    
+                    intervalId = setInterval(() => {
                         setActiveStep(step);
                         step++;
                         if (step >= steps.length) {
-                            clearInterval(interval);
+                            clearInterval(intervalId);
                         }
-                    }, 800); // 800ms per step for a snappy feel
-
-                    observer.unobserve(entry.target);
+                    }, 800);
+                } else {
+                    // Reset everything when scrolled out
+                    setIsVisible(false);
+                    setActiveStep(-1);
+                    if (intervalId) clearInterval(intervalId);
                 }
             },
-            { threshold: 0.2 }
+            { threshold: 0.15 }
         );
 
         if (sectionRef.current) {
             observer.observe(sectionRef.current);
         }
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            if (intervalId) clearInterval(intervalId);
+        };
     }, []);
 
     return (
