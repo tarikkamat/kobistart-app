@@ -145,7 +145,7 @@ export default function Hero() {
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <div className={cn(
-                                        "relative flex items-center bg-white/90 dark:bg-slate-900/90 rounded-[2.5rem] p-2 transition-all duration-500 border-2",
+                                        "relative flex items-center bg-white/90 dark:bg-slate-900/90 rounded-[2.5rem] p-2 transition-all duration-500 border-2 focus:outline-none",
                                         open ? "border-blue-500/50 ring-4 ring-blue-500/5" : "border-transparent"
                                     )}>
                                         <div className="flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 ml-1">
@@ -165,7 +165,7 @@ export default function Hero() {
                                         {searchValue && (
                                             <button 
                                                 onClick={clearSearch}
-                                                className="p-2 mr-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                                                className="p-2 mr-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors focus:outline-none"
                                             >
                                                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -253,14 +253,14 @@ export default function Hero() {
                                 { a: 'ticimax', b: 'ideasosoft', label: 'Ticimax vs Ideasosoft' },
                                 { a: 'wix', b: 'shopify', label: 'Wix vs Shopify' }
                             ].map((s, i) => (
-                                <button 
-                                    key={i}
-                                    onClick={() => {
-                                        setSelectedPlatforms([s.a, s.b]);
-                                        setSearchValue(`${platforms.find(p => p.value === s.a)?.label} vs ${platforms.find(p => p.value === s.b)?.label}`);
-                                    }}
-                                    className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm"
-                                >
+                                    <button 
+                                        key={i}
+                                        onClick={() => {
+                                            setSelectedPlatforms([s.a, s.b]);
+                                            setSearchValue(`${platforms.find(p => p.value === s.a)?.label} vs ${platforms.find(p => p.value === s.b)?.label}`);
+                                        }}
+                                        className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
+                                    >
                                     {s.label}
                                 </button>
                             ))}
