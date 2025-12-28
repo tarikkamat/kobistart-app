@@ -35,6 +35,45 @@ export default function Hero() {
     const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // Typing Effect Logic
+    const [placeholder, setPlaceholder] = useState('');
+    const [placeholderIndex, setPlaceholderIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const phrases = [
+        "Shopify vs WooCommerce",
+        "Ticimax vs Ideasosoft",
+        "Wix vs Shopify",
+        "Magento vs OpenCart",
+        "T-Soft vs İkas"
+    ];
+
+    useEffect(() => {
+        const currentPhrase = phrases[placeholderIndex];
+        const typingSpeed = isDeleting ? 30 : 70;
+        const nextActionDelay = isDeleting 
+            ? (charIndex === 0 ? 500 : typingSpeed) 
+            : (charIndex === currentPhrase.length ? 2000 : typingSpeed);
+
+        const timeout = setTimeout(() => {
+            if (!isDeleting && charIndex < currentPhrase.length) {
+                setPlaceholder(prev => prev + currentPhrase[charIndex]);
+                setCharIndex(prev => prev + 1);
+            } else if (isDeleting && charIndex > 0) {
+                setPlaceholder(prev => prev.slice(0, -1));
+                setCharIndex(prev => prev - 1);
+            } else if (!isDeleting && charIndex === currentPhrase.length) {
+                setIsDeleting(true);
+            } else if (isDeleting && charIndex === 0) {
+                setIsDeleting(false);
+                setPlaceholderIndex((prev) => (prev + 1) % phrases.length);
+            }
+        }, nextActionDelay);
+
+        return () => clearTimeout(timeout);
+    }, [charIndex, isDeleting, placeholderIndex]);
+
     const handleSelect = (platform: typeof platforms[0]) => {
         if (selectedPlatforms.length >= 2) {
             setSelectedPlatforms([platform.value]);
@@ -108,7 +147,7 @@ export default function Hero() {
                                             value={searchValue}
                                             onChange={(e) => setSearchValue(e.target.value)}
                                             onFocus={() => setOpen(true)}
-                                            placeholder="Örn: Shopify vs WooCommerce"
+                                            placeholder={`Örn: ${placeholder}`}
                                             className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium px-4 py-2 placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                         />
 
