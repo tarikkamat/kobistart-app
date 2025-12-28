@@ -48,8 +48,24 @@ export default function HowItWorks() {
                 </div>
 
                 <div className="relative grid gap-8 md:grid-cols-3">
-                    {/* Connecting Line (Desktop) */}
-                    <div className="absolute top-1/2 left-[10%] hidden h-px w-[80%] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent lg:block" />
+                    {/* Connecting Flow Line (Desktop) */}
+                    <div className="absolute top-[60px] left-[15%] hidden h-[2px] w-[70%] bg-white/5 md:block overflow-hidden rounded-full">
+                        <div 
+                            className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]"
+                            style={{
+                                animation: 'flow-progress 3s infinite cubic-bezier(0.4, 0, 0.2, 1)'
+                            }}
+                        />
+                    </div>
+
+                    <style dangerouslySetInnerHTML={{ __html: `
+                        @keyframes flow-progress {
+                            0% { transform: scaleX(0); transform-origin: left; opacity: 0; }
+                            10% { opacity: 1; }
+                            90% { opacity: 1; }
+                            100% { transform: scaleX(1); transform-origin: left; opacity: 0; }
+                        }
+                    ` }} />
 
                     {steps.map((step, index) => (
                         <div key={index} className="group relative">
@@ -76,11 +92,7 @@ export default function HowItWorks() {
                                 <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500 group-hover:w-full" />
                             </GlassCard>
 
-                            {index < 2 && (
-                                <div className="absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 md:block lg:hidden">
-                                    <ArrowRight className="h-6 w-6 text-blue-500/30" />
-                                </div>
-                            )}
+
                         </div>
                     ))}
                 </div>
