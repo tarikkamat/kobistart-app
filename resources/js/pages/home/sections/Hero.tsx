@@ -159,7 +159,7 @@ export default function Hero() {
                                             onChange={(e) => setSearchValue(e.target.value)}
                                             onFocus={() => setOpen(true)}
                                             placeholder={`Örn: ${placeholder}`}
-                                            className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium px-4 py-2 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                                            className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-xl font-medium px-4 py-2 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                         />
 
                                         {searchValue && (
