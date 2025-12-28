@@ -1,5 +1,6 @@
 import { GlassCard } from '@/components/ui/glass-card';
-import { ArrowRight, BarChart3, BrainCircuit, ClipboardList, Sparkles } from 'lucide-react';
+import { BarChart3, BrainCircuit, ClipboardList, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const steps = [
     {
@@ -26,8 +27,41 @@ const steps = [
 ];
 
 export default function HowItWorks() {
+    const [isVisible, setIsVisible] = useState(false);
+    const [activeStep, setActiveStep] = useState(-1);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    
+                    // Start staggered activation
+                    let step = 0;
+                    const interval = setInterval(() => {
+                        setActiveStep(step);
+                        step++;
+                        if (step >= steps.length) {
+                            clearInterval(interval);
+                        }
+                    }, 800); // 800ms per step for a snappy feel
+
+                    observer.unobserve(entry.target);
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <section className="relative overflow-hidden py-24 lg:py-32">
+        <section ref={sectionRef} className="relative overflow-hidden py-24 lg:py-32">
             {/* Background Decorative Elements */}
             <div className="absolute inset-0 -z-10 bg-[#030712]" />
             <div className="absolute top-1/2 left-1/4 -z-10 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-blue-500/10 blur-[120px]" />
@@ -51,50 +85,50 @@ export default function HowItWorks() {
                     {/* Connecting Flow Line (Desktop) */}
                     <div className="absolute top-[60px] left-[15%] hidden h-[2px] w-[70%] bg-white/5 md:block overflow-hidden rounded-full">
                         <div 
-                            className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]"
+                            className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-transform duration-[2400ms] ease-out"
                             style={{
-                                animation: 'flow-progress 3s infinite cubic-bezier(0.4, 0, 0.2, 1)'
+                                transform: `scaleX(${isVisible ? 1 : 0})`,
+                                transformOrigin: 'left',
+                                boxShadow: '0 0 15px rgba(99,102,241,0.5)'
                             }}
                         />
                     </div>
 
-                    <style dangerouslySetInnerHTML={{ __html: `
-                        @keyframes flow-progress {
-                            0% { transform: scaleX(0); transform-origin: left; opacity: 0; }
-                            10% { opacity: 1; }
-                            90% { opacity: 1; }
-                            100% { transform: scaleX(1); transform-origin: left; opacity: 0; }
-                        }
-                    ` }} />
+                    {steps.map((step, index) => {
+                        const isActive = activeStep >= index;
+                        return (
+                            <div key={index} className="group relative">
+                                <GlassCard 
+                                    className={`relative h-full overflow-hidden border-white/5 transition-all duration-700 
+                                        ${isActive ? 'border-blue-500/40 bg-white/[0.08] translate-y-[-8px]' : 'bg-white/5'}
+                                        hover:border-blue-500/30 hover:bg-white/[0.08]`}
+                                >
+                                    {/* Step Number Background */}
+                                    <div className={`absolute -right-4 -top-8 select-none text-9xl font-bold transition-colors duration-700
+                                        ${isActive ? 'text-blue-500/[0.05]' : 'text-white/[0.02]'}`}>
+                                        0{index + 1}
+                                    </div>
 
-                    {steps.map((step, index) => (
-                        <div key={index} className="group relative">
-                            <GlassCard className="relative h-full overflow-hidden border-white/5 bg-white/5 p-8 transition-all duration-500 hover:border-blue-500/30 hover:bg-white/[0.08]">
-                                {/* Step Number Background */}
-                                <div className="absolute -right-4 -top-8 select-none text-9xl font-bold text-white/[0.02] transition-colors duration-500 group-hover:text-blue-500/[0.03]">
-                                    0{index + 1}
-                                </div>
+                                    <div className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} border border-white/10 shadow-lg transition-transform duration-700 ${isActive ? 'scale-110 shadow-blue-500/20' : ''}`}>
+                                        <step.icon className={`h-7 w-7 ${step.color}`} />
+                                    </div>
 
-                                <div className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} border border-white/10 shadow-lg`}>
-                                    <step.icon className={`h-7 w-7 ${step.color}`} />
-                                </div>
+                                    <div className="relative">
+                                        <h3 className={`mb-4 text-xl font-bold transition-colors duration-700 ${isActive ? 'text-blue-400' : 'text-white'}`}>
+                                            {index + 1}. {step.title}
+                                        </h3>
+                                        <p className={`leading-relaxed transition-colors duration-700 ${isActive ? 'text-gray-200' : 'text-gray-400'}`}>
+                                            {step.description}
+                                        </p>
+                                    </div>
 
-                                <div className="relative">
-                                    <h3 className="mb-4 text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                                        {index + 1}. {step.title}
-                                    </h3>
-                                    <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
-                                        {step.description}
-                                    </p>
-                                </div>
-
-                                {/* Bottom Accent Line */}
-                                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500 group-hover:w-full" />
-                            </GlassCard>
-
-
-                        </div>
-                    ))}
+                                    {/* Bottom Accent Line */}
+                                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-700 
+                                        ${isActive ? 'w-full' : 'w-0'}`} />
+                                </GlassCard>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>
