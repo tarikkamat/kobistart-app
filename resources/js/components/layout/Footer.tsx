@@ -4,7 +4,7 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-white/20 bg-white/40 backdrop-blur-lg dark:border-white/10 dark:bg-black/40">
+        <footer className="border-t border-slate-200 bg-white/80 backdrop-blur-lg dark:border-white/10 dark:bg-black/40">
             <div className="container mx-auto px-4 py-12">
                 <div className="grid gap-8 md:grid-cols-4">
                     {/* Brand */}
@@ -79,7 +79,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom */}
-                <div className="mt-12 flex flex-col items-center justify-between border-t border-gray-200 py-6 md:flex-row dark:border-white/10">
+                <div className="mt-12 flex flex-col items-center justify-between border-t border-slate-200 py-6 md:flex-row dark:border-white/10">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                         © {currentYear} KobiStart. All rights reserved.
                     </p>

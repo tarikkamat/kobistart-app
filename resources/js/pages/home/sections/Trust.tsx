@@ -1,6 +1,6 @@
 export default function Trust() {
     return (
-        <section className="py-12 border-t border-gray-200 dark:border-white/10 bg-white/50 backdrop-blur-sm dark:bg-black/50">
+        <section className="py-12 border-t border-slate-200 dark:border-white/10 bg-white/80 backdrop-blur-sm dark:bg-black/50">
             <div className="container mx-auto px-4">
                 <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 text-center">
                     <div className="space-y-1">

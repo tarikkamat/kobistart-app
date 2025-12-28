@@ -28,7 +28,7 @@ export default function Header() {
             className={cn(
                 'fixed left-1/2 top-6 z-50 flex h-16 w-[95%] -translate-x-1/2 items-center justify-between rounded-full border px-6 transition-all duration-300 md:w-full md:max-w-5xl',
                 scrolled
-                    ? 'border-white/20 bg-white/60 shadow-lg backdrop-blur-xl dark:border-white/10 dark:bg-black/60'
+                    ? 'border-slate-200 bg-white/80 shadow-lg backdrop-blur-xl dark:border-white/10 dark:bg-black/60'
                     : 'border-transparent bg-transparent',
             )}
         >

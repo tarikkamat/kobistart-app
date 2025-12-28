@@ -3,7 +3,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function CallToAction() {
     return (
-        <section className="relative py-24">
+        <section className="relative py-24 bg-white dark:bg-transparent">
             <div className="container mx-auto px-4">
                 <div className="relative overflow-hidden rounded-3xl bg-gray-900 px-6 py-16 text-center shadow-2xl md:px-12 md:py-20 dark:bg-white/5 dark:ring-1 dark:ring-white/10">
                     {/* Decorative background elements */}
