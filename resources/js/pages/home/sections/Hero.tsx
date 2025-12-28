@@ -118,7 +118,7 @@ export default function Hero() {
                     Yeni Nesil E-Ticaret Karşılaştırma
                 </div>
 
-                <h1 className="mx-auto mb-8 max-w-5xl font-display text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-7xl lg:text-8xl dark:text-white">
+                <h1 className="mx-auto mb-8 max-w-5xl font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-6xl lg:text-7xl dark:text-white">
                     <span className="inline-block animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both">
                         En Doğru E-Ticaret
                     </span>

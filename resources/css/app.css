@@ -9,12 +9,12 @@
 
 @theme {
     --font-sans:
-        'Outfit', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Plus Jakarta Sans', 'Outfit', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
     --font-display:
-        'Bricolage Grotesque', 'Outfit', sans-serif;
+        'Plus Jakarta Sans', 'Outfit', sans-serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
