@@ -158,13 +158,17 @@ export default function Hero() {
                                             value={searchValue}
                                             onChange={(e) => setSearchValue(e.target.value)}
                                             onFocus={() => setOpen(true)}
+                                            onClick={(e) => e.stopPropagation()}
                                             placeholder={`Örn: ${placeholder}`}
                                             className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-xl font-medium px-4 py-2 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                         />
 
                                         {searchValue && (
                                             <button 
-                                                onClick={clearSearch}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    clearSearch();
+                                                }}
                                                 className="p-2 mr-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors focus:outline-none"
                                             >
                                                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,7 +178,10 @@ export default function Hero() {
                                         )}
 
                                         <Button
-                                            onClick={handleCompare}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleCompare();
+                                            }}
                                             disabled={selectedPlatforms.length < 2 || isComparing}
                                             size="lg"
                                             className={cn(
