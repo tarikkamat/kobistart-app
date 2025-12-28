@@ -107,9 +107,9 @@ export default function Hero() {
     return (
         <section className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-32 bg-slate-50 dark:bg-[#020617]">
             {/* Ambient Background Elements */}
-            <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px]" />
-            <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-pulse" />
-            <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px]" />
+            <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse" />
+            <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float" />
+            <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] animate-float [animation-delay:2s]" />
 
             <div className="container mx-auto px-4 text-center">
                 {/* AI Badge */}
@@ -118,9 +118,20 @@ export default function Hero() {
                     Yeni Nesil E-Ticaret Karşılaştırma
                 </div>
 
-                <h1 className="mx-auto mb-8 max-w-5xl text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-7xl dark:text-white animate-in fade-in slide-in-from-bottom-6 duration-1000">
-                    En Doğru E-Ticaret Kararını <br className="hidden md:block" />
-                    <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Saniyeler İçinde Ver.</span>
+                <h1 className="mx-auto mb-8 max-w-5xl font-display text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-7xl lg:text-8xl dark:text-white">
+                    <span className="inline-block animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both">
+                        En Doğru E-Ticaret
+                    </span>
+                    <br className="hidden md:block" />
+                    <span className="inline-block animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150 fill-mode-both">
+                        Kararını
+                    </span>{" "}
+                    <span className="relative inline-block animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 fill-mode-both">
+                        <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600 bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
+                            Saniyeler İçinde Ver.
+                        </span>
+                        <span className="absolute -bottom-2 left-0 h-1.5 w-full scale-x-0 bg-gradient-to-r from-blue-600 to-violet-600 transition-transform duration-1000 delay-700 group-hover:scale-x-100" />
+                    </span>
                 </h1>
 
                 <p className="mx-auto mb-16 max-w-2xl text-xl text-gray-600 dark:text-gray-400 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
