@@ -39,11 +39,16 @@ const platformPlans: Record<string, string[]> = {
     opencart: ['Free', 'Cloud Start', 'Cloud Pro'],
 };
 
-export default function Hero() {
+export default function Hero({ 
+    selectedItems, 
+    setSelectedItems 
+}: { 
+    selectedItems: { platform: string, plan: string }[], 
+    setSelectedItems: (items: { platform: string, plan: string }[]) => void 
+}) {
     const [searchValue, setSearchValue] = useState('');
     const [open, setOpen] = useState(false);
     const [isComparing, setIsComparing] = useState(false);
-    const [selectedItems, setSelectedItems] = useState<{ platform: string, plan: string }[]>([]);
     const [currentStep, setCurrentStep] = useState<'platform' | 'plan'>('platform');
     const [tempPlatform, setTempPlatform] = useState<typeof platforms[0] | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
