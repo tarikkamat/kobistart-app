@@ -105,11 +105,11 @@ export default function Hero() {
     }, [searchValue]);
 
     return (
-        <section className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-32 bg-slate-50 dark:bg-[#020617]">
+        <section className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
             {/* Ambient Background Elements */}
-            <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse" />
-            <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float" />
-            <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] animate-float [animation-delay:2s]" />
+            <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
+            <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />
+            <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] animate-float [animation-delay:2s] dark:bg-violet-500/20" />
 
             <div className="container mx-auto px-4 text-center">
                 {/* AI Badge */}
@@ -118,7 +118,7 @@ export default function Hero() {
                     Yeni Nesil E-Ticaret Karşılaştırma
                 </div>
 
-                <h1 className="mx-auto mb-8 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                <h1 className="mx-auto mb-8 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-slate-50">
                     <span className="inline-block animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both">
                         En Doğru E-Ticaret
                     </span>
@@ -127,10 +127,10 @@ export default function Hero() {
                         Kararını
                     </span>{" "}
                     <span className="relative inline-block animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 fill-mode-both">
-                        <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600 bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-blue-600 dark:from-blue-400 dark:via-violet-400 dark:to-blue-400 bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
                             Saniyeler İçinde Ver.
                         </span>
-                        <span className="absolute -bottom-2 left-0 h-1.5 w-full scale-x-0 bg-gradient-to-r from-blue-600 to-violet-600 transition-transform duration-1000 delay-700 group-hover:scale-x-100" />
+                        <span className="absolute -bottom-2 left-0 h-1.5 w-full scale-x-0 bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 transition-transform duration-1000 delay-700 group-hover:scale-x-100" />
                     </span>
                 </h1>
 
@@ -145,10 +145,10 @@ export default function Hero() {
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <div className={cn(
-                                        "relative flex items-center bg-white dark:bg-slate-900/80 rounded-[2.5rem] p-2 transition-all duration-500 border-2",
+                                        "relative flex items-center bg-white/90 dark:bg-slate-900/90 rounded-[2.5rem] p-2 transition-all duration-500 border-2",
                                         open ? "border-blue-500/50 ring-4 ring-blue-500/5" : "border-transparent"
                                     )}>
-                                        <div className="flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 shrink-0 ml-1">
+                                        <div className="flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 ml-1">
                                             <Search className="h-6 w-6" />
                                         </div>
                                         
@@ -159,7 +159,7 @@ export default function Hero() {
                                             onChange={(e) => setSearchValue(e.target.value)}
                                             onFocus={() => setOpen(true)}
                                             placeholder={`Örn: ${placeholder}`}
-                                            className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium px-4 py-2 placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                                            className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium px-4 py-2 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                         />
 
                                         {searchValue && (
@@ -178,10 +178,10 @@ export default function Hero() {
                                             disabled={selectedPlatforms.length < 2 || isComparing}
                                             size="lg"
                                             className={cn(
-                                                "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl",
+                                                "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed",
                                                 selectedPlatforms.length >= 2 
                                                     ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20" 
-                                                    : "bg-gray-100 dark:bg-white/5 text-gray-400"
+                                                    : "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 border border-transparent dark:border-white/5"
                                             )}
                                         >
                                             {isComparing ? (
@@ -220,15 +220,15 @@ export default function Hero() {
                                                             key={platform.value}
                                                             value={platform.value}
                                                             onSelect={() => handleSelect(platform)}
-                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 aria-selected:text-blue-600 transition-all border border-transparent hover:border-blue-500/20"
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
                                                         >
                                                             <div className={cn("h-3 w-3 rounded-full shrink-0", platform.color)} />
                                                             <div className="flex flex-col">
-                                                                <span className="font-bold text-gray-900 dark:text-white">{platform.label}</span>
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">{platform.label}</span>
                                                                 <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Ekosistem Analizi</span>
                                                             </div>
                                                             {selectedPlatforms.includes(platform.value) && (
-                                                                <Check className="h-5 w-5 text-blue-600 ml-auto" />
+                                                                <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
                                                             )}
                                                         </CommandItem>
                                                     ))}
