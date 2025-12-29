@@ -11,13 +11,13 @@ export default function Recommendation() {
                 <div className="mb-12 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 dark:border-blue-900 dark:bg-blue-900/30 dark:text-blue-300">
                         <Zap className="h-3 w-3 fill-current" />
-                        The KobiStart Difference
+                        KobiStart Farkı
                     </div>
                     <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-                        See <span className="italic">why</span>, not just what.
+                        Sadece <span className="italic">ne</span> olduğunu değil, <span className="italic">neden</span> olduğunu görün.
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-                        We highlight the exact reasons a platform fits your specific constraints.
+                        Bir platformun neden sizin özel kısıtlamalarınıza uyduğunu tam olarak vurguluyoruz.
                     </p>
                 </div>
 
@@ -36,15 +36,15 @@ export default function Recommendation() {
                                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">WooCommerce</h3>
                                         <div className="flex items-center gap-2 mt-1">
                                             <span className="flex items-center rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                                                ★ 9.2 Match
+                                                ★ %92 Eşleşme
                                             </span>
-                                            <span className="text-sm text-gray-500">Best for Technical Users</span>
+                                            <span className="text-sm text-gray-500">Teknik Kullanıcılar İçin En İyisi</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="hidden text-right sm:block">
-                                    <div className="text-sm font-medium text-gray-500">Est. Cost</div>
-                                    <div className="text-xl font-bold text-gray-900 dark:text-white">$25<span className="text-sm font-normal text-gray-500">/mo</span></div>
+                                    <div className="text-sm font-medium text-gray-500">Tahmini Maliyet</div>
+                                    <div className="text-xl font-bold text-gray-900 dark:text-white">$25<span className="text-sm font-normal text-gray-500">/ay</span></div>
                                 </div>
                             </div>
 
@@ -52,16 +52,16 @@ export default function Recommendation() {
                                 <div className="rounded-xl border border-green-200 bg-green-50/50 p-4 dark:border-green-900/50 dark:bg-green-900/10">
                                     <h4 className="flex items-center gap-2 font-semibold text-green-800 dark:text-green-300">
                                         <CheckCircle2 className="h-4 w-4" />
-                                        Why it fits you
+                                        Neden size uygun?
                                     </h4>
                                     <ul className="mt-2 space-y-2 text-sm text-gray-700 dark:text-gray-300">
                                         <li className="flex items-start gap-2">
                                             <span className="mt-1.5 h-1 w-1 rounded-full bg-green-500"></span>
-                                            You already have WordPress hosting, saving ~$30/mo.
+                                            Zaten WordPress barındırma hizmetiniz var, bu da ayda yaklaşık 30$ tasarruf sağlar.
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <span className="mt-1.5 h-1 w-1 rounded-full bg-green-500"></span>
-                                            You requested full code customization access.
+                                            Tam kod özelleştirme erişimi talep ettiniz.
                                         </li>
                                     </ul>
                                 </div>
@@ -69,20 +69,20 @@ export default function Recommendation() {
                                 <div className="rounded-xl border border-yellow-200 bg-yellow-50/50 p-4 dark:border-yellow-900/50 dark:bg-yellow-900/10">
                                     <h4 className="flex items-center gap-2 font-semibold text-yellow-800 dark:text-yellow-300">
                                         <AlertCircle className="h-4 w-4" />
-                                        Things to watch out for
+                                        Dikkat edilmesi gerekenler
                                     </h4>
                                     <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                        Requires manual security updates. Since you marked "Medium" technical skills, consider a maintenance plugin.
+                                        Manuel güvenlik güncellemeleri gerektirir. Teknik becerilerinizi "Orta" olarak işaretlediğiniz için bir bakım eklentisi kullanmayı düşünün.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-center justify-between border-t border-gray-200 pt-6 dark:border-white/10">
                                 <Button variant="link" className="px-0 text-blue-600 dark:text-blue-400">
-                                    View Full Analysis
+                                    Tam Analizi Görüntüle
                                 </Button>
                                 <Button className="bg-gray-900 text-white hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                                    Select Platform
+                                    Platform Seç
                                     <ChevronRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </div>
@@ -94,19 +94,19 @@ export default function Recommendation() {
                                 <div className="absolute -right-4 -top-4 -z-10 h-24 w-24 rounded-full bg-purple-500/10 blur-2xl dark:bg-purple-900/20" />
 
                                 <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
-                                    What If?
+                                    Ya Şöyle Olsaydı?
                                 </h4>
                                 <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                                    If you increased your budget to <strong>$50/mo</strong>, <strong className="text-blue-600 dark:text-blue-400">Shopify</strong> becomes the #1 choice due to better integrated payments.
+                                    Bütçenizi <strong className="text-gray-900 dark:text-white">aylık 50$</strong>'a çıkarırsanız, daha iyi entegre ödemeler nedeniyle <strong className="text-blue-600 dark:text-blue-400">Shopify</strong> 1 numaralı tercih haline gelir.
                                 </p>
                                 <Button variant="outline" size="sm" className="w-full justify-between dark:bg-transparent">
-                                    Simulate Changes <ArrowRight className="h-3 w-3" />
+                                    Değişiklikleri Simüle Et <ArrowRight className="h-3 w-3" />
                                 </Button>
                             </GlassCard>
 
                             <GlassCard>
                                 <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
-                                    Runner Up
+                                    İkinci Sırada
                                 </h4>
                                 <div className="flex items-center gap-3">
                                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 text-white">
@@ -114,12 +114,12 @@ export default function Recommendation() {
                                     </div>
                                     <div>
                                         <div className="font-bold text-gray-900 dark:text-white">BigCommerce</div>
-                                        <div className="text-xs text-gray-500">8.5 Match</div>
+                                        <div className="text-xs text-gray-500">%85 Eşleşme</div>
                                     </div>
                                 </div>
                                 <div className="mt-3 text-xs text-red-500 flex items-center gap-1">
                                     <AlertCircle className="h-3 w-3" />
-                                    Missing key integration: Klaviyo
+                                    Kritik entegrasyon eksik: Klaviyo
                                 </div>
                             </GlassCard>
                         </div>

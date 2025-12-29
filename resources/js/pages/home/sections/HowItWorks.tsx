@@ -5,22 +5,22 @@ import { useEffect, useRef, useState } from 'react';
 const steps = [
     {
         icon: ClipboardList,
-        title: 'Tell us about your business',
-        description: 'Answer a few simple questions about your products, budget, and tech skills.',
+        title: 'İşinizden bahsedin',
+        description: 'Ürünleriniz, bütçeniz ve teknik becerileriniz hakkında birkaç basit soruyu yanıtlayın.',
         color: 'text-blue-500',
         bgColor: 'bg-blue-500/10',
     },
     {
         icon: BrainCircuit,
-        title: 'We analyze the trade-offs',
-        description: 'Our engine scores platforms based on 50+ data points specific to your needs.',
+        title: 'Avantaj ve dezavantajları analiz ediyoruz',
+        description: 'Sistemimiz, platformları ihtiyaçlarınıza özel 50\'den fazla veri noktasına göre puanlar.',
         color: 'text-indigo-500',
         bgColor: 'bg-indigo-500/10',
     },
     {
         icon: BarChart3,
-        title: 'Get explained results',
-        description: 'See exactly why one platform wins and where others fall short.',
+        title: 'Açıklamalı sonuçları alın',
+        description: 'Bir platformun neden kazandığını ve diğerlerinin nerede yetersiz kaldığını tam olarak görün.',
         color: 'text-violet-500',
         bgColor: 'bg-violet-500/10',
     },
@@ -80,13 +80,13 @@ export default function HowItWorks() {
                 <div className="mb-20 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-100 dark:bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400">
                         <Sparkles className="h-4 w-4" />
-                        <span>The Process</span>
+                        <span>Süreç</span>
                     </div>
                     <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
-                        How <span className="text-blue-600">KobiStart</span> Works
+                        KobiStart <span className="text-blue-600">Nasıl Çalışır?</span>
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                        From confusion to confidence in three simple steps. We handle the complexity so you can focus on building.
+                        Kafa karışıklığından güvene üç basit adımda. Biz karmaşıklığı hallederiz, siz işinizi kurmaya odaklanın.
                     </p>
                 </div>
 

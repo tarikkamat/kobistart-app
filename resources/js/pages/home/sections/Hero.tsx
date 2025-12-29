@@ -106,7 +106,6 @@ export default function Hero({
         if (selectedItems.length >= 2) {
             newItems = [newItem];
         } else if (selectedItems.length === 1) {
-            // Avoid duplicate platform+plan combination if needed, but usually comparing same platform different plans is valid
             newItems = [...selectedItems, newItem];
         } else {
             newItems = [newItem];
@@ -114,7 +113,6 @@ export default function Hero({
 
         setSelectedItems(newItems);
         
-        // Update search value
         const displayValue = newItems.map(item => {
             const p = platforms.find(p => p.value === item.platform);
             return `${p?.label} (${item.plan})`;
@@ -122,7 +120,6 @@ export default function Hero({
         
         setSearchValue(displayValue + (newItems.length === 1 ? ' vs ' : ''));
         
-        // Reset step
         setCurrentStep('platform');
         setTempPlatform(null);
         
@@ -153,7 +150,7 @@ export default function Hero({
     }, [searchValue]);
 
     return (
-        <section className="relative overflow-hidden pt-20 pb-20 lg:pt-28 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
+        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
             {/* Ambient Background Elements */}
             <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
             <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />

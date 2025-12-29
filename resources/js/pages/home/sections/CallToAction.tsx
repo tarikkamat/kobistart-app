@@ -13,16 +13,16 @@ export default function CallToAction() {
                     <div className="relative z-10">
                         <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">
                             <Sparkles className="h-4 w-4" />
-                            <span>Ready to scale?</span>
+                            <span>Ölçeklenmeye hazır mısınız?</span>
                         </div>
 
                         <h2 className="mb-6 text-3xl font-bold tracking-tight text-white md:text-5xl">
-                            Stop guessing. <br className="hidden sm:block" />
-                            Start choosing with confidence.
+                            Tahmin etmeyi bırakın. <br className="hidden sm:block" />
+                            Güvenle seçmeye başlayın.
                         </h2>
 
                         <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-400">
-                            Join hundreds of founders who saved weeks of research and thousands of dollars by picking the right stack first.
+                            Doğru altyapıyı en başta seçerek haftalarca süren araştırmadan ve binlerce dolardan tasarruf eden yüzlerce girişimciye katılın.
                         </p>
 
                         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -30,7 +30,7 @@ export default function CallToAction() {
                                 size="lg"
                                 className="group h-14 rounded-full bg-blue-600 px-8 text-lg font-semibold text-white shadow-lg transition-all hover:bg-blue-500 hover:shadow-blue-500/25"
                             >
-                                Find My Best Platform
+                                En İyi Platformumu Bul
                                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                             </Button>
                         </div>

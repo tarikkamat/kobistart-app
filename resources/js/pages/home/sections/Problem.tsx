@@ -5,26 +5,26 @@ import { useEffect, useRef, useState } from 'react';
 const problems = [
     {
         icon: SearchX,
-        title: 'Analysis Paralysis',
-        description: 'Hundreds of platforms with complex feature lists make it impossible to choose confidently.',
+        title: 'Analiz Felci',
+        description: 'Karmaşık özellik listelerine sahip yüzlerce platform, güvenle seçim yapmayı imkansız hale getirir.',
         accent: 'from-red-500 to-orange-500',
     },
     {
         icon: ShieldAlert,
-        title: 'Hidden Traps',
-        description: 'Transaction fees and hidden app costs that significantly impact your long-term margins.',
+        title: 'Gizli Tuzaklar',
+        description: 'İşlem ücretleri ve uzun vadeli kâr marjlarınızı önemli ölçüde etkileyen gizli uygulama maliyetleri.',
         accent: 'from-orange-500 to-amber-500',
     },
     {
         icon: HelpCircle,
-        title: 'Lack of Clarity',
-        description: 'Most recommendations are based on affiliate commissions, not your actual business needs.',
+        title: 'Netlik Eksikliği',
+        description: 'Çoğu tavsiye gerçek iş ihtiyaçlarınıza değil, satış ortaklığı komisyonlarına dayanmaktadır.',
         accent: 'from-amber-500 to-red-500',
     },
     {
         icon: Ban,
-        title: 'The Wrong Fit',
-        description: 'Choosing a platform that doesn’t scale with you can cost thousands in migration fees.',
+        title: 'Yanlış Tercih',
+        description: 'Sizinle birlikte ölçeklenmeyen bir platform seçmek, binlerce liralık taşıma ücretine mal olabilir.',
         accent: 'from-red-600 to-red-400',
     },
 ];
@@ -76,13 +76,13 @@ export default function Problem() {
                 <div className="mb-20 text-center">
                     <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/20 bg-red-100 dark:bg-red-500/10 px-4 py-1.5 text-sm font-medium text-red-600 dark:text-red-400">
                         <AlertCircle className="h-4 w-4" />
-                        <span>The Challenge</span>
+                        <span>Zorluklar</span>
                     </div>
                     <h2 className="mx-auto mb-6 max-w-4xl text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                        Choosing a platform is <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">harder</span> than it should be.
+                        Platform seçmek olması gerekenden çok daha <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">zor.</span>
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                        Most founders get stuck in analysis paralysis or choose the wrong tool based on generic advice, costing time and money later.
+                        Çoğu girişimci analiz felcine takılıyor veya genel tavsiyelere dayanarak yanlış aracı seçiyor; bu da daha sonra zaman ve para kaybına neden oluyor.
                     </p>
                 </div>
 

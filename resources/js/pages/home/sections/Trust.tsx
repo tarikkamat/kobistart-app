@@ -4,20 +4,20 @@ export default function Trust() {
             <div className="container mx-auto px-4">
                 <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 text-center">
                     <div className="space-y-1">
-                        <h4 className="text-2xl font-bold text-gray-900 dark:text-white">100%</h4>
-                        <p className="text-sm text-gray-500 uppercase tracking-wider">Unbiased</p>
+                        <h4 className="text-2xl font-bold text-gray-900 dark:text-white">%100</h4>
+                        <p className="text-sm text-gray-500 uppercase tracking-wider">Tarafsız</p>
                     </div>
                     <div className="space-y-1">
                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white">0</h4>
-                        <p className="text-sm text-gray-500 uppercase tracking-wider">Paid Rankings</p>
+                        <p className="text-sm text-gray-500 uppercase tracking-wider">Ücretli Sıralama</p>
                     </div>
                     <div className="space-y-1">
                         <h4 className="text-2xl font-bold text-gray-900 dark:text-white">50+</h4>
-                        <p className="text-sm text-gray-500 uppercase tracking-wider">Data Points</p>
+                        <p className="text-sm text-gray-500 uppercase tracking-wider">Veri Noktası</p>
                     </div>
                     <div className="space-y-1">
-                        <h4 className="text-2xl font-bold text-gray-900 dark:text-white">Free</h4>
-                        <p className="text-sm text-gray-500 uppercase tracking-wider">For Founders</p>
+                        <h4 className="text-2xl font-bold text-gray-900 dark:text-white">Ücretsiz</h4>
+                        <p className="text-sm text-gray-500 uppercase tracking-wider">Girişimciler İçin</p>
                     </div>
                 </div>
             </div>
