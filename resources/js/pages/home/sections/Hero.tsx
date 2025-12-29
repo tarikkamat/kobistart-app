@@ -153,7 +153,7 @@ export default function Hero({
     }, [searchValue]);
 
     return (
-        <section className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
+        <section className="relative overflow-hidden pt-20 pb-20 lg:pt-28 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
             {/* Ambient Background Elements */}
             <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
             <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />
@@ -161,12 +161,12 @@ export default function Hero({
 
             <div className="container mx-auto px-4 text-center">
                 {/* AI Badge */}
-                <div className="mb-10 inline-flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <Sparkles className="h-4 w-4 fill-blue-500/20" />
                     Yeni Nesil E-Ticaret Karşılaştırma
                 </div>
 
-                <h1 className="mx-auto mb-8 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-slate-50">
+                <h1 className="mx-auto mb-6 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-slate-50">
                     <span className="inline-block animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-both">
                         En Doğru E-Ticaret
                     </span>
@@ -182,7 +182,7 @@ export default function Hero({
                     </span>
                 </h1>
 
-                <p className="mx-auto mb-16 max-w-2xl text-xl text-gray-600 dark:text-gray-400 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+                <p className="mx-auto mb-10 max-w-2xl text-xl text-gray-600 dark:text-gray-400 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
                     Binlerce veri noktasını analiz ediyoruz. Sadece platformları yaz ve gerisini bize bırak.
                 </p>
 
