@@ -29,7 +29,7 @@ export default function Recommendation() {
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-200 text-white shadow-xl dark:bg-white dark:text-black">
                                         <img
-                                            src="/images/platforms/woocommerce-logo.svg"
+                                            src="/images/woocommerce-logo.svg"
                                             alt="WooCommerce"
                                             className="h-8 w-8 object-contain"
                                         />
