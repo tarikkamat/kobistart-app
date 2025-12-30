@@ -146,7 +146,6 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                             {/* Header */}
                                             <div className="flex items-start justify-between mb-12">
                                                 <div className="relative">
-                                                    <div className="absolute -inset-4 bg-slate-100 dark:bg-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition-all duration-500" />
                                                     <div className="relative h-12 w-32 flex items-center justify-start">
                                                         {platform.logo ? (
                                                             <>
