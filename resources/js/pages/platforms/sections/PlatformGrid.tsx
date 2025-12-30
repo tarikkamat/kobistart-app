@@ -126,7 +126,7 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                 </div>
 
                 {/* Platform Grid */}
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                     {filteredPlatforms.map((platform, index) => {
                         const isLocal = localPlatforms.includes(platform.slug.toLowerCase());
                         return (
@@ -135,18 +135,18 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                 href={`/platforms/${platform.slug}`}
                                 className="group block"
                             >
-                                <GlassCard className="h-full relative overflow-hidden p-0 border-slate-200/50 dark:border-white/5 bg-white/70 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-900 transition-all duration-500 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] group-hover:-translate-y-2 rounded-3xl">
+                                <GlassCard className="h-full relative overflow-hidden p-0 border-slate-200/50 dark:border-white/5 bg-white/70 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-900 transition-all duration-500 group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] dark:group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] group-hover:-translate-y-1.5 rounded-2xl">
                                     {/* Card Top Border Accent */}
                                     <div className={cn(
-                                        "absolute top-0 left-0 w-full h-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
+                                        "absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
                                         platformColors[platform.slug.toLowerCase()] || 'bg-blue-600'
                                     )} />
 
-                                        <div className="p-8 flex flex-col h-full">
+                                        <div className="p-5 flex flex-col h-full">
                                             {/* Header */}
-                                            <div className="flex items-start justify-between mb-12">
+                                            <div className="flex items-start justify-between mb-6">
                                                 <div className="relative">
-                                                    <div className="relative h-12 w-32 flex items-center justify-start">
+                                                    <div className="relative h-8 w-24 flex items-center justify-start">
                                                         {platform.logo ? (
                                                             <>
                                                                 <img
@@ -164,10 +164,10 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                                             </>
                                                         ) : (
                                                             <div className={cn(
-                                                                "px-4 py-2 rounded-xl flex items-center justify-center",
+                                                                "px-3 py-1.5 rounded-lg flex items-center justify-center",
                                                                 platformColors[platform.slug.toLowerCase()] || 'bg-slate-400'
                                                             )}>
-                                                                <span className="text-white font-black text-lg whitespace-nowrap">
+                                                                <span className="text-white font-black text-sm whitespace-nowrap">
                                                                     {platform.name}
                                                                 </span>
                                                             </div>
@@ -176,7 +176,7 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                                 </div>
 
                                                 <div className={cn(
-                                                    "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border",
+                                                    "px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border",
                                                     isLocal 
                                                         ? "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
                                                         : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
@@ -186,11 +186,11 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                             </div>
 
                                             {/* Content */}
-                                            <div className="space-y-4 mb-8">
+                                            <div className="space-y-3 mb-4">
                                                 {platform.url && (
-                                                    <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
-                                                        <ExternalLink className="h-3.5 w-3.5" />
-                                                        <span className="text-xs font-bold truncate max-w-[150px]">
+                                                    <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
+                                                        <ExternalLink className="h-3 w-3" />
+                                                        <span className="text-[10px] font-bold truncate max-w-[120px]">
                                                             {platform.url.replace(/^https?:\/\//, '').split('/')[0]}
                                                         </span>
                                                     </div>
@@ -198,16 +198,16 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                             </div>
 
                                         {/* Footer */}
-                                        <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                                        <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Paketler</span>
-                                                <span className="text-lg font-black text-slate-900 dark:text-white">
+                                                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Paket</span>
+                                                <span className="text-base font-black text-slate-900 dark:text-white">
                                                     {platform.plans?.length || 0}
                                                 </span>
                                             </div>
                                             
-                                            <div className="h-10 w-10 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900 transition-all duration-300">
-                                                <ArrowRight className="h-5 w-5 transform group-hover:translate-x-0.5" />
+                                            <div className="h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900 transition-all duration-300">
+                                                <ArrowRight className="h-4 w-4 transform group-hover:translate-x-0.5" />
                                             </div>
                                         </div>
                                     </div>
