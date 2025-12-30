@@ -26,6 +26,8 @@ class Platform extends Model
         'favicon',
         'status',
         'order',
+        'is_local',
+        'color'
     ];
 
     /**
@@ -38,6 +40,7 @@ class Platform extends Model
         return [
             'status' => 'boolean',
             'order' => 'integer',
+            'is_local' => 'boolean',
         ];
     }
 

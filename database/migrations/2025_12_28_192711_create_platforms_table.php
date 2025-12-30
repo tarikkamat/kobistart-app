@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('favicon')->nullable();
             $table->boolean('status')->default(true);
             $table->tinyInteger('order')->default(0);
+            $table->boolean('is_local')->default(false);
+            $table->string('color')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

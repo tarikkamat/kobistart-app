@@ -6,21 +6,6 @@ import { Platform } from '@/types';
 import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 
-// Platform renkleri için mapping
-const platformColors: Record<string, string> = {
-    shopify: 'bg-[#96bf48]',
-    woocommerce: 'bg-[#96588a]',
-    wix: 'bg-[#000000]',
-    bigcommerce: 'bg-[#000000]',
-    ideasoft: 'bg-[#0057ff]',
-    ticimax: 'bg-[#ff0000]',
-    magento: 'bg-[#f46f25]',
-    opencart: 'bg-[#239cd3]',
-};
-
-// Yerel (TR) platformlar listesi
-const localPlatforms = ['ticimax', 'ideasoft', 't-soft', 'ikas', 'shopyy'];
-
 interface PlatformGridProps {
     platforms: Platform[];
 }
@@ -33,38 +18,37 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
 
     const filteredPlatforms = useMemo(() => {
         return platforms.filter((platform) => {
-            const matchesSearch = platform.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            const matchesSearch = platform.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                  platform.url?.toLowerCase().includes(searchQuery.toLowerCase());
-            
-            const isLocal = localPlatforms.includes(platform.slug.toLowerCase());
-            const matchesCategory = category === 'all' || 
-                                   (category === 'local' && isLocal) || 
-                                   (category === 'global' && !isLocal);
+
+            const matchesCategory = category === 'all' ||
+                                   (category === 'local' && platform.is_local) ||
+                                   (category === 'global' && !platform.is_local);
 
             return matchesSearch && matchesCategory;
         });
     }, [platforms, searchQuery, category]);
 
     return (
-        <section className="relative min-h-screen overflow-hidden py-24 lg:py-40 bg-white dark:bg-slate-950">
+        <section className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950">
             {/* Ultra-Modern Ambient Background */}
             <div className="absolute top-0 left-1/2 -z-10 h-[1000px] w-[1400px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-blue-600/10 via-indigo-500/5 to-transparent blur-[140px] animate-pulse dark:from-blue-500/20 dark:via-indigo-500/10" />
             <div className="absolute top-[10%] right-[-5%] -z-10 h-[500px] w-[500px] rounded-full bg-blue-400/10 blur-[120px] animate-float dark:bg-blue-600/15" />
             <div className="absolute bottom-[5%] left-[-10%] -z-10 h-[600px] w-[600px] rounded-full bg-violet-400/10 blur-[100px] animate-float [animation-delay:3s] dark:bg-violet-600/15" />
-            
+
             {/* Decorative Mesh Gradient */}
-            <div className="absolute inset-0 -z-20 opacity-[0.03] dark:opacity-[0.05]" 
-                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234F46E5' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} 
+            <div className="absolute inset-0 -z-20 opacity-[0.03] dark:opacity-[0.05]"
+                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234F46E5' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}
             />
 
-            <div className="container mx-auto px-4 relative">
-                {/* Hero Header */}
-                <div className="max-w-4xl mx-auto text-center mb-20 animate-in fade-in slide-in-from-top-10 duration-1000 ease-out">
+            {/* Hero Header */}
+            <div className="container mx-auto px-4 pt-12 pb-20 lg:pt-16 lg:pb-32 relative">
+                <div className="max-w-4xl mx-auto text-center animate-in fade-in slide-in-from-top-10 duration-1000 ease-out">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold tracking-widest uppercase mb-6 animate-bounce">
                         <Sparkles className="h-3 w-3" />
                         <span>Keşfetmeye Başla</span>
                     </div>
-                    
+
                     <h1 className="mb-8 font-display text-4xl font-black leading-[1.05] tracking-tight text-slate-900 md:text-6xl lg:text-7xl dark:text-white">
                         E-Ticaretin <br />
                         <span className="relative inline-block">
@@ -74,12 +58,15 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                             <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-600/0 via-blue-600/50 to-blue-600/0" />
                         </span>
                     </h1>
-                    
+
                     <p className="mx-auto max-w-2xl text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                        İşinizi büyütecek en iyi e-ticaret platformlarını tek bir yerde 
+                        İşinizi büyütecek en iyi e-ticaret platformlarını tek bir yerde
                         karşılaştırın, analiz edin ve doğru kararı verin.
                     </p>
                 </div>
+            </div>
+
+            <div className="container mx-auto px-4 relative pb-24 lg:pb-40">
 
                 {/* Search & Filters */}
                 <div className="max-w-5xl mx-auto mb-16 space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
@@ -128,7 +115,6 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                 {/* Platform Grid */}
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                     {filteredPlatforms.map((platform, index) => {
-                        const isLocal = localPlatforms.includes(platform.slug.toLowerCase());
                         return (
                             <Link
                                 key={platform.id}
@@ -137,10 +123,12 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                             >
                                 <GlassCard className="h-full relative overflow-hidden p-0 border-slate-200/50 dark:border-white/5 bg-white/70 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-900 transition-all duration-500 group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)] dark:group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] group-hover:-translate-y-1.5 rounded-2xl">
                                     {/* Card Top Border Accent */}
-                                    <div className={cn(
-                                        "absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
-                                        platformColors[platform.slug.toLowerCase()] || 'bg-blue-600'
-                                    )} />
+                                    <div
+                                        className="absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                                        style={{
+                                            backgroundColor: platform.color || '#2563eb'
+                                        }}
+                                    />
 
                                         <div className="p-5 flex flex-col h-full">
                                             {/* Header */}
@@ -163,10 +151,12 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                                                 )}
                                                             </>
                                                         ) : (
-                                                            <div className={cn(
-                                                                "px-3 py-1.5 rounded-lg flex items-center justify-center",
-                                                                platformColors[platform.slug.toLowerCase()] || 'bg-slate-400'
-                                                            )}>
+                                                            <div
+                                                                className="px-3 py-1.5 rounded-lg flex items-center justify-center"
+                                                                style={{
+                                                                    backgroundColor: platform.color || '#64748b'
+                                                                }}
+                                                            >
                                                                 <span className="text-white font-black text-sm whitespace-nowrap">
                                                                     {platform.name}
                                                                 </span>
@@ -177,24 +167,12 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
 
                                                 <div className={cn(
                                                     "px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border",
-                                                    isLocal 
+                                                    platform.is_local
                                                         ? "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
                                                         : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
                                                 )}>
-                                                    {isLocal ? 'Yerel' : 'Global'}
+                                                    {platform.is_local ? 'Yerel' : 'Global'}
                                                 </div>
-                                            </div>
-
-                                            {/* Content */}
-                                            <div className="space-y-3 mb-4">
-                                                {platform.url && (
-                                                    <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
-                                                        <ExternalLink className="h-3 w-3" />
-                                                        <span className="text-[10px] font-bold truncate max-w-[120px]">
-                                                            {platform.url.replace(/^https?:\/\//, '').split('/')[0]}
-                                                        </span>
-                                                    </div>
-                                                )}
                                             </div>
 
                                         {/* Footer */}
@@ -205,7 +183,7 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                                     {platform.plans?.length || 0}
                                                 </span>
                                             </div>
-                                            
+
                                             <div className="h-8 w-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-900 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-slate-900 transition-all duration-300">
                                                 <ArrowRight className="h-4 w-4 transform group-hover:translate-x-0.5" />
                                             </div>
@@ -227,7 +205,7 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                         <p className="text-slate-500 dark:text-slate-400">
                             Aramanızla eşleşen bir platform bulamadık. Lütfen farklı bir anahtar kelime deneyin.
                         </p>
-                        <button 
+                        <button
                             onClick={() => { setSearchQuery(''); setCategory('all'); }}
                             className="mt-6 text-blue-600 font-bold hover:underline"
                         >

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('platform_id')->constrained('platforms')->onDelete('cascade');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->boolean('status')->default(true);
             $table->tinyInteger('order')->default(0);
             $table->timestamps();

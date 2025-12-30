@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { Platform } from '@/types';
@@ -43,6 +42,7 @@ export default function PlatformHeader({ platform }: PlatformHeaderProps) {
                                         alt={platform.name}
                                         className="h-24 w-24 md:h-32 md:w-32 object-contain mx-auto hidden dark:block"
                                     />
+
                                 )}
                             </>
                         ) : platform.favicon ? (

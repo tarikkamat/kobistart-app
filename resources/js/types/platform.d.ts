@@ -20,6 +20,8 @@ export interface Platform {
     favicon: string | null;
     status: boolean;
     order: number;
+    color: string | null;
+    is_local: boolean;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;

@@ -22,6 +22,8 @@ class PlatformSeeder extends Seeder
                 'favicon' => 'images/shopify-favicon.png',
                 'status' => true,
                 'order' => 1,
+                'is_local' => false,
+                'color' => '#96bf48',
             ],
             [
                 'name' => 'Ticimax',
@@ -31,6 +33,8 @@ class PlatformSeeder extends Seeder
                 'favicon' => 'https://static.ticimax.com/images/favicon.ico',
                 'status' => true,
                 'order' => 2,
+                'is_local' => true,
+                'color' => '#ff0000',
             ]
         ];
 
