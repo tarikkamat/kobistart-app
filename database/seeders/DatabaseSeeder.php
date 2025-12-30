@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             PlatformSeeder::class,
             PlanSeeder::class,
             PlanPriceSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

@@ -53,4 +53,14 @@ class Platform extends Model
     {
         return $this->hasMany(Plan::class);
     }
+
+    /**
+     * Get the comments for the platform.
+     *
+     * @return HasMany<Comment>
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

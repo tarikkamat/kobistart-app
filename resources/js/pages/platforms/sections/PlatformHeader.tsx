@@ -28,19 +28,19 @@ export default function PlatformHeader({ platform }: PlatformHeaderProps) {
                     </Link>
 
                     {/* Platform Logo */}
-                    <div className="mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-150">
+                    <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-150">
                         {platform.logo ? (
                             <>
                                 <img
                                     src={platform.logo}
                                     alt={platform.name}
-                                    className="h-24 w-24 md:h-32 md:w-32 object-contain mx-auto dark:hidden"
+                                    className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto dark:hidden"
                                 />
                                 {platform.dark_logo && (
                                     <img
                                         src={platform.dark_logo}
                                         alt={platform.name}
-                                        className="h-24 w-24 md:h-32 md:w-32 object-contain mx-auto hidden dark:block"
+                                        className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto hidden dark:block"
                                     />
 
                                 )}
@@ -49,35 +49,28 @@ export default function PlatformHeader({ platform }: PlatformHeaderProps) {
                             <img
                                 src={platform.favicon}
                                 alt={platform.name}
-                                className="h-24 w-24 md:h-32 md:w-32 object-contain mx-auto"
+                                className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto"
                             />
                         ) : (
-                            <div className="h-24 w-24 md:h-32 md:w-32 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center mx-auto shadow-lg">
-                                <span className="text-white font-bold text-4xl md:text-5xl">
+                            <div className="h-32 w-32 md:h-48 md:w-48 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center mx-auto shadow-lg">
+                                <span className="text-white font-bold text-5xl md:text-6xl">
                                     {platform.name.charAt(0).toUpperCase()}
                                 </span>
                             </div>
                         )}
                     </div>
 
-                    {/* Platform Name */}
-                    <h1 className="mx-auto mb-6 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-slate-50 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
-                        <span className="inline-block">
-                            {platform.name}
-                        </span>
-                    </h1>
-
                     {/* Platform URL */}
                     {platform.url && (
-                        <div className="mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                        <div className="mt-1 mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
                             <a
                                 href={platform.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-white/10 transition-all hover:shadow-lg backdrop-blur-sm"
+                                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-white/10 transition-all hover:shadow-lg backdrop-blur-sm"
                             >
                                 <ExternalLink className="h-5 w-5" />
-                                <span className="font-medium">{platform.url}</span>
+                                <span className="font-medium">KobiStart ile Avantajlı Başvuru Yap</span>
                             </a>
                         </div>
                     )}

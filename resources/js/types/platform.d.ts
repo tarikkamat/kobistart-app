@@ -26,5 +26,6 @@ export interface Platform {
     updated_at: string;
     deleted_at: string | null;
     plans?: Plan[];
+    comments?: any[];
 }
 

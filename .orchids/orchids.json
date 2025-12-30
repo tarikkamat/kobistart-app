@@ -1,8 +1,0 @@
-{
-  "projectId": "7d41b79c-b2d5-489c-a75c-70b5fefed95d",
-  "createdAt": 1767078737061,
-  "startupCommands": [
-    "php artisan serve --port=8000",
-    "bun x --bun vite"
-  ]
-}

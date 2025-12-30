@@ -62,7 +62,7 @@ export default function Hero({
         if (!searchValue.trim()) return true;
         const searchLower = searchValue.toLowerCase().trim();
         return platform.name.toLowerCase().includes(searchLower) ||
-               platform.slug.toLowerCase().includes(searchLower);
+            platform.slug.toLowerCase().includes(searchLower);
     });
 
     // Typing Effect Logic
@@ -165,7 +165,7 @@ export default function Hero({
     }, [searchValue]);
 
     return (
-        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
+        <section id="comparison" className="relative overflow-hidden pt-24 pb-20 lg:pt-32 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
             {/* Ambient Background Elements */}
             <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
             <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />
@@ -373,17 +373,17 @@ export default function Hero({
                                 { a: { p: 'ticimax', pl: 'Plus' }, b: { p: 'ideasosoft', pl: 'Pro' }, label: 'Ticimax (Plus) vs Ideasosoft (Pro)' },
                                 { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'magento', pl: 'Commerce' }, label: 'Shopify (Plus) vs Magento (Commerce)' }
                             ].map((s, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => {
-                                            setSelectedItems([
-                                                { platform: s.a.p, plan: s.a.pl },
-                                                { platform: s.b.p, plan: s.b.pl }
-                                            ]);
-                                            setSearchValue(s.label);
-                                        }}
-                                        className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
-                                    >
+                                <button
+                                    key={i}
+                                    onClick={() => {
+                                        setSelectedItems([
+                                            { platform: s.a.p, plan: s.a.pl },
+                                            { platform: s.b.p, plan: s.b.pl }
+                                        ]);
+                                        setSearchValue(s.label);
+                                    }}
+                                    className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
+                                >
                                     {s.label}
                                 </button>
                             ))}

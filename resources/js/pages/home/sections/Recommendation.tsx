@@ -4,8 +4,10 @@ import { AlertCircle, ArrowRight, CheckCircle2, ChevronRight, Zap } from 'lucide
 
 export default function Recommendation() {
     return (
-        <section className="relative py-20 overflow-hidden">
-            <div className="absolute right-0 top-1/2 -z-10 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-blue-100/50 blur-[120px] dark:bg-blue-900/10" />
+        <section className="relative py-20 overflow-hidden bg-gradient-to-b from-amber-50/40 via-orange-50/20 to-white dark:from-amber-950/15 dark:via-orange-950/10 dark:to-transparent">
+            {/* Background Decor */}
+            <div className="absolute right-0 top-1/2 -z-10 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-amber-500/10 blur-[120px] dark:bg-amber-500/5" />
+            <div className="absolute left-0 bottom-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-orange-500/10 blur-[100px] dark:bg-orange-500/5" />
 
             <div className="container mx-auto px-4">
                 <div className="mb-12 text-center">

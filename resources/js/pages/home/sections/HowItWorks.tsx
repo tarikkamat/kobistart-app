@@ -33,16 +33,16 @@ export default function HowItWorks() {
 
     useEffect(() => {
         let intervalId: ReturnType<typeof setInterval>;
-        
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true);
-                    
+
                     // Start staggered activation
                     let step = 0;
                     if (intervalId) clearInterval(intervalId);
-                    
+
                     intervalId = setInterval(() => {
                         setActiveStep(step);
                         step++;
@@ -71,7 +71,7 @@ export default function HowItWorks() {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative overflow-hidden py-24 lg:py-32 bg-white dark:bg-[#030712]">
+        <section id="how-it-works" ref={sectionRef} className="relative overflow-hidden py-24 lg:py-32 bg-white dark:bg-[#030712]">
             {/* Background Decorative Elements */}
             <div className="absolute top-1/2 left-1/4 -z-10 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-blue-500/10 blur-[120px] dark:bg-blue-500/10" />
             <div className="absolute bottom-1/4 right-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-indigo-500/10 blur-[100px] dark:bg-indigo-500/10" />
@@ -93,7 +93,7 @@ export default function HowItWorks() {
                 <div className="relative grid gap-8 md:grid-cols-3">
                     {/* Connecting Flow Line (Desktop) */}
                     <div className="absolute top-[60px] left-[15%] hidden h-[2px] w-[70%] bg-gray-200 dark:bg-white/5 md:block overflow-hidden rounded-full">
-                        <div 
+                        <div
                             className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-transform duration-[2400ms] ease-out"
                             style={{
                                 transform: `scaleX(${isVisible ? 1 : 0})`,
@@ -107,7 +107,7 @@ export default function HowItWorks() {
                         const isActive = activeStep >= index;
                         return (
                             <div key={index} className="group relative">
-                                <GlassCard 
+                                <GlassCard
                                     className={`relative h-full overflow-hidden border-gray-200 transition-all duration-700 dark:border-white/5
                                         ${isActive ? 'border-blue-500/40 bg-blue-50/50 translate-y-[-8px] dark:bg-white/[0.08]' : 'bg-white dark:bg-white/5'}
                                         hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-white/[0.08]`}

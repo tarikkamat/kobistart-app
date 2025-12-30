@@ -42,7 +42,10 @@ export default function Comparison({ selectedItems = [] }: { selectedItems?: { p
     };
 
     return (
-        <section className="py-20 bg-slate-50 dark:bg-transparent">
+        <section className="relative py-20 bg-gradient-to-b from-purple-50/50 via-violet-50/30 to-slate-50/50 dark:from-purple-950/20 dark:via-violet-950/10 dark:to-transparent overflow-hidden">
+            {/* Background Decor */}
+            <div className="absolute top-1/2 left-1/4 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-purple-500/10 blur-[120px] dark:bg-purple-500/5" />
+            <div className="absolute bottom-1/4 right-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-violet-500/10 blur-[100px] dark:bg-violet-500/5" />
             <div className="container mx-auto px-4">
                 <div className="mb-12 text-center">
                     <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">

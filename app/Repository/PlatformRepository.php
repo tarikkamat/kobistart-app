@@ -22,11 +22,34 @@ class PlatformRepository extends BaseRepository
     {
         return $this->model
             ->where('status', true)
-            ->with(['plans' => function ($query) {
-                $query->where('status', true)
-                      ->orderBy('order');
-            }])
+            ->with([
+                'plans' => function ($query) {
+                    $query->where('status', true)
+                        ->orderBy('order');
+                }
+            ])
+            ->orderBy('order')
             ->orderBy('order')
             ->get();
+    }
+
+    /**
+     * Get platform by slug with relations.
+     *
+     * @param string $slug
+     * @return Platform|null
+     */
+    public function getPlatformBySlug(string $slug): ?Platform
+    {
+        return $this->model
+            ->where('slug', $slug)
+            ->with([
+                'plans' => function ($query) {
+                    $query->where('status', true)
+                        ->orderBy('order');
+                },
+                'comments.user'
+            ])
+            ->first();
     }
 }

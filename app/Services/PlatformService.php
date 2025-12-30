@@ -24,4 +24,17 @@ class PlatformService extends BaseService
         $repository = $this->repository;
         return $repository->getActivePlatforms();
     }
+
+    /**
+     * Get platform by slug.
+     *
+     * @param string $slug
+     * @return \App\Models\Platform|null
+     */
+    public function getPlatformBySlug(string $slug): ?\App\Models\Platform
+    {
+        /** @var PlatformRepository $repository */
+        $repository = $this->repository;
+        return $repository->getPlatformBySlug($slug);
+    }
 }

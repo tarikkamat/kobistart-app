@@ -22,7 +22,12 @@ class PlatformController extends Controller
 
     public function show(string $slug): Response
     {
-        $platform = $this->platformService->where('slug', '=', $slug)->first();
+        $platform = $this->platformService->getPlatformBySlug($slug);
+
+        if (!$platform) {
+            abort(404);
+        }
+
         return Inertia::render('platforms/show', [
             'platform' => $platform,
             'plans' => $platform->plans,
