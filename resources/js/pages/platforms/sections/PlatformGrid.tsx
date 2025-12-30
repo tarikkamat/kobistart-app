@@ -142,65 +142,61 @@ export default function PlatformGrid({ platforms }: PlatformGridProps) {
                                         platformColors[platform.slug.toLowerCase()] || 'bg-blue-600'
                                     )} />
 
-                                    <div className="p-8 flex flex-col h-full">
-                                        {/* Header */}
-                                        <div className="flex items-start justify-between mb-8">
-                                            <div className="relative">
-                                                <div className="absolute -inset-4 bg-slate-100 dark:bg-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition-all duration-500" />
-                                                <div className="relative h-16 w-16 flex items-center justify-center">
-                                                    {platform.logo ? (
-                                                        <>
-                                                            <img
-                                                                src={platform.logo}
-                                                                alt={platform.name}
-                                                                className="h-full w-full object-contain dark:hidden transform group-hover:scale-110 transition-transform duration-500"
-                                                            />
-                                                            {platform.dark_logo && (
+                                        <div className="p-8 flex flex-col h-full">
+                                            {/* Header */}
+                                            <div className="flex items-start justify-between mb-12">
+                                                <div className="relative">
+                                                    <div className="absolute -inset-4 bg-slate-100 dark:bg-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-110 transition-all duration-500" />
+                                                    <div className="relative h-12 w-32 flex items-center justify-start">
+                                                        {platform.logo ? (
+                                                            <>
                                                                 <img
-                                                                    src={platform.dark_logo}
+                                                                    src={platform.logo}
                                                                     alt={platform.name}
-                                                                    className="h-full w-full object-contain hidden dark:block transform group-hover:scale-110 transition-transform duration-500"
+                                                                    className="h-full w-full object-contain object-left dark:hidden transform group-hover:scale-105 transition-transform duration-500"
                                                                 />
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <div className={cn(
-                                                            "h-full w-full rounded-2xl flex items-center justify-center",
-                                                            platformColors[platform.slug.toLowerCase()] || 'bg-slate-400'
-                                                        )}>
-                                                            <span className="text-white font-black text-2xl">
-                                                                {platform.name.charAt(0)}
-                                                            </span>
-                                                        </div>
-                                                    )}
+                                                                {platform.dark_logo && (
+                                                                    <img
+                                                                        src={platform.dark_logo}
+                                                                        alt={platform.name}
+                                                                        className="h-full w-full object-contain object-left hidden dark:block transform group-hover:scale-105 transition-transform duration-500"
+                                                                    />
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            <div className={cn(
+                                                                "px-4 py-2 rounded-xl flex items-center justify-center",
+                                                                platformColors[platform.slug.toLowerCase()] || 'bg-slate-400'
+                                                            )}>
+                                                                <span className="text-white font-black text-lg whitespace-nowrap">
+                                                                    {platform.name}
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                <div className={cn(
+                                                    "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border",
+                                                    isLocal 
+                                                        ? "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
+                                                        : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
+                                                )}>
+                                                    {isLocal ? 'Yerel' : 'Global'}
                                                 </div>
                                             </div>
 
-                                            <div className={cn(
-                                                "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border",
-                                                isLocal 
-                                                    ? "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
-                                                    : "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20"
-                                            )}>
-                                                {isLocal ? 'Yerel' : 'Global'}
+                                            {/* Content */}
+                                            <div className="space-y-4 mb-8">
+                                                {platform.url && (
+                                                    <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
+                                                        <ExternalLink className="h-3.5 w-3.5" />
+                                                        <span className="text-xs font-bold truncate max-w-[150px]">
+                                                            {platform.url.replace(/^https?:\/\//, '').split('/')[0]}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="space-y-4 mb-8">
-                                            <h3 className="text-2xl font-black text-slate-900 dark:text-white leading-tight">
-                                                {platform.name}
-                                            </h3>
-                                            
-                                            {platform.url && (
-                                                <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
-                                                    <ExternalLink className="h-3.5 w-3.5" />
-                                                    <span className="text-xs font-bold truncate max-w-[150px]">
-                                                        {platform.url.replace(/^https?:\/\//, '').split('/')[0]}
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
 
                                         {/* Footer */}
                                         <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
