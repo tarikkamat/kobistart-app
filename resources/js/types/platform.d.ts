@@ -1,3 +1,16 @@
+export interface PlanPrice {
+    id: number;
+    plan_id: number;
+    period: 'monthly' | 'yearly' | 'two_yearly';
+    original_price: number;
+    discounted_price: number | null;
+    currency: string;
+    is_monthly_payment: boolean;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+}
+
 export interface Plan {
     id: number;
     platform_id: number;
@@ -8,11 +21,14 @@ export interface Plan {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
+    planPrices?: PlanPrice[];
+    plan_prices?: PlanPrice[]; // Support snake_case from backend
 }
 
 export interface Platform {
     id: number;
     name: string;
+    description: string | null;
     slug: string;
     url: string;
     logo: string | null;

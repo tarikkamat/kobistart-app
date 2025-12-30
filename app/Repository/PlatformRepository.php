@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Models\Platform;
 use App\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PlatformRepository extends BaseRepository
 {
@@ -46,10 +47,29 @@ class PlatformRepository extends BaseRepository
             ->with([
                 'plans' => function ($query) {
                     $query->where('status', true)
-                        ->orderBy('order');
-                },
-                'comments.user'
+                        ->orderBy('order')
+                        ->with('planPrices');
+                }
             ])
             ->first();
+    }
+
+    /**
+     * Get paginated comments for a platform.
+     *
+     * @param int $platformId
+     * @param int $perPage
+     * @param int $page
+     * @return LengthAwarePaginator
+     */
+    public function getPlatformCommentsPaginated(int $platformId, int $perPage = 10, int $page = 1): LengthAwarePaginator
+    {
+        $platform = $this->model->findOrFail($platformId);
+
+        return $platform->comments()
+            ->where('status', true)
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'comments_page', $page);
     }
 }

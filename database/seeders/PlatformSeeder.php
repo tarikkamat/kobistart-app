@@ -15,10 +15,11 @@ class PlatformSeeder extends Seeder
         $platforms = [
             [
                 'name' => 'Shopify',
+                'description' => 'Shopify, global bir e-ticaret platformudur. Shopify, birçok ülke ve bölgede kullanılabilir ve birçok dilde desteklenir.',
                 'slug' => 'shopify',
                 'url' => 'https://www.shopify.com/?ref=kobistart',
-                'logo' => 'images/shopify-logo-black.png',
-                'dark_logo' => 'images/shopify-logo-black.png',
+                'logo' => 'https://cdn.shopify.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-primary-logo-456baa801ee66a0a435671082365958316831c9960c480451dd0330bcdae304f.svg',
+                'dark_logo' => 'https://cdn.shopify.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-inverted-primary-logo-bdc6ddd67862d9bb1f8c559e1bb50dd233112ac57b29cac2edcf17ed2e1fe6fa.svg',
                 'favicon' => 'images/shopify-favicon.png',
                 'status' => true,
                 'order' => 1,
@@ -27,9 +28,11 @@ class PlatformSeeder extends Seeder
             ],
             [
                 'name' => 'Ticimax',
+                'description' => 'Ticimax, Türkiye\'deki en popüler e-ticaret platformudur. Ticimax, birçok ülke ve bölgede kullanılabilir ve birçok dilde desteklenir.',
                 'slug' => 'ticimax',
                 'url' => 'https://ticimax.com/?utm=kobistart',
                 'logo' => 'https://static.ticimax.com/uploads/images/ticimax-logo.svg',
+                'dark_logo' => 'https://webnex.com.tr/assets/partnerships/ticimax-logo.png',
                 'favicon' => 'https://static.ticimax.com/images/favicon.ico',
                 'status' => true,
                 'order' => 2,

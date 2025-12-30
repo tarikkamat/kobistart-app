@@ -48,7 +48,6 @@ export default function TwoFactorChallenge() {
     return (
         <AuthLayout
             title={authConfigContent.title}
-            description={authConfigContent.description}
         >
             <Head title="Two-Factor Authentication" />
 

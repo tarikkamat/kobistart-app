@@ -1,6 +1,6 @@
-import { ExternalLink } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { ExternalLink, Globe, ShieldCheck, Zap } from 'lucide-react';
 import { Platform } from '@/types';
+import { Button } from '@/components/ui/button';
 
 interface PlatformHeaderProps {
     platform: Platform;
@@ -8,85 +8,87 @@ interface PlatformHeaderProps {
 
 export default function PlatformHeader({ platform }: PlatformHeaderProps) {
     return (
-        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
+        <section className="relative overflow-hidden pt-12 pb-16 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800">
             {/* Ambient Background Elements */}
-            <div className="absolute top-0 left-1/2 -z-10 h-[800px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
-            <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />
-            <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] animate-float [animation-delay:2s] dark:bg-violet-500/20" />
+            <div className="absolute top-0 left-1/2 -z-10 h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/5 via-transparent to-transparent blur-[100px] pointer-events-none" />
 
             <div className="container mx-auto px-4">
-                <div className="flex flex-col items-center text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                    {/* Back Link */}
-                    <Link
-                        href="/platforms"
-                        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors animate-in fade-in slide-in-from-bottom-4 duration-700"
-                    >
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Tüm Platformlara Dön
-                    </Link>
-
-                    {/* Platform Logo */}
-                    <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-150">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12">
+                    {/* Platform Logo Container */}
+                    <div className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-violet-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="relative h-32 w-32 md:h-40 md:w-40 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 flex items-center justify-center shadow-sm">
                         {platform.logo ? (
                             <>
                                 <img
                                     src={platform.logo}
                                     alt={platform.name}
-                                    className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto dark:hidden"
+                                        className="h-full w-full object-contain dark:hidden"
                                 />
                                 {platform.dark_logo && (
                                     <img
                                         src={platform.dark_logo}
                                         alt={platform.name}
-                                        className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto hidden dark:block"
+                                            className="h-full w-full object-contain hidden dark:block"
                                     />
-
                                 )}
                             </>
-                        ) : platform.favicon ? (
-                            <img
-                                src={platform.favicon}
-                                alt={platform.name}
-                                className="h-32 w-32 md:h-48 md:w-48 object-contain mx-auto"
-                            />
                         ) : (
-                            <div className="h-32 w-32 md:h-48 md:w-48 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center mx-auto shadow-lg">
-                                <span className="text-white font-bold text-5xl md:text-6xl">
+                                <span className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-blue-600 to-violet-600 bg-clip-text text-transparent">
                                     {platform.name.charAt(0).toUpperCase()}
                                 </span>
+                            )}
                             </div>
-                        )}
                     </div>
 
-                    {/* Platform URL */}
-                    {platform.url && (
-                        <div className="mt-1 mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                            <a
-                                href={platform.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/50 dark:bg-white/5 border border-gray-200/50 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-white/10 transition-all hover:shadow-lg backdrop-blur-sm"
-                            >
-                                <ExternalLink className="h-5 w-5" />
-                                <span className="font-medium">KobiStart ile Avantajlı Başvuru Yap</span>
-                            </a>
+                    {/* Platform Content Area */}
+                    <div className="flex-1 text-center lg:text-left space-y-4">
+                        <div className="space-y-2">
+                            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                                    {platform.name}
+                                </h1>
+                                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-semibold border border-blue-100 dark:border-blue-800">
+                                    <ShieldCheck className="h-3.5 w-3.5" />
+                                    Doğrulanmış Platform
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-zinc-500 dark:text-zinc-400">
+                                <div className="flex items-center gap-1.5">
+                                    <Globe className="h-4 w-4" />
+                                    {platform.url ? new URL(platform.url).hostname : 'kobis.io'}
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <Zap className="h-4 w-4 text-yellow-500" />
+                                    {platform.plans?.length || 0} Aktif Paket
                         </div>
-                    )}
-
-                    {/* Platform Info */}
-                    {platform.plans && platform.plans.length > 0 && (
-                        <div className="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-400 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
-                            <div className="flex items-center gap-2">
-                                <div className="h-2 w-2 rounded-full bg-blue-500" />
-                                <span className="font-semibold">{platform.plans.length} Paket Seçeneği</span>
                             </div>
                         </div>
-                    )}
+
+                        {platform.description ? (
+                            <p className="text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto lg:mx-0">
+                                {platform.description}
+                            </p>
+                        ) : (
+                            <p className="text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto lg:mx-0">
+                                {platform.name}, işletmenizi büyütmeniz için gereken tüm araçları sunan kapsamlı bir platformdur.
+                            </p>
+                        )}
+
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <Button asChild size="lg" className="rounded-full px-8 bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20">
+                                <a href={platform.url} target="_blank" rel="noopener noreferrer">
+                                    Hemen Başvur
+                                    <ExternalLink className="ml-2 h-4 w-4" />
+                                </a>
+                            </Button>
+                            <Button variant="outline" size="lg" className="rounded-full px-8 border-zinc-200 dark:border-zinc-800" onClick={() => document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' })}>
+                                İncelemeler
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     );
 }
-

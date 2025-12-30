@@ -22,6 +22,8 @@ class PlanPrice extends Model
         'period',
         'original_price',
         'discounted_price',
+        'currency',
+        'is_monthly_payment',
     ];
 
     /**
@@ -32,8 +34,10 @@ class PlanPrice extends Model
     protected function casts(): array
     {
         return [
-            'original_price' => 'decimal:2',
-            'discounted_price' => 'decimal:2|nullable',
+            'original_price' => 'float',
+            'discounted_price' => 'float',
+            'currency' => 'string',
+            'is_monthly_payment' => 'boolean',
         ];
     }
 

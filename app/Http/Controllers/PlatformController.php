@@ -28,9 +28,13 @@ class PlatformController extends Controller
             abort(404);
         }
 
+        $commentsPage = (int) request()->get('comments_page', 1);
+        $comments = $this->platformService->getPlatformCommentsPaginated($platform->id, 5, $commentsPage);
+
         return Inertia::render('platforms/show', [
             'platform' => $platform,
             'plans' => $platform->plans,
+            'comments' => $comments,
         ]);
     }
 }

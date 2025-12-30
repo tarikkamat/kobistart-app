@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repository\PlatformRepository;
 use App\Contracts\BaseService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PlatformService extends BaseService
 {
@@ -36,5 +37,20 @@ class PlatformService extends BaseService
         /** @var PlatformRepository $repository */
         $repository = $this->repository;
         return $repository->getPlatformBySlug($slug);
+    }
+
+    /**
+     * Get paginated comments for a platform.
+     *
+     * @param int $platformId
+     * @param int $perPage
+     * @param int $page
+     * @return LengthAwarePaginator
+     */
+    public function getPlatformCommentsPaginated(int $platformId, int $perPage = 10, int $page = 1): LengthAwarePaginator
+    {
+        /** @var PlatformRepository $repository */
+        $repository = $this->repository;
+        return $repository->getPlatformCommentsPaginated($platformId, $perPage, $page);
     }
 }

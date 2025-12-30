@@ -19,6 +19,7 @@ class Platform extends Model
      */
     protected $fillable = [
         'name',
+        'description',
         'slug',
         'url',
         'logo',

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->enum('period', ['monthly', 'yearly', 'two_yearly', 'three_yearly', 'four_yearly', 'five_yearly']);
             $table->decimal('original_price', 10, 2);
             $table->decimal('discounted_price', 10, 2)->nullable();
+            $table->string('currency')->default('TRY');
+            $table->boolean('is_monthly_payment')->default(false);
             $table->timestamps();
             $table->softDeletes();
 
