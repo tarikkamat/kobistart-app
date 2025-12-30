@@ -41,3 +41,6 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+// Re-export platform types
+export type { Platform, Plan } from './platform';

@@ -16,42 +16,54 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { Platform } from '@/types';
 
-const platforms = [
-    { value: 'shopify', label: 'Shopify', color: 'bg-[#96bf48]' },
-    { value: 'woocommerce', label: 'WooCommerce', color: 'bg-[#96588a]' },
-    { value: 'wix', label: 'Wix', color: 'bg-[#000000]' },
-    { value: 'bigcommerce', label: 'BigCommerce', color: 'bg-[#000000]' },
-    { value: 'ideasosoft', label: 'Ideasosoft', color: 'bg-[#0057ff]' },
-    { value: 'ticimax', label: 'Ticimax', color: 'bg-[#ff0000]' },
-    { value: 'magento', label: 'Magento', color: 'bg-[#f46f25]' },
-    { value: 'opencart', label: 'OpenCart', color: 'bg-[#239cd3]' },
-];
-
-const platformPlans: Record<string, string[]> = {
-    shopify: ['Basic', 'Grow', 'Advanced', 'Plus'],
-    woocommerce: ['Free', 'Hosting Bundle', 'VIP'],
-    wix: ['Basic', 'Business', 'Business Elite', 'Enterprise'],
-    bigcommerce: ['Standard', 'Plus', 'Pro', 'Enterprise'],
-    ideasosoft: ['Akıllı', 'Pro', 'Entegre', 'Enterprise'],
-    ticimax: ['Soft', 'Plus', 'Special', 'Premium'],
-    magento: ['Open Source', 'Commerce', 'Cloud'],
-    opencart: ['Free', 'Cloud Start', 'Cloud Pro'],
+// Platform renkleri için mapping (görsel tutarlılık için)
+const platformColors: Record<string, string> = {
+    shopify: 'bg-[#96bf48]',
+    woocommerce: 'bg-[#96588a]',
+    wix: 'bg-[#000000]',
+    bigcommerce: 'bg-[#000000]',
+    ideasosoft: 'bg-[#0057ff]',
+    ticimax: 'bg-[#ff0000]',
+    magento: 'bg-[#f46f25]',
+    opencart: 'bg-[#239cd3]',
 };
 
-export default function Hero({ 
-    selectedItems, 
-    setSelectedItems 
-}: { 
-    selectedItems: { platform: string, plan: string }[], 
-    setSelectedItems: (items: { platform: string, plan: string }[]) => void 
+
+export default function Hero({
+    selectedItems,
+    setSelectedItems,
+    platforms
+}: {
+    selectedItems: { platform: string, plan: string }[],
+    setSelectedItems: (items: { platform: string, plan: string }[]) => void,
+    platforms: Platform[]
 }) {
     const [searchValue, setSearchValue] = useState('');
     const [open, setOpen] = useState(false);
     const [isComparing, setIsComparing] = useState(false);
     const [currentStep, setCurrentStep] = useState<'platform' | 'plan'>('platform');
-    const [tempPlatform, setTempPlatform] = useState<typeof platforms[0] | null>(null);
+    const [tempPlatform, setTempPlatform] = useState<Platform | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Platform araması için filtreleme
+    const filteredPlatforms = platforms.filter(platform => {
+        // Eğer platform seçim adımındaysak ve searchValue seçili item formatındaysa (vs içeriyorsa veya parantez içinde plan adı varsa)
+        // tüm platformları göster, filtreleme yapma
+        if (currentStep === 'platform') {
+            const hasSelectedItemFormat = searchValue.includes(' vs ') || searchValue.includes('(');
+            if (hasSelectedItemFormat) {
+                return true;
+            }
+        }
+
+        // Normal arama filtrelemesi
+        if (!searchValue.trim()) return true;
+        const searchLower = searchValue.toLowerCase().trim();
+        return platform.name.toLowerCase().includes(searchLower) ||
+               platform.slug.toLowerCase().includes(searchLower);
+    });
 
     // Typing Effect Logic
     const [placeholder, setPlaceholder] = useState('');
@@ -70,8 +82,8 @@ export default function Hero({
     useEffect(() => {
         const currentPhrase = phrases[placeholderIndex];
         const typingSpeed = isDeleting ? 30 : 70;
-        const nextActionDelay = isDeleting 
-            ? (charIndex === 0 ? 500 : typingSpeed) 
+        const nextActionDelay = isDeleting
+            ? (charIndex === 0 ? 500 : typingSpeed)
             : (charIndex === currentPhrase.length ? 2000 : typingSpeed);
 
         const timeout = setTimeout(() => {
@@ -92,16 +104,19 @@ export default function Hero({
         return () => clearTimeout(timeout);
     }, [charIndex, isDeleting, placeholderIndex]);
 
-    const handleSelect = (platform: typeof platforms[0]) => {
+    const handleSelect = (platform: Platform) => {
         setTempPlatform(platform);
         setCurrentStep('plan');
     };
 
-    const handlePlanSelect = (plan: string) => {
+    const handlePlanSelect = (planSlug: string) => {
         if (!tempPlatform) return;
 
-        const newItem = { platform: tempPlatform.value, plan };
-        
+        const plan = tempPlatform.plans?.find(p => p.slug === planSlug);
+        if (!plan) return;
+
+        const newItem = { platform: tempPlatform.slug, plan: plan.name };
+
         let newItems;
         if (selectedItems.length >= 2) {
             newItems = [newItem];
@@ -112,17 +127,17 @@ export default function Hero({
         }
 
         setSelectedItems(newItems);
-        
+
         const displayValue = newItems.map(item => {
-            const p = platforms.find(p => p.value === item.platform);
-            return `${p?.label} (${item.plan})`;
+            const p = platforms.find(p => p.slug === item.platform);
+            return `${p?.name} (${item.plan})`;
         }).join(' vs ');
-        
+
         setSearchValue(displayValue + (newItems.length === 1 ? ' vs ' : ''));
-        
+
         setCurrentStep('platform');
         setTempPlatform(null);
-        
+
         if (newItems.length === 2) {
             setOpen(false);
         }
@@ -196,7 +211,7 @@ export default function Hero({
                                         <div className="flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 ml-1">
                                             <Search className="h-6 w-6" />
                                         </div>
-                                        
+
                                         <input
                                             ref={inputRef}
                                             type="text"
@@ -209,7 +224,7 @@ export default function Hero({
                                         />
 
                                         {searchValue && (
-                                            <button 
+                                            <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     clearSearch();
@@ -231,8 +246,8 @@ export default function Hero({
                                             size="lg"
                                             className={cn(
                                                 "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed",
-                                                selectedItems.length >= 2 
-                                                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20" 
+                                                selectedItems.length >= 2
+                                                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20"
                                                     : "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 border border-transparent dark:border-white/5"
                                             )}
                                         >
@@ -250,40 +265,61 @@ export default function Hero({
                                         </Button>
                                     </div>
                                 </PopoverTrigger>
-                                <PopoverContent 
-                                    className="w-[calc(var(--radix-popover-trigger-width)-1rem)] p-0 mt-2 rounded-3xl border-white/20 bg-white/95 backdrop-blur-2xl dark:bg-slate-900/95 shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden" 
+                                <PopoverContent
+                                    className="w-[calc(var(--radix-popover-trigger-width)-1rem)] p-0 mt-2 rounded-3xl border-white/20 bg-white/95 backdrop-blur-2xl dark:bg-slate-900/95 shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden"
                                     align="center"
                                     onOpenAutoFocus={(e) => e.preventDefault()}
                                 >
-                                    <CommandUI className="bg-transparent">
+                                    <CommandUI className="bg-transparent" shouldFilter={false}>
                                         <CommandList className="max-h-[400px]">
-                                            <CommandEmpty className="py-12 text-center">
-                                                <div className="flex flex-col items-center gap-3">
-                                                    <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
-                                                        <Search className="h-6 w-6 text-gray-300" />
+                                            {currentStep === 'platform' && filteredPlatforms.length === 0 && (
+                                                <CommandEmpty className="py-12 text-center">
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
+                                                            <Search className="h-6 w-6 text-gray-300" />
+                                                        </div>
+                                                        <p className="text-sm text-gray-500">
+                                                            Platform bulunamadı.
+                                                        </p>
                                                     </div>
-                                                    <p className="text-sm text-gray-500">
-                                                        {currentStep === 'platform' ? 'Platform bulunamadı.' : 'Paket bulunamadı.'}
-                                                    </p>
-                                                </div>
-                                            </CommandEmpty>
-                                            
+                                                </CommandEmpty>
+                                            )}
+                                            {currentStep === 'plan' && tempPlatform && (!tempPlatform.plans || tempPlatform.plans.length === 0) && (
+                                                <CommandEmpty className="py-12 text-center">
+                                                    <div className="flex flex-col items-center gap-3">
+                                                        <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
+                                                            <Search className="h-6 w-6 text-gray-300" />
+                                                        </div>
+                                                        <p className="text-sm text-gray-500">
+                                                            Paket bulunamadı.
+                                                        </p>
+                                                    </div>
+                                                </CommandEmpty>
+                                            )}
+
                                             {currentStep === 'platform' ? (
                                                 <CommandGroup heading="Platform Seçin" className="p-3">
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                        {platforms.map((platform) => (
+                                                        {filteredPlatforms.map((platform) => (
                                                             <CommandItem
-                                                                key={platform.value}
-                                                                value={platform.value}
+                                                                key={platform.id}
+                                                                value={platform.slug}
                                                                 onSelect={() => handleSelect(platform)}
                                                                 className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
                                                             >
-                                                                <div className={cn("h-3 w-3 rounded-full shrink-0", platform.color)} />
+                                                                {platform.favicon ? (
+                                                                    <img
+                                                                        src={platform.favicon}
+                                                                        alt={platform.name}
+                                                                        className="h-6 w-6 shrink-0 object-contain"
+                                                                    />
+                                                                ) : (
+                                                                    <div className={cn("h-3 w-3 rounded-full shrink-0", platformColors[platform.slug] || 'bg-gray-400')} />
+                                                                )}
                                                                 <div className="flex flex-col">
-                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{platform.label}</span>
-                                                                    <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Ekosistem Analizi</span>
+                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{platform.name}</span>
                                                                 </div>
-                                                                {selectedItems.some(item => item.platform === platform.value) && (
+                                                                {selectedItems.some(item => item.platform === platform.slug) && (
                                                                     <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
                                                                 )}
                                                             </CommandItem>
@@ -291,26 +327,26 @@ export default function Hero({
                                                     </div>
                                                 </CommandGroup>
                                             ) : (
-                                                <CommandGroup heading={`${tempPlatform?.label} Paketi Seçin`} className="p-3">
+                                                <CommandGroup heading={`${tempPlatform?.name} Paketi Seçin`} className="p-3">
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                        {tempPlatform && platformPlans[tempPlatform.value]?.map((plan) => (
+                                                        {tempPlatform?.plans?.map((plan) => (
                                                             <CommandItem
-                                                                key={plan}
-                                                                value={plan}
-                                                                onSelect={() => handlePlanSelect(plan)}
+                                                                key={plan.id}
+                                                                value={plan.slug}
+                                                                onSelect={() => handlePlanSelect(plan.slug)}
                                                                 className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
                                                             >
                                                                 <div className="flex flex-col">
-                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{plan}</span>
+                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{plan.name}</span>
                                                                     <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Plan Özellikleri</span>
                                                                 </div>
-                                                                {selectedItems.some(item => item.platform === tempPlatform.value && item.plan === plan) && (
+                                                                {selectedItems.some(item => item.platform === tempPlatform.slug && item.plan === plan.name) && (
                                                                     <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
                                                                 )}
                                                             </CommandItem>
                                                         ))}
                                                     </div>
-                                                    <button 
+                                                    <button
                                                         onClick={() => setCurrentStep('platform')}
                                                         className="mt-4 w-full p-2 text-xs text-blue-600 dark:text-blue-400 hover:underline"
                                                     >
@@ -337,7 +373,7 @@ export default function Hero({
                                 { a: { p: 'ticimax', pl: 'Plus' }, b: { p: 'ideasosoft', pl: 'Pro' }, label: 'Ticimax (Plus) vs Ideasosoft (Pro)' },
                                 { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'magento', pl: 'Commerce' }, label: 'Shopify (Plus) vs Magento (Commerce)' }
                             ].map((s, i) => (
-                                    <button 
+                                    <button
                                         key={i}
                                         onClick={() => {
                                             setSelectedItems([

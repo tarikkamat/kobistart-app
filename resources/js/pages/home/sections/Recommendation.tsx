@@ -27,10 +27,12 @@ export default function Recommendation() {
                         <GlassCard className="border-blue-200 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-900/20">
                             <div className="mb-6 flex items-start justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-900 text-white shadow-xl dark:bg-white dark:text-black">
-                                        <svg className="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z" />
-                                        </svg>
+                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-200 text-white shadow-xl dark:bg-white dark:text-black">
+                                        <img
+                                            src="/images/platforms/woocommerce-logo.svg"
+                                            alt="WooCommerce"
+                                            className="h-8 w-8 object-contain"
+                                        />
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">WooCommerce</h3>

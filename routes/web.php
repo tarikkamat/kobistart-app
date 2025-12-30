@@ -1,15 +1,12 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');
+Route::get('/platforms/{platform:slug}', [PlatformController::class, 'show'])->name('platforms.show');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
-
+require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';
