@@ -11,9 +11,11 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as favoritesIndex } from '@/routes/favorites/index';
+import { index as comparisonsIndex } from '@/routes/comparisons';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, Heart, LayoutGrid, GitCompare } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +23,16 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Favorilerim',
+        href: favoritesIndex(),
+        icon: Heart,
+    },
+    {
+        title: 'Karşılaştırmalarım',
+        href: comparisonsIndex(),
+        icon: GitCompare,
     },
 ];
 

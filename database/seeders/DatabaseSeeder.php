@@ -16,7 +16,12 @@ class DatabaseSeeder extends Seeder
             PlatformSeeder::class,
             PlanSeeder::class,
             PlanPriceSeeder::class,
+            FeatureSeeder::class,
+            ShopifyPlanFeatureSeeder::class,
+            TicimaxPlanFeatureSeeder::class,
             CommentSeeder::class,
+            FilterGroupSeeder::class,
+            FilterItemSeeder::class
         ]);
     }
 }

@@ -1,3 +1,5 @@
+import { PlanFeature } from './feature';
+
 export interface PlanPrice {
     id: number;
     plan_id: number;
@@ -23,6 +25,7 @@ export interface Plan {
     deleted_at: string | null;
     planPrices?: PlanPrice[];
     plan_prices?: PlanPrice[]; // Support snake_case from backend
+    features?: PlanFeature[];
 }
 
 export interface Platform {
@@ -43,5 +46,6 @@ export interface Platform {
     deleted_at: string | null;
     plans?: Plan[];
     comments?: any[];
+    is_favorited?: boolean;
 }
 

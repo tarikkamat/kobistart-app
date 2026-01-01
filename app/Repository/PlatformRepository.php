@@ -48,7 +48,12 @@ class PlatformRepository extends BaseRepository
                 'plans' => function ($query) {
                     $query->where('status', true)
                         ->orderBy('order')
-                        ->with('planPrices');
+                        ->with([
+                            'planPrices',
+                            'planFeatures.feature' => function ($q) {
+                                $q->orderBy('order');
+                            }
+                        ]);
                 }
             ])
             ->first();

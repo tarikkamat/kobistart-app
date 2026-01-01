@@ -17,7 +17,7 @@ interface PageProps extends Record<string, unknown> {
 
 export default function Home() {
     const { platforms } = usePage<PageProps>().props;
-    const [selectedItems, setSelectedItems] = useState<{ platform: string, plan: string }[]>([]);
+    const [selectedItems, setSelectedItems] = useState<{ platform: string, plan: string, planSlug: string }[]>([]);
 
     return (
         <LandingLayout>

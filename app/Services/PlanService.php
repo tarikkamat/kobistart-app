@@ -24,4 +24,32 @@ class PlanService extends BaseService
         $repository = $this->repository;
         return $repository->getActivePlans();
     }
+
+    /**
+     * Get plan by slug.
+     *
+     * @param string $slug
+     * @param int $platformId
+     * @return \App\Models\Plan|null
+     */
+    public function getPlanBySlug(string $slug, int $platformId): ?\App\Models\Plan
+    {
+        /** @var PlanRepository $repository */
+        $repository = $this->repository;
+        return $repository->getPlanBySlug($slug, $platformId);
+    }
+
+    /**
+     * Get plans with filters applied.
+     *
+     * @param array<int> $featureIds
+     * @param array<string> $featureKeys
+     * @return Collection<int, \App\Models\Plan>
+     */
+    public function getPlansWithFilters(array $featureIds = [], array $featureKeys = []): Collection
+    {
+        /** @var PlanRepository $repository */
+        $repository = $this->repository;
+        return $repository->getPlansWithFilters($featureIds, $featureKeys);
+    }
 }

@@ -182,4 +182,9 @@
     .animate-float {
         animation: float 6s ease-in-out infinite;
     }
+
+    @keyframes shimmer {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(100%); }
+    }
 }

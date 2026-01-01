@@ -3,6 +3,7 @@ import { GlassCard } from '@/components/ui/glass-card';
 import { ArrowRight, Check, Search, Globe, Zap, BarChart3, ShieldCheck, Sparkles, Command } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { router } from '@inertiajs/react';
 import {
     Command as CommandUI,
     CommandEmpty,
@@ -36,8 +37,8 @@ export default function Hero({
     setSelectedItems,
     platforms
 }: {
-    selectedItems: { platform: string, plan: string }[],
-    setSelectedItems: (items: { platform: string, plan: string }[]) => void,
+    selectedItems: { platform: string, plan: string, planSlug: string }[],
+    setSelectedItems: (items: { platform: string, plan: string, planSlug: string }[]) => void,
     platforms: Platform[]
 }) {
     const [searchValue, setSearchValue] = useState('');
@@ -115,7 +116,7 @@ export default function Hero({
         const plan = tempPlatform.plans?.find(p => p.slug === planSlug);
         if (!plan) return;
 
-        const newItem = { platform: tempPlatform.slug, plan: plan.name };
+        const newItem = { platform: tempPlatform.slug, plan: plan.name, planSlug: plan.slug };
 
         let newItems;
         if (selectedItems.length >= 2) {
@@ -146,7 +147,15 @@ export default function Hero({
     const handleCompare = () => {
         if (selectedItems.length < 2) return;
         setIsComparing(true);
-        setTimeout(() => setIsComparing(false), 2000);
+
+        // Build comparison URL: /compare/{platform-slug}-{plan-slug}-vs-{platform-slug}-{plan-slug}
+        const comparison = selectedItems
+            .map(item => `${item.platform}-${item.planSlug}`)
+            .join('-vs-');
+
+        router.visit(`/compare/${comparison}`, {
+            onFinish: () => setIsComparing(false),
+        });
     };
 
     const clearSearch = () => {
@@ -368,25 +377,44 @@ export default function Hero({
                                 <Zap className="h-4 w-4 text-amber-500" />
                                 Hızlı Kıyasla:
                             </span>
-                            {[
-                                { a: { p: 'shopify', pl: 'Basic' }, b: { p: 'woocommerce', pl: 'Free' }, label: 'Shopify (Basic) vs WooCommerce (Free)' },
-                                { a: { p: 'ticimax', pl: 'Plus' }, b: { p: 'ideasosoft', pl: 'Pro' }, label: 'Ticimax (Plus) vs Ideasosoft (Pro)' },
-                                { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'magento', pl: 'Commerce' }, label: 'Shopify (Plus) vs Magento (Commerce)' }
-                            ].map((s, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => {
-                                        setSelectedItems([
-                                            { platform: s.a.p, plan: s.a.pl },
-                                            { platform: s.b.p, plan: s.b.pl }
-                                        ]);
-                                        setSearchValue(s.label);
-                                    }}
-                                    className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
-                                >
-                                    {s.label}
-                                </button>
-                            ))}
+                            {(() => {
+                                // Find plan slugs from platforms
+                                const suggestions = [
+                                    { a: { p: 'shopify', pl: 'Basic' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Basic) vs Ticimax (Advanced)' },
+                                    { a: { p: 'shopify', pl: 'Grow' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Grow) vs Ticimax (Advanced)' },
+                                    { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'ticimax', pl: 'Premier' }, label: 'Shopify (Plus) vs Ticimax (Premier)' }
+                                ].map(s => {
+                                    const platformA = platforms.find(p => p.slug === s.a.p);
+                                    const platformB = platforms.find(p => p.slug === s.b.p);
+                                    const planA = platformA?.plans?.find(pl => pl.name === s.a.pl);
+                                    const planB = platformB?.plans?.find(pl => pl.name === s.b.pl);
+                                    
+                                    if (!planA || !planB) return null;
+                                    
+                                    return {
+                                        ...s,
+                                        items: [
+                                            { platform: s.a.p, plan: s.a.pl, planSlug: planA.slug },
+                                            { platform: s.b.p, plan: s.b.pl, planSlug: planB.slug }
+                                        ]
+                                    };
+                                }).filter(Boolean);
+
+                                return suggestions.map((s, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => {
+                                            if (s && s.items) {
+                                                setSelectedItems(s.items);
+                                                setSearchValue(s.label);
+                                            }
+                                        }}
+                                        className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
+                                    >
+                                        {s?.label}
+                                    </button>
+                                ));
+                            })()}
                         </div>
 
                         <div className="flex items-center gap-8 pt-8 border-t border-gray-200/50 dark:border-white/5 w-full justify-center">

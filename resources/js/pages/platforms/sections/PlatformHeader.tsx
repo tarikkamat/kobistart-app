@@ -1,12 +1,52 @@
-import { ExternalLink, Globe, ShieldCheck, Zap } from 'lucide-react';
-import { Platform } from '@/types';
+import { ExternalLink, Globe, Heart, ShieldCheck, Zap } from 'lucide-react';
+import { Platform, SharedData } from '@/types';
 import { Button } from '@/components/ui/button';
+import { useForm, usePage } from '@inertiajs/react';
+import { store as favoritesStore, destroy as favoritesDestroy } from '@/routes/favorites/index';
+import { toast } from 'sonner';
 
 interface PlatformHeaderProps {
     platform: Platform;
 }
 
 export default function PlatformHeader({ platform }: PlatformHeaderProps) {
+    const { auth } = usePage<SharedData>().props;
+    const isFavorited = platform.is_favorited || false;
+
+    const { post: addFavorite, processing: addingFavorite } = useForm({
+        favoritable_type: 'App\\Models\\Platform',
+        favoritable_id: platform.id,
+    });
+
+    const { delete: removeFavorite, processing: removingFavorite } = useForm({
+        favoritable_type: 'App\\Models\\Platform',
+        favoritable_id: platform.id,
+    });
+
+    const handleToggleFavorite = () => {
+        if (isFavorited) {
+            removeFavorite(favoritesDestroy.url(), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success('Favorilerden çıkarıldı');
+                },
+                onError: () => {
+                    toast.error('Bir hata oluştu');
+                },
+            });
+        } else {
+            addFavorite(favoritesStore.url(), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success('Favorilere eklendi');
+                },
+                onError: () => {
+                    toast.error('Bir hata oluştu');
+                },
+            });
+        }
+    };
+
     return (
         <section className="relative overflow-hidden pt-12 pb-16 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800">
             {/* Ambient Background Elements */}
@@ -85,6 +125,18 @@ export default function PlatformHeader({ platform }: PlatformHeaderProps) {
                             <Button variant="outline" size="lg" className="rounded-full px-8 border-zinc-200 dark:border-zinc-800" onClick={() => document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' })}>
                                 İncelemeler
                             </Button>
+                            {auth.user && (
+                                <Button
+                                    variant={isFavorited ? "default" : "outline"}
+                                    size="lg"
+                                    className={`rounded-full px-8 border-zinc-200 dark:border-zinc-800 ${isFavorited ? 'bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800' : ''}`}
+                                    onClick={handleToggleFavorite}
+                                    disabled={addingFavorite || removingFavorite}
+                                >
+                                    <Heart className={`mr-2 h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+                                    {isFavorited ? 'Favorilerden Çıkar' : 'Favorilere Ekle'}
+                                </Button>
+                            )}
                         </div>
                     </div>
                 </div>

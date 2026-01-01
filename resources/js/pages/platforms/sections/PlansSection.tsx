@@ -1,7 +1,8 @@
 import { GlassCard } from '@/components/ui/glass-card';
 import { Check, Sparkles, Zap } from 'lucide-react';
-import { Plan } from '@/types';
+import { Plan, Platform } from '@/types';
 import type { PlanPrice } from '@/types/platform';
+import { Link } from '@inertiajs/react';
 import {
     Carousel,
     CarouselContent,
@@ -94,9 +95,10 @@ const getBestPrice = (plan: Plan) => {
 
 interface PlansSectionProps {
     plans: Plan[];
+    platform: Platform;
 }
 
-export default function PlansSection({ plans }: PlansSectionProps) {
+export default function PlansSection({ plans, platform }: PlansSectionProps) {
     if (!plans || plans.length === 0) {
         return (
             <div className="rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-12 text-center">
@@ -244,30 +246,61 @@ export default function PlansSection({ plans }: PlansSectionProps) {
                                             </div>
 
                                         <div className="flex-1 space-y-4 mb-8">
-                                                <div className="space-y-3">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                                                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                            {(() => {
+                                                const planFeatures = plan.features || [];
+                                                const displayedFeatures = planFeatures
+                                                    .filter(pf => pf.is_included && pf.feature)
+                                                    .slice(0, 5); // İlk 5 özelliği göster
+
+                                                if (displayedFeatures.length === 0) {
+                                                    return (
+                                                        <div className="space-y-3">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                                                                    <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                                                </div>
+                                                                <span className="text-sm text-zinc-600 dark:text-zinc-400">Tüm temel özellikler</span>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div className="space-y-3">
+                                                        {displayedFeatures.map((pf) => {
+                                                            const displayName = pf.platform_label || pf.feature?.name || 'Özellik';
+                                                            return (
+                                                                <div key={pf.id} className="flex items-start gap-3">
+                                                                    <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                                                                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                                                    </div>
+                                                                    <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                                                                        {displayName}
+                                                                        {pf.value && pf.value !== 'true' && pf.value !== 'false' && (
+                                                                            <span className="ml-1 text-xs text-zinc-500 dark:text-zinc-500">
+                                                                                ({pf.value})
+                                                                            </span>
+                                                                        )}
+                                                                    </span>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                        {planFeatures.length > 5 && (
+                                                            <div className="pt-2">
+                                                                <span className="text-xs text-zinc-500 dark:text-zinc-400 italic">
+                                                                    +{planFeatures.length - 5} özellik daha
+                                                                </span>
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                    <span className="text-sm text-zinc-600 dark:text-zinc-400">Tüm temel özellikler</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                                                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
-                                                    </div>
-                                                    <span className="text-sm text-zinc-600 dark:text-zinc-400">7/24 Teknik destek</span>
-                                                </div>
-                                                <div className="flex items-start gap-3">
-                                                    <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                                                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
-                                            </div>
-                                                    <span className="text-sm text-zinc-600 dark:text-zinc-400">Gelişmiş raporlama</span>
-                                                </div>
-                                            </div>
+                                                );
+                                            })()}
                                         </div>
 
-                                        <Button className="w-full rounded-2xl bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-colors">
-                                            Detayları Gör
+                                        <Button asChild className="w-full rounded-2xl bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-colors">
+                                            <Link href={`/platforms/${platform.slug}/${plan.slug}`}>
+                                                Detayları Gör
+                                            </Link>
                                         </Button>
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ import { Platform, Plan } from '@/types';
 import PlatformHeader from './sections/PlatformHeader';
 import PlansSection from './sections/PlansSection';
 import CapabilitiesSection from './sections/CapabilitiesSection';
+import FeaturesSection from './sections/FeaturesSection';
 import CommentsSection from './sections/CommentsSection';
 import { ChevronLeft, Info, Star, Users } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,7 +70,11 @@ export default function PlatformShow() {
                     {/* Main Content Area (8/12) */}
                     <div className="lg:col-span-8 space-y-16">
                         <section id="plans">
-                        <PlansSection plans={plans} />
+                        <PlansSection plans={plans} platform={platform} />
+                        </section>
+
+                        <section id="features">
+                        <FeaturesSection plans={plans} />
                         </section>
 
                         <section id="comments">

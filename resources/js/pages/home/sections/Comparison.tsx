@@ -30,7 +30,7 @@ const planData: Record<string, Record<string, any>> = {
 
 const defaultData = { price: '-', fee: '-', support: '-', custom: '-', speed: '-' };
 
-export default function Comparison({ selectedItems = [] }: { selectedItems?: { platform: string, plan: string }[] }) {
+export default function Comparison({ selectedItems = [] }: { selectedItems?: { platform: string, plan: string, planSlug?: string }[] }) {
     const itemsToCompare = selectedItems.length > 0 ? selectedItems : [
         { platform: 'woocommerce', plan: 'Hosting Bundle' },
         { platform: 'shopify', plan: 'Basic' },

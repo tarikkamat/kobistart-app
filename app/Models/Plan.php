@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Plan extends Model
 {
@@ -57,5 +59,37 @@ class Plan extends Model
     public function planPrices(): HasMany
     {
         return $this->hasMany(PlanPrice::class);
+    }
+
+    /**
+     * Get the favorites for the plan.
+     *
+     * @return MorphMany<Favorite>
+     */
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
+    }
+
+    /**
+     * Get the features for the plan.
+     *
+     * @return BelongsToMany<Feature>
+     */
+    public function features(): BelongsToMany
+    {
+        return $this->belongsToMany(Feature::class, 'plan_features')
+            ->withPivot('value', 'is_included', 'platform_label')
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the plan features for the plan.
+     *
+     * @return HasMany<PlanFeature>
+     */
+    public function planFeatures(): HasMany
+    {
+        return $this->hasMany(PlanFeature::class);
     }
 }
