@@ -9,6 +9,7 @@ import HowItWorks from './sections/HowItWorks';
 import Problem from './sections/Problem';
 import Recommendation from './sections/Recommendation';
 import Trust from './sections/Trust';
+import FinancialSolutions from './sections/FinancialSolutions';
 
 interface PageProps extends Record<string, unknown> {
     platforms: Platform[];
@@ -28,6 +29,7 @@ export default function Home() {
                 setSelectedItems={setSelectedItems}
                 platforms={platforms}
             />
+            <FinancialSolutions />
             <Problem />
             <HowItWorks />
             <Recommendation />

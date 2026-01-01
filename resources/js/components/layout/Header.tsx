@@ -17,7 +17,9 @@ import {
     X,
     Building2,
     ShoppingBag,
-    Sparkles
+    Sparkles,
+    UserCircle2,
+    Bell
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { type SharedData } from '@/types';
@@ -49,10 +51,35 @@ export default function Header() {
         router.post(logout.url());
     };
 
+    // Dummy notifications
+    const notifications = [
+        {
+            id: 1,
+            title: 'Yeni Özellik: Plan Karşılaştırma',
+            message: 'Artık farklı e-ticaret planlarını kolayca karşılaştırabilirsiniz!',
+            time: '2 saat önce',
+            isNew: true,
+        },
+        {
+            id: 2,
+            title: 'Güncelleme: Shopify Planları',
+            message: 'Shopify planlarına yeni özellikler eklendi. Detayları inceleyin.',
+            time: '5 saat önce',
+            isNew: true,
+        },
+        {
+            id: 3,
+            title: 'Hoş Geldiniz!',
+            message: 'KobiStart\'a hoş geldiniz. Size en uygun planı bulmak için sihirbazı kullanabilirsiniz.',
+            time: '1 gün önce',
+            isNew: false,
+        },
+    ];
+
     const navLinks = [
         { name: 'Tüm Platformlar', href: platformsIndex.url(), icon: Building2 },
-        { name: 'E-Ticaret Planları', href: plansIndex.url(), icon: ShoppingBag },
         { name: 'Plan Öneri Sihirbazı', href: wizardIndex.url(), icon: Sparkles, highlighted: true },
+        { name: 'E-Ticaret Planları', href: plansIndex.url(), icon: ShoppingBag },
     ];
 
     return (
@@ -135,12 +162,57 @@ export default function Header() {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden items-center gap-3 md:flex flex-shrink-0">
+                {/* Notifications */}
+                <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="relative rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                        >
+                            <Bell className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                            {notifications.filter(n => n.isNew).length > 0 && (
+                                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white">
+                                    {notifications.filter(n => n.isNew).length}
+                                </span>
+                            )}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-80">
+                        <div className="px-2 py-1.5 text-sm font-semibold">Bildirimler</div>
+                        <DropdownMenuSeparator />
+                        <div className="max-h-96 overflow-y-auto">
+                            {notifications.map((notification) => (
+                                <DropdownMenuItem
+                                    key={notification.id}
+                                    className="flex flex-col items-start gap-1 p-3 cursor-pointer"
+                                >
+                                    <div className="flex items-start justify-between w-full">
+                                        <div className="flex-1">
+                                            <div className="font-medium text-sm">{notification.title}</div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {notification.message}
+                                            </div>
+                                            <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                                {notification.time}
+                                            </div>
+                                        </div>
+                                        {notification.isNew && (
+                                            <div className="h-2 w-2 rounded-full bg-blue-600 ml-2 mt-1 flex-shrink-0" />
+                                        )}
+                                    </div>
+                                </DropdownMenuItem>
+                            ))}
+                        </div>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
                 {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="default"
-                                className="rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                className="text-sm rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
                             >
                                 <User className="mr-2 h-4 w-4" />
                                 Hesabım
@@ -168,20 +240,16 @@ export default function Header() {
                     </DropdownMenu>
                 ) : (
                     <>
-                        <Button
-                            variant="ghost"
-                            className="rounded-full"
-                            asChild
-                        >
-                            <Link href={login.url()}>Giriş</Link>
-                        </Button>
                         {canRegister && (
                             <Button
                                 variant="default"
-                                className="rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                className="text-sm rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
                                 asChild
                             >
-                                <Link href={register.url()}>Ücretsiz Hesap Oluştur</Link>
+                                <Link href={login.url()}>
+                                    <UserCircle2 className="mr-2 h-4 w-4" />
+                                    Oturum Aç
+                                </Link>
                             </Button>
                         )}
                     </>

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/glass-card';
-import { ArrowRight, Check, Search, Globe, Zap, BarChart3, ShieldCheck, Sparkles, Command } from 'lucide-react';
+import { ArrowRight, Check, Search, Globe, Zap, BarChart3, ShieldCheck, Sparkles, Command, Rocket, GitCompare, Eye, Trophy, TrendingUp, ShoppingBag } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { router } from '@inertiajs/react';
@@ -19,19 +19,6 @@ import {
 } from '@/components/ui/popover';
 import { Platform } from '@/types';
 
-// Platform renkleri için mapping (görsel tutarlılık için)
-const platformColors: Record<string, string> = {
-    shopify: 'bg-[#96bf48]',
-    woocommerce: 'bg-[#96588a]',
-    wix: 'bg-[#000000]',
-    bigcommerce: 'bg-[#000000]',
-    ideasosoft: 'bg-[#0057ff]',
-    ticimax: 'bg-[#ff0000]',
-    magento: 'bg-[#f46f25]',
-    opencart: 'bg-[#239cd3]',
-};
-
-
 export default function Hero({
     selectedItems,
     setSelectedItems,
@@ -44,8 +31,9 @@ export default function Hero({
     const [searchValue, setSearchValue] = useState('');
     const [open, setOpen] = useState(false);
     const [isComparing, setIsComparing] = useState(false);
-    const [currentStep, setCurrentStep] = useState<'platform' | 'plan'>('platform');
+    const [currentStep, setCurrentStep] = useState<'actions' | 'platform' | 'plan'>('actions');
     const [tempPlatform, setTempPlatform] = useState<Platform | null>(null);
+    const [showCompareButton, setShowCompareButton] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Platform araması için filtreleme
@@ -73,11 +61,12 @@ export default function Hero({
     const [isDeleting, setIsDeleting] = useState(false);
 
     const phrases = [
-        "Shopify vs WooCommerce",
-        "Ticimax vs Ideasosoft",
-        "Wix vs Shopify",
-        "Magento vs OpenCart",
-        "T-Soft vs İkas"
+        "Kobistart ile e-ticaret yolculuğuna başla",
+        "Kobistart ile paketleri karşılaştır",
+        "Kobistart ile paketleri görüntüle",
+        "Kobistart ile en uygun teklifi bul",
+        "Kobistart ile işimi büyütmek istiyorum",
+        "Kobistart ile işletme satın almak istiyorum"
     ];
 
     useEffect(() => {
@@ -140,6 +129,7 @@ export default function Hero({
         setTempPlatform(null);
 
         if (newItems.length === 2) {
+            setShowCompareButton(true);
             setOpen(false);
         }
     };
@@ -161,17 +151,26 @@ export default function Hero({
     const clearSearch = () => {
         setSearchValue('');
         setSelectedItems([]);
-        setCurrentStep('platform');
+        setCurrentStep('actions');
         setTempPlatform(null);
+        setShowCompareButton(false);
     };
 
     useEffect(() => {
         if (searchValue === '') {
             setSelectedItems([]);
-            setCurrentStep('platform');
+            setCurrentStep('actions');
             setTempPlatform(null);
+            setShowCompareButton(false);
         }
     }, [searchValue]);
+
+    const handleActionSelect = (action: string) => {
+        if (action === 'Paketleri karşılaştır') {
+            setCurrentStep('platform');
+        }
+        // Diğer aksiyonlar için ileride işlemler eklenebilir
+    };
 
     return (
         <section id="comparison" className="relative overflow-hidden pt-24 pb-20 lg:pt-32 lg:pb-32 bg-slate-50/50 dark:bg-slate-950/50">
@@ -184,7 +183,7 @@ export default function Hero({
                 {/* AI Badge */}
                 <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <Sparkles className="h-4 w-4 fill-blue-500/20" />
-                    Yeni Nesil E-Ticaret Karşılaştırma
+                    Yeni Nesil E-Ticaret Partneriniz
                 </div>
 
                 <h1 className="mx-auto mb-6 max-w-5xl font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-slate-50">
@@ -228,7 +227,7 @@ export default function Hero({
                                             onChange={(e) => setSearchValue(e.target.value)}
                                             onFocus={() => setOpen(true)}
                                             onClick={(e) => e.stopPropagation()}
-                                            placeholder={`Örn: ${placeholder}`}
+                                            placeholder={placeholder}
                                             className="w-full bg-transparent border-none focus:ring-0 focus:outline-none text-xl font-medium px-4 py-2 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
                                         />
 
@@ -246,32 +245,34 @@ export default function Hero({
                                             </button>
                                         )}
 
-                                        <Button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleCompare();
-                                            }}
-                                            disabled={selectedItems.length < 2 || isComparing}
-                                            size="lg"
-                                            className={cn(
-                                                "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed",
-                                                selectedItems.length >= 2
-                                                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20"
-                                                    : "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 border border-transparent dark:border-white/5"
-                                            )}
-                                        >
-                                            {isComparing ? (
-                                                <div className="flex items-center gap-2">
-                                                    <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                    Analiz...
-                                                </div>
-                                            ) : (
-                                                <div className="flex items-center gap-2">
-                                                    Karşılaştır
-                                                    <ArrowRight className="h-5 w-5" />
-                                                </div>
-                                            )}
-                                        </Button>
+                                        {showCompareButton && (
+                                            <Button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleCompare();
+                                                }}
+                                                disabled={selectedItems.length < 2 || isComparing}
+                                                size="lg"
+                                                className={cn(
+                                                    "h-14 rounded-full px-8 text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed",
+                                                    selectedItems.length >= 2
+                                                        ? "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20"
+                                                        : "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 border border-transparent dark:border-white/5"
+                                                )}
+                                            >
+                                                {isComparing ? (
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                        Analiz...
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-2">
+                                                        Karşılaştır
+                                                        <ArrowRight className="h-5 w-5" />
+                                                    </div>
+                                                )}
+                                            </Button>
+                                        )}
                                     </div>
                                 </PopoverTrigger>
                                 <PopoverContent
@@ -281,32 +282,102 @@ export default function Hero({
                                 >
                                     <CommandUI className="bg-transparent" shouldFilter={false}>
                                         <CommandList className="max-h-[400px]">
-                                            {currentStep === 'platform' && filteredPlatforms.length === 0 && (
-                                                <CommandEmpty className="py-12 text-center">
-                                                    <div className="flex flex-col items-center gap-3">
-                                                        <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
-                                                            <Search className="h-6 w-6 text-gray-300" />
-                                                        </div>
-                                                        <p className="text-sm text-gray-500">
-                                                            Platform bulunamadı.
-                                                        </p>
+                                            {currentStep === 'actions' ? (
+                                                <CommandGroup heading="Kobistart ile" className="p-3">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                        <CommandItem
+                                                            value="E-ticaret yolculuğuna başla"
+                                                            disabled
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-not-allowed opacity-60 transition-all border border-transparent"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+                                                                <Rocket className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">E-ticaret yolculuğuna başla</span>
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">Çok yakında</span>
+                                                            </div>
+                                                        </CommandItem>
+                                                        <CommandItem
+                                                            value="Paketleri karşılaştır"
+                                                            onSelect={() => handleActionSelect('Paketleri karşılaştır')}
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center shrink-0">
+                                                                <GitCompare className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+                                                            </div>
+                                                            <div className="flex flex-col">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">Paketleri karşılaştır</span>
+                                                            </div>
+                                                        </CommandItem>
+                                                        <CommandItem
+                                                            value="Paketleri görüntüle"
+                                                            disabled
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-not-allowed opacity-60 transition-all border border-transparent"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-green-50 dark:bg-green-500/10 flex items-center justify-center shrink-0">
+                                                                <Eye className="h-5 w-5 text-green-600 dark:text-green-400" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">Paketleri görüntüle</span>
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">Çok yakında</span>
+                                                            </div>
+                                                        </CommandItem>
+                                                        <CommandItem
+                                                            value="En uygun teklifi bul"
+                                                            disabled
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-not-allowed opacity-60 transition-all border border-transparent"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center shrink-0">
+                                                                <Trophy className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">En uygun teklifi bul</span>
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">Çok yakında</span>
+                                                            </div>
+                                                        </CommandItem>
+                                                        <CommandItem
+                                                            value="İşimi büyütmek istiyorum"
+                                                            disabled
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-not-allowed opacity-60 transition-all border border-transparent"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center shrink-0">
+                                                                <TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">İşimi büyütmek istiyorum</span>
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">Çok yakında</span>
+                                                            </div>
+                                                        </CommandItem>
+                                                        <CommandItem
+                                                            value="İşletme satın almak istiyorum"
+                                                            disabled
+                                                            className="rounded-2xl flex items-center gap-3 p-4 cursor-not-allowed opacity-60 transition-all border border-transparent"
+                                                        >
+                                                            <div className="h-10 w-10 rounded-full bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center shrink-0">
+                                                                <ShoppingBag className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1">
+                                                                <span className="font-bold text-gray-900 dark:text-slate-100">İşletme satın almak istiyorum</span>
+                                                                <span className="text-xs text-gray-500 dark:text-gray-400">Çok yakında</span>
+                                                            </div>
+                                                        </CommandItem>
                                                     </div>
-                                                </CommandEmpty>
-                                            )}
-                                            {currentStep === 'plan' && tempPlatform && (!tempPlatform.plans || tempPlatform.plans.length === 0) && (
-                                                <CommandEmpty className="py-12 text-center">
-                                                    <div className="flex flex-col items-center gap-3">
-                                                        <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
-                                                            <Search className="h-6 w-6 text-gray-300" />
-                                                        </div>
-                                                        <p className="text-sm text-gray-500">
-                                                            Paket bulunamadı.
-                                                        </p>
-                                                    </div>
-                                                </CommandEmpty>
-                                            )}
-
-                                            {currentStep === 'platform' ? (
+                                                </CommandGroup>
+                                            ) : currentStep === 'platform' ? (
+                                                <>
+                                                    {filteredPlatforms.length === 0 && (
+                                                        <CommandEmpty className="py-12 text-center">
+                                                            <div className="flex flex-col items-center gap-3">
+                                                                <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
+                                                                    <Search className="h-6 w-6 text-gray-300" />
+                                                                </div>
+                                                                <p className="text-sm text-gray-500">
+                                                                    Platform bulunamadı.
+                                                                </p>
+                                                            </div>
+                                                        </CommandEmpty>
+                                                    )}
                                                 <CommandGroup heading="Platform Seçin" className="p-3">
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                                         {filteredPlatforms.map((platform) => (
@@ -323,7 +394,7 @@ export default function Hero({
                                                                         className="h-6 w-6 shrink-0 object-contain"
                                                                     />
                                                                 ) : (
-                                                                    <div className={cn("h-3 w-3 rounded-full shrink-0", platformColors[platform.slug] || 'bg-gray-400')} />
+                                                                    <div className="h-3 w-3 rounded-full shrink-0 bg-gray-400" />
                                                                 )}
                                                                 <div className="flex flex-col">
                                                                     <span className="font-bold text-gray-900 dark:text-slate-100">{platform.name}</span>
@@ -334,34 +405,55 @@ export default function Hero({
                                                             </CommandItem>
                                                         ))}
                                                     </div>
-                                                </CommandGroup>
-                                            ) : (
-                                                <CommandGroup heading={`${tempPlatform?.name} Paketi Seçin`} className="p-3">
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                        {tempPlatform?.plans?.map((plan) => (
-                                                            <CommandItem
-                                                                key={plan.id}
-                                                                value={plan.slug}
-                                                                onSelect={() => handlePlanSelect(plan.slug)}
-                                                                className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
-                                                            >
-                                                                <div className="flex flex-col">
-                                                                    <span className="font-bold text-gray-900 dark:text-slate-100">{plan.name}</span>
-                                                                    <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Plan Özellikleri</span>
-                                                                </div>
-                                                                {selectedItems.some(item => item.platform === tempPlatform.slug && item.plan === plan.name) && (
-                                                                    <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
-                                                                )}
-                                                            </CommandItem>
-                                                        ))}
-                                                    </div>
                                                     <button
-                                                        onClick={() => setCurrentStep('platform')}
+                                                        onClick={() => setCurrentStep('actions')}
                                                         className="mt-4 w-full p-2 text-xs text-blue-600 dark:text-blue-400 hover:underline"
                                                     >
-                                                        ← Platform Seçimine Dön
+                                                        ← İşlemlere Dön
                                                     </button>
                                                 </CommandGroup>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {tempPlatform && (!tempPlatform.plans || tempPlatform.plans.length === 0) && (
+                                                        <CommandEmpty className="py-12 text-center">
+                                                            <div className="flex flex-col items-center gap-3">
+                                                                <div className="h-12 w-12 rounded-full bg-gray-50 dark:bg-white/5 flex items-center justify-center">
+                                                                    <Search className="h-6 w-6 text-gray-300" />
+                                                                </div>
+                                                                <p className="text-sm text-gray-500">
+                                                                    Paket bulunamadı.
+                                                                </p>
+                                                            </div>
+                                                        </CommandEmpty>
+                                                    )}
+                                                    <CommandGroup heading={`${tempPlatform?.name} Paketi Seçin`} className="p-3">
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                            {tempPlatform?.plans?.map((plan) => (
+                                                                <CommandItem
+                                                                    key={plan.id}
+                                                                    value={plan.slug}
+                                                                    onSelect={() => handlePlanSelect(plan.slug)}
+                                                                    className="rounded-2xl flex items-center gap-3 p-4 cursor-pointer aria-selected:bg-blue-500/10 dark:aria-selected:bg-blue-500/20 aria-selected:text-blue-600 dark:aria-selected:text-blue-400 transition-all border border-transparent hover:border-blue-500/20"
+                                                                >
+                                                                    <div className="flex flex-col">
+                                                                        <span className="font-bold text-gray-900 dark:text-slate-100">{plan.name}</span>
+                                                                        <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Plan Özellikleri</span>
+                                                                    </div>
+                                                                    {selectedItems.some(item => item.platform === tempPlatform.slug && item.plan === plan.name) && (
+                                                                        <Check className="h-5 w-5 text-blue-600 dark:text-blue-400 ml-auto" />
+                                                                    )}
+                                                                </CommandItem>
+                                                            ))}
+                                                        </div>
+                                                        <button
+                                                            onClick={() => setCurrentStep('platform')}
+                                                            className="mt-4 w-full p-2 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                                                        >
+                                                            ← Platform Seçimine Dön
+                                                        </button>
+                                                    </CommandGroup>
+                                                </>
                                             )}
                                         </CommandList>
                                     </CommandUI>
@@ -369,70 +461,6 @@ export default function Hero({
                             </Popover>
                         </div>
                     </GlassCard>
-
-                    {/* Quick Suggestions & Trust */}
-                    <div className="mt-12 flex flex-col items-center gap-8 animate-in fade-in duration-1000 delay-500">
-                        <div className="flex flex-wrap justify-center gap-3">
-                            <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 py-1.5 flex items-center gap-2">
-                                <Zap className="h-4 w-4 text-amber-500" />
-                                Hızlı Kıyasla:
-                            </span>
-                            {(() => {
-                                // Find plan slugs from platforms
-                                const suggestions = [
-                                    { a: { p: 'shopify', pl: 'Basic' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Basic) vs Ticimax (Advanced)' },
-                                    { a: { p: 'shopify', pl: 'Grow' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Grow) vs Ticimax (Advanced)' }
-                                ].map(s => {
-                                    const platformA = platforms.find(p => p.slug === s.a.p);
-                                    const platformB = platforms.find(p => p.slug === s.b.p);
-                                    const planA = platformA?.plans?.find(pl => pl.name === s.a.pl);
-                                    const planB = platformB?.plans?.find(pl => pl.name === s.b.pl);
-
-                                    if (!planA || !planB) return null;
-
-                                    return {
-                                        ...s,
-                                        items: [
-                                            { platform: s.a.p, plan: s.a.pl, planSlug: planA.slug },
-                                            { platform: s.b.p, plan: s.b.pl, planSlug: planB.slug }
-                                        ]
-                                    };
-                                }).filter(Boolean);
-
-                                return suggestions.map((s, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => {
-                                            if (s && s.items) {
-                                                setSelectedItems(s.items);
-                                                setSearchValue(s.label);
-                                            }
-                                        }}
-                                        className="px-4 py-2 rounded-full text-sm font-bold bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 transition-all border border-gray-200 dark:border-white/5 shadow-sm focus:outline-none"
-                                    >
-                                        {s?.label}
-                                    </button>
-                                ));
-                            })()}
-                        </div>
-
-                        <div className="flex items-center gap-8 pt-8 border-t border-gray-200/50 dark:border-white/5 w-full justify-center">
-                            <div className="flex items-center gap-2.5">
-                                <ShieldCheck className="h-5 w-5 text-green-500" />
-                                <span className="text-sm font-bold text-gray-600 dark:text-gray-400">Şeffaf Veri</span>
-                            </div>
-                            <div className="h-1.5 w-1.5 rounded-full bg-gray-300 dark:bg-gray-700" />
-                            <div className="flex items-center gap-2.5">
-                                <Globe className="h-5 w-5 text-blue-500" />
-                                <span className="text-sm font-bold text-gray-600 dark:text-gray-400">Global Standartlar</span>
-                            </div>
-                            <div className="h-1.5 w-1.5 rounded-full bg-gray-300 dark:bg-gray-700" />
-                            <div className="flex items-center gap-2.5">
-                                <BarChart3 className="h-5 w-5 text-violet-500" />
-                                <span className="text-sm font-bold text-gray-600 dark:text-gray-400">Anlık Analiz</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
