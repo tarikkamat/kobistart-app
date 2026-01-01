@@ -19,9 +19,9 @@ class CommentFactory extends Factory
         return [
             'user_id' => 1,
             'platform_id' => rand(1, 2),
-            'comment' => $this->faker->text(),
-            'rating' => $this->faker->randomFloat(1, 1, 5),
-            'status' => $this->faker->boolean(),
+            'comment' => \fake()->text(),
+            'rating' => \fake()->randomFloat(1, 1, 5),
+            'status' => \fake()->boolean(),
         ];
     }
 }
