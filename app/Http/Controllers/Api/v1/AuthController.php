@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Api\TokenService;
+use App\Enums\Role;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,10 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        if ($user->role !== Role::SUPER_ADMIN) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 

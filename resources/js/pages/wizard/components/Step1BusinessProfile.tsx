@@ -1,145 +1,166 @@
+import { WizardState } from '@/types/wizard';
+import WizardStep from './WizardStep';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import WizardStep from './WizardStep';
-import { WizardState } from '@/types/wizard';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { Building2, Rocket, Store } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface Step1BusinessProfileProps {
+interface Props {
     state: WizardState;
     updateState: (updates: Partial<WizardState>) => void;
 }
 
+const businessTypes = [
+    {
+        id: 'startup',
+        title: 'Yeni Girişim',
+        description: 'Henüz şirketleşme aşamasındayım',
+        icon: Rocket,
+    },
+    {
+        id: 'growing',
+        title: 'Büyüyen İşletme',
+        description: 'Mevcut işimi e-ticarete taşıyorum',
+        icon: Store,
+    },
+    {
+        id: 'enterprise',
+        title: 'Büyük Ölçekli',
+        description: 'Yüksek hacimli satış yapıyorum',
+        icon: Building2,
+    },
+];
+
 const sectors = [
-    'Moda & Giyim',
+    'Giyim & Moda',
     'Elektronik',
-    'Gıda & İçecek',
-    'Kozmetik & Kişisel Bakım',
-    'Kitap & Kırtasiye',
-    'Oyuncak & Hobi',
-    'Spor & Outdoor',
     'Ev & Yaşam',
-    'Mobilya & Dekorasyon',
-    'Sağlık & Wellness',
+    'Kozmetik',
+    'Gıda & İçecek',
     'Otomotiv',
     'Diğer',
 ];
 
-export default function Step1BusinessProfile({ state, updateState }: Step1BusinessProfileProps) {
-    const handleBusinessTypeChange = (value: string) => {
+export default function Step1BusinessProfile({ state, updateState }: Props) {
+    const handleUpdate = (field: keyof WizardState['businessProfile'], value: any) => {
         updateState({
             businessProfile: {
                 ...state.businessProfile,
-                businessType: value as 'startup' | 'growing' | 'enterprise',
+                [field]: value,
             },
         });
-    };
-
-    const handleBudgetChange = (values: number[]) => {
-        updateState({
-            businessProfile: {
-                ...state.businessProfile,
-                monthlyBudget: values[0],
-            },
-        });
-    };
-
-    const handleSectorChange = (value: string) => {
-        updateState({
-            businessProfile: {
-                ...state.businessProfile,
-                sector: value,
-            },
-        });
-    };
-
-    const formatBudget = (value: number) => {
-        return new Intl.NumberFormat('tr-TR', {
-            style: 'currency',
-            currency: 'TRY',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(value);
     };
 
     return (
         <WizardStep
             title="İşletme Profili"
-            description="İşletmeniz hakkında temel bilgileri paylaşın"
+            description="İşletmenizi en iyi tanımlayan seçenekleri belirleyin."
         >
             <div className="space-y-8">
                 {/* Business Type */}
-                <div className="space-y-4">
-                    <Label className="text-base font-semibold">İşletme Tipi</Label>
+                <div className="space-y-3">
+                    <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        İşletme Durumu
+                    </Label>
                     <RadioGroup
                         value={state.businessProfile.businessType || ''}
-                        onValueChange={handleBusinessTypeChange}
+                        onValueChange={(value) => handleUpdate('businessType', value)}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-4"
                     >
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="startup" id="startup" />
-                                <Label htmlFor="startup" className="flex-1 cursor-pointer font-normal">
-                                    Yeni girişim
-                                </Label>
-                            </div>
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="growing" id="growing" />
-                                <Label htmlFor="growing" className="flex-1 cursor-pointer font-normal">
-                                    Büyüyen işletme
-                                </Label>
-                            </div>
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="enterprise" id="enterprise" />
-                                <Label htmlFor="enterprise" className="flex-1 cursor-pointer font-normal">
-                                    Kurumsal / B2B
-                                </Label>
-                            </div>
-                        </div>
+                        {businessTypes.map((type) => {
+                            const isSelected = state.businessProfile.businessType === type.id;
+                            return (
+                                <div key={type.id}>
+                                    <RadioGroupItem
+                                        value={type.id}
+                                        id={type.id}
+                                        className="peer sr-only"
+                                    />
+                                    <Label
+                                        htmlFor={type.id}
+                                        className={cn(
+                                            "flex flex-col h-full cursor-pointer rounded-lg border-2 p-4 transition-all hover:border-gray-300 dark:hover:border-gray-700",
+                                            isSelected
+                                                ? "border-gray-900 bg-gray-50 dark:border-white dark:bg-gray-800"
+                                                : "border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900"
+                                        )}
+                                    >
+                                        <type.icon className={cn(
+                                            "mb-3 h-5 w-5",
+                                            isSelected ? "text-gray-900 dark:text-white" : "text-gray-400"
+                                        )} />
+                                        <span className={cn(
+                                            "font-semibold text-sm block mb-1",
+                                            isSelected ? "text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-300"
+                                        )}>
+                                            {type.title}
+                                        </span>
+                                        <span className="text-xs text-gray-500 dark:text-gray-400 leading-snug">
+                                            {type.description}
+                                        </span>
+                                    </Label>
+                                </div>
+                            );
+                        })}
                     </RadioGroup>
                 </div>
 
-                {/* Monthly Budget */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <Label className="text-base font-semibold">Aylık Bütçe</Label>
-                        <span className="text-lg font-bold text-primary">
-                            {formatBudget(state.businessProfile.monthlyBudget)}
-                        </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    {/* Sector */}
+                    <div className="space-y-3">
+                        <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Sektör
+                        </Label>
+                        <Select
+                            value={state.businessProfile.sector || ''}
+                            onValueChange={(value) => handleUpdate('sector', value)}
+                        >
+                            <SelectTrigger className="h-10 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+                                <SelectValue placeholder="Sektör Seçiniz" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {sectors.map((sector) => (
+                                    <SelectItem key={sector} value={sector.toLowerCase()}>
+                                        {sector}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <Slider
-                        value={[state.businessProfile.monthlyBudget]}
-                        onValueChange={handleBudgetChange}
-                        min={0}
-                        max={50000}
-                        step={500}
-                        className="w-full"
-                    />
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>₺0</span>
-                        <span>₺50.000+</span>
-                    </div>
-                </div>
 
-                {/* Sector */}
-                <div className="space-y-4">
-                    <Label htmlFor="sector" className="text-base font-semibold">
-                        Sektör
-                    </Label>
-                    <Select
-                        value={state.businessProfile.sector || ''}
-                        onValueChange={handleSectorChange}
-                    >
-                        <SelectTrigger id="sector" className="w-full">
-                            <SelectValue placeholder="Sektör seçin" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {sectors.map((sector) => (
-                                <SelectItem key={sector} value={sector}>
-                                    {sector}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    {/* Budget */}
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Aylık Bütçe Beklentisi
+                            </Label>
+                            <span className="text-sm font-bold text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">
+                                ${state.businessProfile.monthlyBudget}
+                            </span>
+                        </div>
+                        <div className="px-1">
+                            <Slider
+                                value={[state.businessProfile.monthlyBudget]}
+                                min={20}
+                                max={500}
+                                step={10}
+                                onValueChange={(value) => handleUpdate('monthlyBudget', value[0])}
+                                className="py-2"
+                            />
+                        </div>
+                        <div className="flex justify-between text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+                            <span>$20</span>
+                            <span>$500+</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </WizardStep>

@@ -381,16 +381,15 @@ export default function Hero({
                                 // Find plan slugs from platforms
                                 const suggestions = [
                                     { a: { p: 'shopify', pl: 'Basic' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Basic) vs Ticimax (Advanced)' },
-                                    { a: { p: 'shopify', pl: 'Grow' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Grow) vs Ticimax (Advanced)' },
-                                    { a: { p: 'shopify', pl: 'Plus' }, b: { p: 'ticimax', pl: 'Premier' }, label: 'Shopify (Plus) vs Ticimax (Premier)' }
+                                    { a: { p: 'shopify', pl: 'Grow' }, b: { p: 'ticimax', pl: 'Advanced' }, label: 'Shopify (Grow) vs Ticimax (Advanced)' }
                                 ].map(s => {
                                     const platformA = platforms.find(p => p.slug === s.a.p);
                                     const platformB = platforms.find(p => p.slug === s.b.p);
                                     const planA = platformA?.plans?.find(pl => pl.name === s.a.pl);
                                     const planB = platformB?.plans?.find(pl => pl.name === s.b.pl);
-                                    
+
                                     if (!planA || !planB) return null;
-                                    
+
                                     return {
                                         ...s,
                                         items: [

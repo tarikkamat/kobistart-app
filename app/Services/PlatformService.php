@@ -40,6 +40,19 @@ class PlatformService extends BaseService
     }
 
     /**
+     * Get all active platforms with full details for wizard analysis.
+     * Includes platforms, plans, plan prices, and plan features.
+     *
+     * @return Collection<int, \App\Models\Platform>
+     */
+    public function getAllPlatformsWithDetails(): Collection
+    {
+        /** @var PlatformRepository $repository */
+        $repository = $this->repository;
+        return $repository->getAllPlatformsWithDetails();
+    }
+
+    /**
      * Get paginated comments for a platform.
      *
      * @param int $platformId

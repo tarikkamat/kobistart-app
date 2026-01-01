@@ -16,4 +16,13 @@ enum Role: string
             self::SUPER_ADMIN => 'Super Admin',
         };
     }
+
+    public function value(): string
+    {
+        return match ($this) {
+            self::USER => 'user',
+            self::AGENCY => 'agency',
+            self::SUPER_ADMIN => 'super_admin',
+        };
+    }
 }

@@ -6,23 +6,27 @@ interface WizardStepProps {
     description?: string;
 }
 
-export default function WizardStep({ 
-    title, 
-    description, 
-    children 
+export default function WizardStep({
+    title,
+    description,
+    children
 }: PropsWithChildren<WizardStepProps>) {
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-2xl">{title}</CardTitle>
+        <div className="space-y-6 animate-in slide-in-from-right-4 fade-in duration-300">
+            <div className="space-y-1">
+                <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    {title}
+                </h2>
                 {description && (
-                    <CardDescription className="text-base">{description}</CardDescription>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {description}
+                    </p>
                 )}
-            </CardHeader>
-            <CardContent className="space-y-6">
+            </div>
+            <div className="pt-2">
                 {children}
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }
 

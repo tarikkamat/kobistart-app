@@ -60,6 +60,32 @@ class PlatformRepository extends BaseRepository
     }
 
     /**
+     * Get all active platforms with full details for wizard analysis.
+     * Includes platforms, plans, plan prices, and plan features.
+     *
+     * @return Collection<int, Platform>
+     */
+    public function getAllPlatformsWithDetails(): Collection
+    {
+        return $this->model
+            ->where('status', true)
+            ->with([
+                'plans' => function ($query) {
+                    $query->where('status', true)
+                        ->orderBy('order')
+                        ->with([
+                            'planPrices',
+                            'planFeatures.feature' => function ($q) {
+                                $q->orderBy('order');
+                            }
+                        ]);
+                }
+            ])
+            ->orderBy('order')
+            ->get();
+    }
+
+    /**
      * Get paginated comments for a platform.
      *
      * @param int $platformId

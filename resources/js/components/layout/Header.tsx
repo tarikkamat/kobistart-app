@@ -15,8 +15,6 @@ import {
     Menu,
     User,
     X,
-    HelpCircle,
-    GitCompare,
     Building2,
     ShoppingBag,
     Sparkles
@@ -27,6 +25,7 @@ import { dashboard, login, logout, register } from '@/routes';
 import { index as favoritesIndex } from '@/routes/favorites/index';
 import { index as platformsIndex } from '@/routes/platforms/index';
 import { index as plansIndex } from '@/routes/plans/index';
+import { index as wizardIndex } from '@/routes/wizard/index';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,7 +52,7 @@ export default function Header() {
     const navLinks = [
         { name: 'Tüm Platformlar', href: platformsIndex.url(), icon: Building2 },
         { name: 'E-Ticaret Planları', href: plansIndex.url(), icon: ShoppingBag },
-        { name: 'Plan Öneri Sihirbazı', href: plansIndex.url(), icon: Sparkles, highlighted: true },
+        { name: 'Plan Öneri Sihirbazı', href: wizardIndex.url(), icon: Sparkles, highlighted: true },
     ];
 
     return (

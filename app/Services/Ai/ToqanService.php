@@ -33,6 +33,13 @@ class ToqanService implements AiServiceInterface
         $apiKey = $this->config['api_key'] ?? null;
         $baseUrl = $this->config['base_url'] ?? 'https://api.coco.prod.toqan.ai';
 
+        // Log the message being sent
+        Log::info('Toqan API request', [
+            'provider' => 'toqan',
+            'message_length' => strlen($message),
+            'base_url' => $baseUrl,
+        ]);
+
         if (! $apiKey) {
             return [
                 'success' => false,
@@ -78,15 +85,38 @@ class ToqanService implements AiServiceInterface
                 ];
             }
 
-            // Step 2: Get answer (with retry mechanism for async processing)
-            $maxRetries = 10;
-            $retryDelay = 2; // seconds
+            // Step 2: Get answer (wait until finished)
+            $retryDelay = 3; // seconds between retries
+            $maxWaitTime = 300; // Maximum 5 minutes total wait time
+            $startTime = time();
             $answer = null;
             $answerData = null;
+            $attempt = 0;
 
-            for ($attempt = 0; $attempt < $maxRetries; $attempt++) {
+            Log::info('Toqan API - Starting answer retrieval', [
+                'provider' => 'toqan',
+                'conversation_id' => $conversationId,
+                'request_id' => $requestId,
+                'max_wait_time' => $maxWaitTime,
+            ]);
+
+            while (true) {
+                $attempt++;
+                $elapsedTime = time() - $startTime;
+
+                // Check if we've exceeded maximum wait time
+                if ($elapsedTime >= $maxWaitTime) {
+                    Log::warning('Toqan API - Maximum wait time exceeded', [
+                        'provider' => 'toqan',
+                        'attempts' => $attempt,
+                        'elapsed_time' => $elapsedTime,
+                        'max_wait_time' => $maxWaitTime,
+                    ]);
+                    break;
+                }
+
                 // Wait before retry (except for first attempt)
-                if ($attempt > 0) {
+                if ($attempt > 1) {
                     sleep($retryDelay);
                 }
 
@@ -101,38 +131,99 @@ class ToqanService implements AiServiceInterface
 
                 if ($answerResponse->successful()) {
                     $answerData = $answerResponse->json();
-                    // Try different possible response field names
-                    $answer = $answerData['answer']
-                        ?? $answerData['response']
-                        ?? $answerData['message']
-                        ?? $answerData['content']
-                        ?? $answerData['text']
-                        ?? null;
+                    $status = $answerData['status'] ?? null;
 
-                    // If we got an answer, break the loop
-                    if ($answer !== null && $answer !== '') {
+                    // conversation_id and request_id Log
+                    Log::info('Toqan API - Conversation ID and Request ID', [
+                        'provider' => 'toqan',
+                        'conversation_id' => $conversationId,
+                        'request_id' => $requestId,
+                    ]);
+
+                    // Log every 5 attempts to avoid log spam
+                    if ($attempt % 5 === 0 || $status === 'finished') {
+                        Log::info('Toqan API - Answer response received', [
+                            'provider' => 'toqan',
+                            'attempt' => $attempt,
+                            'status' => $status,
+                            'has_answer' => isset($answerData['answer']),
+                            'elapsed_time' => $elapsedTime,
+                        ]);
+                    }
+
+                    // Check if status is finished
+                    if ($status === 'finished') {
+                        // Try different possible response field names
+                        $answer = $answerData['answer']
+                            ?? $answerData['response']
+                            ?? $answerData['message']
+                            ?? $answerData['content']
+                            ?? $answerData['text']
+                            ?? null;
+
+                        // If we got an answer, break the loop
+                        if ($answer !== null && $answer !== '') {
+                            Log::info('Toqan API - Answer received successfully', [
+                                'provider' => 'toqan',
+                                'attempt' => $attempt,
+                                'answer_length' => strlen($answer),
+                                'elapsed_time' => $elapsedTime,
+                            ]);
+                            break;
+                        } else {
+                            // Status is finished but no answer - this is an error
+                            Log::warning('Toqan API - Status finished but no answer field', [
+                                'provider' => 'toqan',
+                                'attempt' => $attempt,
+                                'answer_data' => $answerData,
+                            ]);
+                            break;
+                        }
+                    }
+
+                    // If status is still processing, continue retrying
+                    if (in_array($status, ['processing', 'pending', 'in_progress'])) {
+                        continue;
+                    }
+
+                    // If status is something else (error, failed, etc.), break
+                    if (!in_array($status, ['processing', 'pending', 'in_progress', 'finished'])) {
+                        Log::warning('Toqan API - Unexpected status', [
+                            'provider' => 'toqan',
+                            'attempt' => $attempt,
+                            'status' => $status,
+                            'answer_data' => $answerData,
+                        ]);
                         break;
                     }
-                }
+                } else {
+                    // If answer is still processing (202 Accepted), continue retrying
+                    if ($answerResponse->status() === 202) {
+                        continue;
+                    }
 
-                // If answer is still processing (202 Accepted), continue retrying
-                if ($answerResponse->status() === 202) {
-                    continue;
-                }
-
-                // Check if response indicates processing status
-                $responseData = $answerResponse->json();
-                if (isset($responseData['status']) && in_array($responseData['status'], ['processing', 'pending', 'in_progress'])) {
-                    continue;
-                }
-
-                // If there's an error and it's not a processing status, break
-                if (! $answerResponse->successful() && $answerResponse->status() !== 202) {
+                    // If there's an error and it's not a processing status, break
+                    Log::warning('Toqan API - Request failed', [
+                        'provider' => 'toqan',
+                        'attempt' => $attempt,
+                        'status_code' => $answerResponse->status(),
+                        'response' => $answerResponse->body(),
+                    ]);
                     break;
                 }
             }
 
             if ($answer === null || $answer === '') {
+                Log::error('Toqan API - Failed to get answer', [
+                    'provider' => 'toqan',
+                    'conversation_id' => $conversationId,
+                    'request_id' => $requestId,
+                    'attempts' => $attempt,
+                    'elapsed_time' => time() - $startTime,
+                    'last_status' => $answerData['status'] ?? 'unknown',
+                    'answer_data' => $answerData,
+                ]);
+
                 return [
                     'success' => false,
                     'provider' => 'toqan',
@@ -143,6 +234,13 @@ class ToqanService implements AiServiceInterface
                     'answer_data' => $answerData,
                 ];
             }
+
+            Log::info('Toqan API - Successfully received answer', [
+                'provider' => 'toqan',
+                'conversation_id' => $conversationId,
+                'request_id' => $requestId,
+                'answer_length' => strlen($answer),
+            ]);
 
             return [
                 'success' => true,

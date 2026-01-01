@@ -7,11 +7,14 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\WizardController;
+use App\Http\Controllers\WizardAnalysisController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/wizard', [WizardController::class, 'index'])->name('wizard.index');
+Route::post('/wizard/analyze', [WizardController::class, 'analyze'])->name('wizard.analyze');
 Route::get('/wizard/result', [WizardController::class, 'result'])->name('wizard.result');
+Route::get('/wizard/analyses/{analysis}/pdf', [WizardController::class, 'downloadPdf'])->name('wizard.analyses.pdf');
 Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');
 Route::get('/platforms/{platform:slug}', [PlatformController::class, 'show'])->name('platforms.show');
@@ -29,6 +32,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/comparisons/check', [ComparisonController::class, 'check'])->name('comparisons.check');
     Route::get('/comparisons/{comparison}', [ComparisonController::class, 'show'])->name('comparisons.show');
     Route::delete('/comparisons/{comparison}', [ComparisonController::class, 'destroy'])->name('comparisons.destroy');
+
+    Route::get('/wizard/analyses', [WizardAnalysisController::class, 'index'])->name('wizard.analyses.index');
+    Route::get('/wizard/analyses/{analysis}', [WizardAnalysisController::class, 'show'])->name('wizard.analyses.show');
+    Route::delete('/wizard/analyses/{analysis}', [WizardAnalysisController::class, 'destroy'])->name('wizard.analyses.destroy');
 });
 
 require __DIR__ . '/auth.php';

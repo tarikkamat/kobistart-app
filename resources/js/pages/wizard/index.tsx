@@ -11,7 +11,7 @@ import Step5Review from './components/Step5Review';
 import LoadingScreen from './components/LoadingScreen';
 import { WizardState } from '@/types/wizard';
 import wizardRoutes from '@/routes/wizard';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 const TOTAL_STEPS = 5;
 
@@ -27,7 +27,10 @@ const initialWizardState: WizardState = {
         hasPhysicalStore: false,
         marketplaceSelling: false,
     },
-    featurePriorities: {},
+    featurePriorities: {
+        selectedFeatures: [],
+        priorities: {},
+    },
     technicalRequirements: {
         apiAccess: false,
         mobileApp: false,
@@ -74,10 +77,22 @@ export default function Wizard() {
 
     const handleSubmit = () => {
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            router.visit(wizardRoutes.result.url());
-        }, 4000);
+        
+        // Prepare data without step field
+        const { step, ...wizardData } = wizardState;
+        
+        router.post('/wizard/analyze', wizardData, {
+            onSuccess: () => {
+                // Navigation handled by backend redirect
+            },
+            onError: (errors) => {
+                setIsLoading(false);
+                console.error('Wizard analysis error:', errors);
+            },
+            onFinish: () => {
+                // Keep loading state until navigation completes
+            },
+        });
     };
 
     const canProceed = () => {
@@ -135,42 +150,64 @@ export default function Wizard() {
 
     return (
         <LandingLayout>
-            <Head title="Wizard - Platform Önerisi" />
-            <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <div className="space-y-8">
-                    {/* Progress */}
-                    <WizardProgress currentStep={wizardState.step} totalSteps={TOTAL_STEPS} />
+            <Head title="Platform Seçimi" />
 
-                    {/* Step Content */}
-                    <div className="min-h-[500px]">{renderStep()}</div>
+            <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950/50 py-12 lg:py-20">
+                <div className="container mx-auto px-4 max-w-2xl">
+                    {/* Header - Minimalist */}
+                    <div className="mb-8 text-center sm:text-left">
+                        <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+                            <Sparkles className="h-4 w-4 text-blue-600" />
+                            <span className="text-sm font-medium uppercase tracking-wider">E-Ticaret Asistanı</span>
+                        </div>
+                        <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            Sizin İçin En Uygun Platformu Bulalım
+                        </h1>
+                    </div>
 
-                    {/* Navigation */}
-                    <div className="flex items-center justify-between pt-4 border-t">
-                        <Button
-                            variant="outline"
-                            onClick={handlePrevious}
-                            disabled={wizardState.step === 1}
-                            className="gap-2"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                            Geri
-                        </Button>
+                    {/* Main Content Area */}
+                    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm overflow-hidden">
+                        {/* Progress Bar Area */}
+                        <div className="px-8 pt-8 pb-4 border-b border-gray-100 dark:border-gray-800/50">
+                            <WizardProgress currentStep={wizardState.step} totalSteps={TOTAL_STEPS} />
+                        </div>
 
-                        {wizardState.step < TOTAL_STEPS ? (
+                        {/* Step Content */}
+                        <div className="p-8 min-h-[400px]">
+                            {renderStep()}
+                        </div>
+
+                        {/* Footer / Navigation */}
+                        <div className="px-8 py-6 bg-gray-50/50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
                             <Button
-                                onClick={handleNext}
-                                disabled={!canProceed()}
-                                className="gap-2"
+                                variant="ghost"
+                                onClick={handlePrevious}
+                                disabled={wizardState.step === 1}
+                                className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                             >
-                                İleri
-                                <ChevronRight className="h-4 w-4" />
+                                <ChevronLeft className="h-4 w-4 mr-1" />
+                                Geri
                             </Button>
-                        ) : (
-                            <Button onClick={handleSubmit} className="gap-2">
-                                Platformumu Bul
-                                <ChevronRight className="h-4 w-4" />
-                            </Button>
-                        )}
+
+                            {wizardState.step < TOTAL_STEPS ? (
+                                <Button
+                                    onClick={handleNext}
+                                    disabled={!canProceed()}
+                                    className="px-6 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    Devam Et
+                                    <ChevronRight className="h-4 w-4 ml-1" />
+                                </Button>
+                            ) : (
+                                <Button
+                                    onClick={handleSubmit}
+                                    className="px-6 bg-blue-600 text-white hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors shadow-sm"
+                                >
+                                    Analizi Tamamla
+                                    <ChevronRight className="h-4 w-4 ml-1" />
+                                </Button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

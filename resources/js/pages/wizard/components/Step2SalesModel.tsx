@@ -1,38 +1,43 @@
+import { WizardState, SalesModel } from '@/types/wizard';
+import WizardStep from './WizardStep';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Toggle } from '@/components/ui/toggle';
-import WizardStep from './WizardStep';
-import { WizardState } from '@/types/wizard';
+import { Switch } from '@/components/ui/switch';
+import { Briefcase, ShoppingBag, Store, Globe } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface Step2SalesModelProps {
+interface Props {
     state: WizardState;
     updateState: (updates: Partial<WizardState>) => void;
 }
 
-export default function Step2SalesModel({ state, updateState }: Step2SalesModelProps) {
-    const handleModelChange = (value: string) => {
-        updateState({
-            salesModel: {
-                ...state.salesModel,
-                model: value as 'b2c' | 'b2b' | 'both',
-            },
-        });
-    };
+const salesModels = [
+    {
+        id: 'b2c',
+        title: 'B2C (Perakende)',
+        description: 'Son tüketiciye satış',
+        icon: ShoppingBag,
+    },
+    {
+        id: 'b2b',
+        title: 'B2B (Toptan)',
+        description: 'Kurumsal satış',
+        icon: Briefcase,
+    },
+    {
+        id: 'both',
+        title: 'Hibrit',
+        description: 'Hem perakende hem toptan',
+        icon: Globe,
+    },
+];
 
-    const handlePhysicalStoreChange = (pressed: boolean) => {
+export default function Step2SalesModel({ state, updateState }: Props) {
+    const handleUpdate = (field: keyof SalesModel, value: any) => {
         updateState({
             salesModel: {
                 ...state.salesModel,
-                hasPhysicalStore: pressed,
-            },
-        });
-    };
-
-    const handleMarketplaceChange = (pressed: boolean) => {
-        updateState({
-            salesModel: {
-                ...state.salesModel,
-                marketplaceSelling: pressed,
+                [field]: value,
             },
         });
     };
@@ -40,67 +45,87 @@ export default function Step2SalesModel({ state, updateState }: Step2SalesModelP
     return (
         <WizardStep
             title="Satış Modeli"
-            description="Satış yapınız hakkında bilgi verin"
+            description="İş modelinizi belirleyin."
         >
             <div className="space-y-8">
                 {/* Sales Model */}
-                <div className="space-y-4">
-                    <Label className="text-base font-semibold">Satış Tipi</Label>
+                <div className="space-y-3">
+                    <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Satış Yöntemi
+                    </Label>
                     <RadioGroup
                         value={state.salesModel.model || ''}
-                        onValueChange={handleModelChange}
+                        onValueChange={(value) => handleUpdate('model', value)}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-4"
                     >
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="b2c" id="b2c" />
-                                <Label htmlFor="b2c" className="flex-1 cursor-pointer font-normal">
-                                    B2C (Bireysel Müşteriler)
-                                </Label>
-                            </div>
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="b2b" id="b2b" />
-                                <Label htmlFor="b2b" className="flex-1 cursor-pointer font-normal">
-                                    B2B (Kurumsal Müşteriler)
-                                </Label>
-                            </div>
-                            <div className="flex items-center space-x-3 rounded-lg border p-4 hover:bg-accent transition-colors">
-                                <RadioGroupItem value="both" id="both" />
-                                <Label htmlFor="both" className="flex-1 cursor-pointer font-normal">
-                                    Her İkisi
-                                </Label>
-                            </div>
-                        </div>
+                        {salesModels.map((model) => {
+                            const isSelected = state.salesModel.model === model.id;
+                            return (
+                                <div key={model.id}>
+                                    <RadioGroupItem
+                                        value={model.id}
+                                        id={model.id}
+                                        className="peer sr-only"
+                                    />
+                                    <Label
+                                        htmlFor={model.id}
+                                        className={cn(
+                                            "flex flex-col h-full cursor-pointer rounded-lg border-2 p-4 transition-all hover:border-gray-300 dark:hover:border-gray-700",
+                                            isSelected
+                                                ? "border-gray-900 bg-gray-50 dark:border-white dark:bg-gray-800"
+                                                : "border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900"
+                                        )}
+                                    >
+                                        <model.icon className={cn(
+                                            "mb-3 h-5 w-5",
+                                            isSelected ? "text-gray-900 dark:text-white" : "text-gray-400"
+                                        )} />
+                                        <span className={cn(
+                                            "font-semibold text-sm block mb-1",
+                                            isSelected ? "text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-300"
+                                        )}>
+                                            {model.title}
+                                        </span>
+                                        <span className="text-xs text-gray-500 dark:text-gray-400 leading-snug">
+                                            {model.description}
+                                        </span>
+                                    </Label>
+                                </div>
+                            );
+                        })}
                     </RadioGroup>
                 </div>
 
-                {/* Physical Store */}
-                <div className="space-y-4">
-                    <Label className="text-base font-semibold">Fiziksel Mağaza</Label>
-                    <div className="flex items-center justify-between rounded-lg border p-4">
-                        <Label htmlFor="physical-store" className="cursor-pointer font-normal">
-                            Fiziksel mağazam var
-                        </Label>
-                        <Toggle
-                            id="physical-store"
-                            pressed={state.salesModel.hasPhysicalStore}
-                            onPressedChange={handlePhysicalStoreChange}
-                            aria-label="Fiziksel mağaza"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex items-center justify-between p-4 rounded-lg border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <div className="space-y-0.5">
+                            <Label className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <Store className="h-4 w-4 text-gray-500" />
+                                Fiziksel Mağaza
+                            </Label>
+                            <p className="text-xs text-gray-500">
+                                Halihazırda mağazanız var mı?
+                            </p>
+                        </div>
+                        <Switch
+                            checked={state.salesModel.hasPhysicalStore}
+                            onCheckedChange={(checked) => handleUpdate('hasPhysicalStore', checked)}
                         />
                     </div>
-                </div>
 
-                {/* Marketplace Selling */}
-                <div className="space-y-4">
-                    <Label className="text-base font-semibold">Pazaryeri Satışı</Label>
-                    <div className="flex items-center justify-between rounded-lg border p-4">
-                        <Label htmlFor="marketplace" className="cursor-pointer font-normal">
-                            Pazaryerlerinde satış yapıyorum/yapmak istiyorum
-                        </Label>
-                        <Toggle
-                            id="marketplace"
-                            pressed={state.salesModel.marketplaceSelling}
-                            onPressedChange={handleMarketplaceChange}
-                            aria-label="Pazaryeri satışı"
+                    <div className="flex items-center justify-between p-4 rounded-lg border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
+                        <div className="space-y-0.5">
+                            <Label className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <Globe className="h-4 w-4 text-gray-500" />
+                                Pazaryeri Satışı
+                            </Label>
+                            <p className="text-xs text-gray-500">
+                                Trendyol, Hepsiburada vb.
+                            </p>
+                        </div>
+                        <Switch
+                            checked={state.salesModel.sellsOnMarketplaces}
+                            onCheckedChange={(checked) => handleUpdate('sellsOnMarketplaces', checked)}
                         />
                     </div>
                 </div>
