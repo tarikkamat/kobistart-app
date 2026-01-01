@@ -99,5 +99,35 @@ class WizardAnalysisRepository extends BaseRepository
             ->with(['platform', 'plan', 'user'])
             ->find($id);
     }
+
+    /**
+     * Get latest analysis for session.
+     *
+     * @param string $sessionId
+     * @return WizardAnalysis|null
+     */
+    public function getLatestBySessionId(string $sessionId): ?WizardAnalysis
+    {
+        return $this->model
+            ->where('session_id', $sessionId)
+            ->whereNull('deleted_at')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
+    /**
+     * Get latest analysis for user.
+     *
+     * @param int $userId
+     * @return WizardAnalysis|null
+     */
+    public function getLatestByUserId(int $userId): ?WizardAnalysis
+    {
+        return $this->model
+            ->where('user_id', $userId)
+            ->whereNull('deleted_at')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }
 

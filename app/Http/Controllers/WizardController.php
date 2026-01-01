@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WizardAnalyzeRequest;
+use App\Jobs\ProcessWizardAnalysis;
 use App\Models\WizardAnalysis;
 use App\Services\Ai\AiServiceFactory;
 use App\Services\PdfService;
@@ -10,6 +11,7 @@ use App\Services\PlatformService;
 use App\Services\WizardAnalysisService;
 use App\Services\WizardService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -44,6 +46,7 @@ class WizardController extends Controller
 
     /**
      * Analyze wizard data and return platform recommendations.
+     * Now uses queue for async processing.
      *
      * @param WizardAnalyzeRequest $request
      * @return Response|RedirectResponse
@@ -53,61 +56,116 @@ class WizardController extends Controller
         try {
             $wizardData = $request->validated();
 
-            // Get all platforms with full details
-            $platforms = $this->platformService->getAllPlatformsWithDetails();
+            // Dispatch job to queue
+            $userId = Auth::id();
+            $sessionId = session()->getId();
 
-            if ($platforms->isEmpty()) {
-                return redirect()->route('wizard.index')
-                    ->withErrors(['error' => 'Hiçbir aktif platform bulunamadı.']);
-            }
+            ProcessWizardAnalysis::dispatch($wizardData, $userId, $sessionId);
 
-            // Prepare agent prompt
-            $prompt = $this->wizardService->prepareAgentPrompt($wizardData, $platforms);
+            Log::info('Wizard analysis job dispatched', [
+                'user_id' => $userId,
+                'session_id' => $sessionId,
+            ]);
 
-            // Get AI service and send message
-            $aiService = $this->aiServiceFactory->create();
-            $response = $aiService->sendMessage($prompt);
-
-            if (!$response['success'] || !isset($response['response'])) {
-                Log::error('AI service failed', [
-                    'error' => $response['error'] ?? 'Unknown error',
-                    'response' => $response,
-                ]);
-
-                return redirect()->route('wizard.index')
-                    ->withErrors(['error' => 'Analiz sırasında bir hata oluştu. Lütfen tekrar deneyin.']);
-            }
-
-            // Format agent response
-            $result = $this->wizardService->formatAgentResponse($response['response'], $platforms);
-
-            // Save analysis
-            $analysis = $this->wizardAnalysisService->saveAnalysis($wizardData, $result);
-
-            // Render result page
-            return Inertia::render('wizard/result', [
-                'result' => $result,
-                'analysisId' => $analysis->id,
+            // Redirect to processing page
+            return Inertia::render('wizard/processing', [
+                'sessionId' => $sessionId,
             ]);
         } catch (\Exception $e) {
-            Log::error('Wizard analysis error', [
+            Log::error('Wizard analysis dispatch error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
             return redirect()->route('wizard.index')
-                ->withErrors(['error' => 'Analiz sırasında beklenmeyen bir hata oluştu.']);
+                ->withErrors(['error' => 'Analiz başlatılırken bir hata oluştu.']);
         }
+    }
+
+    /**
+     * Check if analysis is ready (polling endpoint).
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkAnalysis(Request $request)
+    {
+        $sessionId = $request->input('session_id') ?? session()->getId();
+        $userId = Auth::id();
+
+        /** @var \App\Repository\WizardAnalysisRepository $repository */
+        $repository = app(\App\Repository\WizardAnalysisRepository::class);
+
+        $analysis = $userId
+            ? $repository->getLatestByUserId($userId)
+            : $repository->getLatestBySessionId($sessionId);
+
+        if (!$analysis) {
+            return response()->json([
+                'ready' => false,
+                'message' => 'Analiz henüz hazır değil.',
+            ]);
+        }
+
+        // Check if analysis has result (job completed)
+        if (empty($analysis->analysis_result)) {
+            return response()->json([
+                'ready' => false,
+                'message' => 'Analiz işleniyor...',
+            ]);
+        }
+
+        // Check if analysis was created in the last 10 minutes (to avoid old analyses)
+        $tenMinutesAgo = now()->subMinutes(10);
+        if ($analysis->created_at->lt($tenMinutesAgo)) {
+            return response()->json([
+                'ready' => false,
+                'message' => 'Analiz bulunamadı.',
+            ]);
+        }
+
+        return response()->json([
+            'ready' => true,
+            'analysisId' => $analysis->id,
+            'result' => $analysis->analysis_result,
+        ]);
     }
 
     /**
      * Display the wizard result page.
      *
-     * @return Response
+     * @param Request $request
+     * @return Response|RedirectResponse
      */
-    public function result()
+    public function result(Request $request)
     {
-        return Inertia::render('wizard/result');
+        $analysisId = $request->input('analysisId');
+
+        if ($analysisId) {
+            $analysis = $this->wizardAnalysisService->getAnalysis((int) $analysisId);
+
+            if (!$analysis || empty($analysis->analysis_result)) {
+                return redirect()->route('wizard.index')
+                    ->withErrors(['error' => 'Analiz bulunamadı veya henüz tamamlanmadı.']);
+            }
+
+            return Inertia::render('wizard/result', [
+                'result' => $analysis->analysis_result,
+                'analysisId' => $analysis->id,
+            ]);
+        }
+
+        // If no analysisId, check if result is passed directly (for backward compatibility)
+        $result = $request->input('result');
+        if ($result) {
+            return Inertia::render('wizard/result', [
+                'result' => is_string($result) ? json_decode($result, true) : $result,
+                'analysisId' => $request->input('analysisId'),
+            ]);
+        }
+
+        return redirect()->route('wizard.index')
+            ->withErrors(['error' => 'Analiz sonucu bulunamadı.']);
     }
 
     /**
@@ -120,7 +178,7 @@ class WizardController extends Controller
     {
         // Check if user has access to this analysis
         $accessibleAnalysis = $this->wizardAnalysisService->getAnalysis($analysis->id);
-        
+
         if (!$accessibleAnalysis || $accessibleAnalysis->id !== $analysis->id) {
             return redirect()->route('wizard.index')
                 ->withErrors(['error' => 'Analiz bulunamadı veya erişim yetkiniz yok.']);
