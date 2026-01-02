@@ -14,6 +14,8 @@ import { index as favoritesIndex } from '@/routes/favorites/index';
 import { index as plansIndex } from '@/routes/plans/index';
 import { index as platformsIndex } from '@/routes/platforms/index';
 import { index as wizardIndex } from '@/routes/wizard/index';
+import { index as campaignsIndex } from '@/routes/campaigns/index';
+import { index as growBusinessIndex } from '@/routes/grow-business/index';
 import { type SharedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import {
@@ -113,12 +115,12 @@ export default function Header() {
         },
         {
             name: 'Kampanyalar',
-            href: "/kampanyalar",
+            href: campaignsIndex.url(),
             icon: Percent,
         },
         {
             name: 'İşinizi Büyütün',
-            href: "#",
+            href: growBusinessIndex.url(),
             icon: Rocket,
         }
 

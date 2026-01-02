@@ -1,8 +1,9 @@
 import LandingLayout from '@/layouts/LandingLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 interface Campaign {
     id: number;
+    slug: string;
     title: string;
     description: string;
     image: string;
@@ -11,65 +12,11 @@ interface Campaign {
     discount: string;
 }
 
-export default function Campaigns() {
-    // Dummy campaigns data tailored for SaaS/Software sector
-    const campaigns: Campaign[] = [
-        {
-            id: 1,
-            title: 'Yıllık Pro Plan İndirimi',
-            description: 'Yıllık ödemelerde %20 indirim fırsatını kaçırmayın. Kobilerinizi dijitalleştirirken tasarruf edin.',
-            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'Abonelik',
-            validUntil: '31 Aralık 2026',
-            discount: '%20 İndirim',
-        },
-        {
-            id: 2,
-            title: 'Yeni Girişimci Desteği',
-            description: 'İşletmenizi yeni kurduysanız, ilk 3 ay başlangıç paketi bizden hediye.',
-            image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'Startup',
-            validUntil: 'Süresiz',
-            discount: '3 Ay Ücretsiz',
-        },
-        {
-            id: 3,
-            title: 'E-Fatura Entegrasyon Fırsatı',
-            description: 'Muhasebe yazılımı alan herkese e-fatura entegrasyonu ücretsiz kurulum.',
-            image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'Entegrasyon',
-            validUntil: '15 Şubat 2026',
-            discount: 'Ücretsiz Kurulum',
-        },
-        {
-            id: 4,
-            title: 'Referans Bonus Kampanyası',
-            description: 'KobiStart\'ı önerdiğiniz her işletme için 1 ay ücretsiz kullanım hakkı kazanın.',
-            image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'Referans',
-            validUntil: 'Sürekli',
-            discount: '1 Ay Hediye',
-        },
-        {
-            id: 5,
-            title: 'Teknoloji Dönüşüm Paketi',
-            description: 'ERP ve CRM paketlerini birlikte alımlarda ekstra %15 indirim uyguluyoruz.',
-            image: 'https://images.unsplash.com/photo-1504384308090-c54be3853247?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'Bundle',
-            validUntil: '30 Mart 2026',
-            discount: 'Ekstra %15',
-        },
-        {
-            id: 6,
-            title: 'Sezon Sonu Web Sitesi Kampanyası',
-            description: 'E-ticaret sitenizi şimdi açın, ödemeye 3 ay sonra başlayın.',
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            category: 'E-Ticaret',
-            validUntil: '1 Eylül 2026',
-            discount: '3 Ay Erteleme',
-        },
-    ];
+interface Props {
+    campaigns: Campaign[];
+}
 
+export default function Campaigns({ campaigns }: Props) {
     return (
         <LandingLayout>
             <Head title="Kampanyalar - KobiStart" />
@@ -97,9 +44,10 @@ export default function Campaigns() {
                     {/* Campaigns Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {campaigns.map((campaign) => (
-                            <div
+                            <Link
+                                href={`/kampanyalar/${campaign.slug}`}
                                 key={campaign.id}
-                                className="group relative rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-white dark:hover:bg-white/10 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1"
+                                className="group relative rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-white dark:hover:bg-white/10 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 block"
                             >
                                 <div className="aspect-w-16 aspect-h-9 w-full overflow-hidden">
                                     <img
@@ -130,7 +78,7 @@ export default function Campaigns() {
                                         {campaign.description}
                                     </p>
 
-                                    <button className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3">
+                                    <div className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3">
                                         Detaylı İncele
                                         <svg
                                             className="w-4 h-4 transition-all"
@@ -140,9 +88,9 @@ export default function Campaigns() {
                                         >
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                         </svg>
-                                    </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

@@ -8,6 +8,7 @@ require __DIR__ . '/web/wizard.php';
 require __DIR__ . '/web/plans.php';
 require __DIR__ . '/web/platforms.php';
 require __DIR__ . '/web/campaigns.php';
+require __DIR__ . '/web/grow-business.php';
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
