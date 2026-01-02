@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateFilterItemRequest;
-use App\Http\Requests\UpdateFilterItemRequest;
+use App\Http\Requests\Filter\CreateFilterItemRequest;
+use App\Http\Requests\Filter\UpdateFilterItemRequest;
 use App\Services\FilterItemService;
 use Illuminate\Http\JsonResponse;
 

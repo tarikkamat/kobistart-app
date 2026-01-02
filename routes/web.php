@@ -1,44 +1,19 @@
 <?php
 
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ComparisonController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PlanController;
-use App\Http\Controllers\PlatformController;
-use App\Http\Controllers\WizardAnalysisController;
-use App\Http\Controllers\WizardController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/wizard', [WizardController::class, 'index'])->name('wizard.index');
-Route::post('/wizard/analyze', [WizardController::class, 'analyze'])->name('wizard.analyze');
-Route::get('/wizard/check-analysis', [WizardController::class, 'checkAnalysis'])->name('wizard.checkAnalysis');
-Route::get('/wizard/result', [WizardController::class, 'result'])->name('wizard.result');
-Route::get('/wizard/analyses/{analysis}/pdf', [WizardController::class, 'downloadPdf'])->name('wizard.analyses.pdf');
-Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
-Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');
-Route::get('/platforms/{platform:slug}', [PlatformController::class, 'show'])->name('platforms.show');
-Route::get('/platforms/{platform:slug}/{plan:slug}',
-    [PlatformController::class, 'planShow'])->name('platforms.plans.show');
-Route::get('/compare/{comparison}', [PlatformController::class, 'compare'])->name('platforms.compare');
-Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth'])->name('comments.store');
+// Public routes
+require __DIR__.'/web/home.php';
+require __DIR__.'/web/wizard.php';
+require __DIR__.'/web/plans.php';
+require __DIR__.'/web/platforms.php';
 
+// Authenticated routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-    Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::delete('/favorites', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-
-    Route::post('/comparisons', [ComparisonController::class, 'store'])->name('comparisons.store');
-    Route::get('/comparisons', [ComparisonController::class, 'index'])->name('comparisons.index');
-    Route::get('/comparisons/check', [ComparisonController::class, 'check'])->name('comparisons.check');
-    Route::get('/comparisons/{comparison}', [ComparisonController::class, 'show'])->name('comparisons.show');
-    Route::delete('/comparisons/{comparison}', [ComparisonController::class, 'destroy'])->name('comparisons.destroy');
-
-    Route::get('/wizard/analyses', [WizardAnalysisController::class, 'index'])->name('wizard.analyses.index');
-    Route::get('/wizard/analyses/{analysis}', [WizardAnalysisController::class, 'show'])->name('wizard.analyses.show');
-    Route::delete('/wizard/analyses/{analysis}',
-        [WizardAnalysisController::class, 'destroy'])->name('wizard.analyses.destroy');
+    require __DIR__.'/web/comments.php';
+    require __DIR__.'/web/favorites.php';
+    require __DIR__.'/web/comparisons.php';
+    require __DIR__.'/web/wizard-analyses.php';
 });
 
 require __DIR__.'/auth.php';

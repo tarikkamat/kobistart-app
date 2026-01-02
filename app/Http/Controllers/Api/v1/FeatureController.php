@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateFeatureRequest;
-use App\Http\Requests\UpdateFeatureRequest;
-use App\Services\FeatureService;
+use App\Http\Requests\Feature\CreateFeatureRequest;
+use App\Http\Requests\Feature\UpdateFeatureRequest;
+use App\Services\Feature\FeatureService;
 use Illuminate\Http\JsonResponse;
 
 class FeatureController extends Controller

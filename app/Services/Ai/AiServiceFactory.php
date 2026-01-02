@@ -2,7 +2,7 @@
 
 namespace App\Services\Ai;
 
-use App\Contracts\AiServiceInterface;
+use App\Contracts\Infrastructure\AiServiceInterface;
 use Illuminate\Support\Facades\Config;
 use InvalidArgumentException;
 

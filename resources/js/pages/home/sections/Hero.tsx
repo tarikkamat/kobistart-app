@@ -15,6 +15,8 @@ import {
 import { cn } from '@/lib/utils';
 import { Platform } from '@/types';
 import { router } from '@inertiajs/react';
+import { index as wizardIndex } from '@/routes/wizard';
+import { index as plansIndex } from '@/routes/plans';
 import {
     ArrowRight,
     Check,
@@ -195,6 +197,10 @@ export default function Hero({
     const handleActionSelect = (action: string) => {
         if (action === 'Paketleri karşılaştır') {
             setCurrentStep('platform');
+        } else if (action === 'E-ticaret yolculuğuna başla') {
+            router.visit(wizardIndex.url());
+        } else if (action === 'Paketleri görüntüle') {
+            router.visit(plansIndex.url());
         }
         // Diğer aksiyonlar için ileride işlemler eklenebilir
     };
@@ -343,20 +349,21 @@ export default function Hero({
                                                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                                                         <CommandItem
                                                             value="E-ticaret yolculuğuna başla"
-                                                            disabled
-                                                            className="flex cursor-not-allowed items-center gap-3 rounded-2xl border border-transparent p-4 opacity-60 transition-all"
+                                                            onSelect={() =>
+                                                                handleActionSelect(
+                                                                    'E-ticaret yolculuğuna başla',
+                                                                )
+                                                            }
+                                                            className="flex cursor-pointer items-center gap-3 rounded-2xl border border-transparent p-4 transition-all hover:border-blue-500/20 aria-selected:bg-blue-500/10 aria-selected:text-blue-600 dark:aria-selected:bg-blue-500/20 dark:aria-selected:text-blue-400"
                                                         >
                                                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-500/10">
                                                                 <Rocket className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                                                             </div>
-                                                            <div className="flex flex-1 flex-col">
+                                                            <div className="flex flex-col">
                                                                 <span className="font-bold text-gray-900 dark:text-slate-100">
                                                                     E-ticaret
                                                                     yolculuğuna
                                                                     başla
-                                                                </span>
-                                                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                                    Çok yakında
                                                                 </span>
                                                             </div>
                                                         </CommandItem>
@@ -381,19 +388,20 @@ export default function Hero({
                                                         </CommandItem>
                                                         <CommandItem
                                                             value="Paketleri görüntüle"
-                                                            disabled
-                                                            className="flex cursor-not-allowed items-center gap-3 rounded-2xl border border-transparent p-4 opacity-60 transition-all"
+                                                            onSelect={() =>
+                                                                handleActionSelect(
+                                                                    'Paketleri görüntüle',
+                                                                )
+                                                            }
+                                                            className="flex cursor-pointer items-center gap-3 rounded-2xl border border-transparent p-4 transition-all hover:border-blue-500/20 aria-selected:bg-blue-500/10 aria-selected:text-blue-600 dark:aria-selected:bg-blue-500/20 dark:aria-selected:text-blue-400"
                                                         >
                                                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-50 dark:bg-green-500/10">
                                                                 <Eye className="h-5 w-5 text-green-600 dark:text-green-400" />
                                                             </div>
-                                                            <div className="flex flex-1 flex-col">
+                                                            <div className="flex flex-col">
                                                                 <span className="font-bold text-gray-900 dark:text-slate-100">
                                                                     Paketleri
                                                                     görüntüle
-                                                                </span>
-                                                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                                    Çok yakında
                                                                 </span>
                                                             </div>
                                                         </CommandItem>

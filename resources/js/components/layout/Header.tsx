@@ -17,10 +17,13 @@ import { Link, router, usePage } from '@inertiajs/react';
 import {
     Bell,
     Building2,
+    Compass,
     Heart,
     LayoutGrid,
     LogOut,
     Menu,
+    Percent,
+    Rocket,
     ShoppingBag,
     Sparkles,
     User,
@@ -81,9 +84,14 @@ export default function Header() {
 
     const navLinks = [
         {
-            name: 'Tüm Platformlar',
+            name: 'Platformlar',
             href: platformsIndex.url(),
             icon: Building2,
+        },
+        {
+            name: 'Keşfet',
+            href: plansIndex.url(),
+            icon: Compass,
         },
         {
             name: 'Plan Öneri Sihirbazı',
@@ -92,10 +100,16 @@ export default function Header() {
             highlighted: true,
         },
         {
-            name: 'E-Ticaret Planları',
-            href: plansIndex.url(),
-            icon: ShoppingBag,
+            name: 'Kampanyalar',
+            href: "#",
+            icon: Percent,
         },
+        {
+            name: 'İşinizi Büyütün',
+            href: "#",
+            icon: Rocket,
+        }
+
     ];
 
     return (

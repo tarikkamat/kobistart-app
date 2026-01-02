@@ -2,7 +2,7 @@
 
 namespace App\Services\Ai;
 
-use App\Contracts\AiServiceInterface;
+use App\Contracts\Infrastructure\AiServiceInterface;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;

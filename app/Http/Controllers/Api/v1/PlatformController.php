@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreatePlatformRequest;
-use App\Http\Requests\UpdatePlatformRequest;
-use App\Services\PlatformService;
+use App\Http\Requests\Platform\CreatePlatformRequest;
+use App\Http\Requests\Platform\UpdatePlatformRequest;
+use App\Services\Platform\PlatformService;
 use Illuminate\Http\JsonResponse;
 
 class PlatformController extends Controller

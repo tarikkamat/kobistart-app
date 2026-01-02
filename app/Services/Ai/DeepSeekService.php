@@ -2,7 +2,7 @@
 
 namespace App\Services\Ai;
 
-use App\Contracts\AiServiceInterface;
+use App\Contracts\Infrastructure\AiServiceInterface;
 
 class DeepSeekService implements AiServiceInterface
 {

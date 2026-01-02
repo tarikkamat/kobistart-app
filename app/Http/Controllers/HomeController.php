@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PlatformService;
+use App\Services\Platform\PlatformService;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;

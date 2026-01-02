@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreatePlanFeatureRequest;
-use App\Http\Requests\CreatePlanPriceRequest;
-use App\Http\Requests\CreatePlanRequest;
-use App\Http\Requests\UpdatePlanFeatureRequest;
-use App\Http\Requests\UpdatePlanPriceRequest;
-use App\Http\Requests\UpdatePlanRequest;
-use App\Services\PlanFeatureService;
-use App\Services\PlanPriceService;
-use App\Services\PlanService;
+use App\Http\Requests\Plan\CreatePlanFeatureRequest;
+use App\Http\Requests\Plan\CreatePlanPriceRequest;
+use App\Http\Requests\Plan\CreatePlanRequest;
+use App\Http\Requests\Plan\UpdatePlanFeatureRequest;
+use App\Http\Requests\Plan\UpdatePlanPriceRequest;
+use App\Http\Requests\Plan\UpdatePlanRequest;
+use App\Services\Plan\PlanFeatureService;
+use App\Services\Plan\PlanPriceService;
+use App\Services\Plan\PlanService;
 use Illuminate\Http\JsonResponse;
 
 class PlanController extends Controller

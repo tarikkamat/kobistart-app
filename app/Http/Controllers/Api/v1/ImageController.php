@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreImageRequest;
-use App\Services\ImageService;
+use App\Http\Requests\Image\StoreImageRequest;
+use App\Services\Image\ImageService;
 use Illuminate\Http\JsonResponse;
 
 class ImageController extends Controller

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateFilterGroupRequest;
-use App\Http\Requests\UpdateFilterGroupRequest;
+use App\Http\Requests\Filter\CreateFilterGroupRequest;
+use App\Http\Requests\Filter\UpdateFilterGroupRequest;
 use App\Services\FilterGroupService;
 use Illuminate\Http\JsonResponse;
 

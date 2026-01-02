@@ -3,9 +3,9 @@
 namespace App\Jobs;
 
 use App\Services\Ai\AiServiceFactory;
-use App\Services\PlatformService;
-use App\Services\WizardAnalysisService;
-use App\Services\WizardService;
+use App\Services\Platform\PlatformService;
+use App\Services\Wizard\WizardAnalysisService;
+use App\Services\Wizard\WizardService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -68,8 +68,8 @@ class ProcessWizardAnalysis implements ShouldQueue
             $result = $wizardService->formatAgentResponse($response['response'], $platforms);
 
             // Save analysis - manually set user_id and session_id
-            /** @var \App\Repository\WizardAnalysisRepository $repository */
-            $repository = app(\App\Repository\WizardAnalysisRepository::class);
+            /** @var \App\Repository\Wizard\WizardAnalysisRepository $repository */
+            $repository = app(\App\Repository\Wizard\WizardAnalysisRepository::class);
 
             $primary = $result['primary'] ?? null;
             $platformId = $primary['platform']['id'] ?? null;
