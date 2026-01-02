@@ -30,6 +30,7 @@ import {
     Trophy,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useDebounce } from 'use-debounce';
 
 export default function Hero({
     selectedItems,
@@ -43,6 +44,7 @@ export default function Hero({
     platforms: Platform[];
 }) {
     const [searchValue, setSearchValue] = useState('');
+    const [debouncedSearchValue] = useDebounce(searchValue, 300);
     const [open, setOpen] = useState(false);
     const [isComparing, setIsComparing] = useState(false);
     const [currentStep, setCurrentStep] = useState<
@@ -52,21 +54,21 @@ export default function Hero({
     const [showCompareButton, setShowCompareButton] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // Platform araması için filtreleme
+    // Platform araması için filtreleme (debounced value kullan)
     const filteredPlatforms = platforms.filter((platform) => {
         // Eğer platform seçim adımındaysak ve searchValue seçili item formatındaysa (vs içeriyorsa veya parantez içinde plan adı varsa)
         // tüm platformları göster, filtreleme yapma
         if (currentStep === 'platform') {
             const hasSelectedItemFormat =
-                searchValue.includes(' vs ') || searchValue.includes('(');
+                debouncedSearchValue.includes(' vs ') || debouncedSearchValue.includes('(');
             if (hasSelectedItemFormat) {
                 return true;
             }
         }
 
         // Normal arama filtrelemesi
-        if (!searchValue.trim()) return true;
-        const searchLower = searchValue.toLowerCase().trim();
+        if (!debouncedSearchValue.trim()) return true;
+        const searchLower = debouncedSearchValue.toLowerCase().trim();
         return (
             platform.name.toLowerCase().includes(searchLower) ||
             platform.slug.toLowerCase().includes(searchLower)

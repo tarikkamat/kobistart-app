@@ -6,6 +6,7 @@ use App\Contracts\Base\BaseService;
 use App\Contracts\Feature\FeatureServiceInterface;
 use App\Repository\Feature\FeatureRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class FeatureService extends BaseService implements FeatureServiceInterface
 {
@@ -21,9 +22,11 @@ class FeatureService extends BaseService implements FeatureServiceInterface
      */
     public function getAllOrdered(): Collection
     {
-        /** @var FeatureRepository $repository */
-        $repository = $this->repository;
-        return $repository->getAllOrdered();
+        return Cache::remember('features.all-ordered', 3600, function () {
+            /** @var FeatureRepository $repository */
+            $repository = $this->repository;
+            return $repository->getAllOrdered();
+        });
     }
 
     /**
@@ -34,9 +37,11 @@ class FeatureService extends BaseService implements FeatureServiceInterface
      */
     public function getByCategory(string $category): Collection
     {
-        /** @var FeatureRepository $repository */
-        $repository = $this->repository;
-        return $repository->getByCategory($category);
+        return Cache::remember("features.category.{$category}", 3600, function () use ($category) {
+            /** @var FeatureRepository $repository */
+            $repository = $this->repository;
+            return $repository->getByCategory($category);
+        });
     }
 }
 

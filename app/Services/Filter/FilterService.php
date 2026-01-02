@@ -7,6 +7,7 @@ use App\Contracts\Filter\FilterServiceInterface;
 use App\Repository\Filter\FilterGroupRepository;
 use App\Repository\Filter\FilterItemRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class FilterService extends BaseService implements FilterServiceInterface
 {
@@ -24,9 +25,11 @@ class FilterService extends BaseService implements FilterServiceInterface
      */
     public function getFilterGroupsWithItems(): Collection
     {
-        /** @var FilterGroupRepository $repository */
-        $repository = $this->repository;
-        return $repository->getFilterGroupsWithItems();
+        return Cache::remember('filter-groups.with-items', 3600, function () {
+            /** @var FilterGroupRepository $repository */
+            $repository = $this->repository;
+            return $repository->getFilterGroupsWithItems();
+        });
     }
 
     /**
@@ -41,11 +44,17 @@ class FilterService extends BaseService implements FilterServiceInterface
             return collect();
         }
 
-        /** @var \App\Repository\Filter\FilterItemRepository $repository */
-        $repository = $this->filterItemRepository;
-        return $repository->all()
-            ->whereIn('id', $filterItemIds)
-            ->filter(fn($item) => $item->status === true);
+        $sortedIds = $filterItemIds;
+        sort($sortedIds);
+        $hash = hash('sha256', json_encode($sortedIds, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+        return Cache::remember("filter-items.ids.{$hash}", 3600, function () use ($filterItemIds) {
+            /** @var \App\Repository\Filter\FilterItemRepository $repository */
+            $repository = $this->filterItemRepository;
+            return $repository->all()
+                ->whereIn('id', $filterItemIds)
+                ->filter(fn($item) => $item->status === true);
+        });
     }
 
     /**

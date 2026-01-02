@@ -6,7 +6,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { cn } from '@/lib/utils';
+import { useAppearance } from '@/hooks/use-appearance';
 import { dashboard, login, logout, register } from '@/routes';
 import { index as favoritesIndex } from '@/routes/favorites/index';
 import { index as plansIndex } from '@/routes/plans/index';
@@ -35,6 +37,7 @@ import { useEffect, useState } from 'react';
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const { appearance, updateAppearance } = useAppearance();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -52,6 +55,15 @@ export default function Header() {
 
     const handleLogout = () => {
         router.post(logout.url());
+    };
+
+    const isDark = appearance === 'dark' || 
+        (appearance === 'system' && 
+         typeof window !== 'undefined' && 
+         window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    const toggleTheme = (checked: boolean) => {
+        updateAppearance(checked ? 'dark' : 'light');
     };
 
     // Dummy notifications
@@ -115,7 +127,7 @@ export default function Header() {
     return (
         <header
             className={cn(
-                'fixed top-6 left-1/2 z-50 flex h-20 w-[95%] -translate-x-1/2 items-center justify-between rounded-full border px-8 transition-all duration-300 md:w-full md:max-w-7xl lg:max-w-[90%]',
+                'fixed top-6 left-1/2 z-50 flex h-20 w-[90%] -translate-x-1/2 items-center justify-between rounded-full border px-8 transition-all duration-300 md:w-full md:max-w-6xl lg:max-w-[85%]',
                 scrolled
                     ? 'border-white/40 bg-white/60 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-slate-900/60'
                     : 'border-transparent bg-transparent',
@@ -150,6 +162,7 @@ export default function Header() {
                             <Link
                                 key={link.name}
                                 href={link.href}
+                                prefetch={true}
                                 className="group relative overflow-hidden rounded-full p-[1px] transition-all duration-300 hover:scale-105 active:scale-95"
                             >
                                 {/* Dönen Elektrik/Işık Hattı */}
@@ -195,6 +208,13 @@ export default function Header() {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden flex-shrink-0 items-center gap-3 md:flex">
+                {/* Dark Mode Toggle */}
+                <ThemeToggle
+                    checked={isDark}
+                    onCheckedChange={toggleTheme}
+                    aria-label={isDark ? 'Light mode\'a geç' : 'Dark mode\'a geç'}
+                />
+
                 {/* Notifications */}
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
@@ -263,6 +283,7 @@ export default function Header() {
                             <DropdownMenuItem asChild>
                                 <Link
                                     href={dashboard()}
+                                    prefetch={true}
                                     className="flex items-center"
                                 >
                                     <LayoutGrid className="mr-2 h-4 w-4" />
@@ -272,6 +293,7 @@ export default function Header() {
                             <DropdownMenuItem asChild>
                                 <Link
                                     href={favoritesIndex()}
+                                    prefetch={true}
                                     className="flex items-center"
                                 >
                                     <Heart className="mr-2 h-4 w-4" />
@@ -346,6 +368,7 @@ export default function Header() {
                                     <Link
                                         key={link.name}
                                         href={link.href}
+                                        prefetch={true}
                                         className="group relative overflow-hidden rounded-2xl p-[1px] transition-all duration-300 active:scale-95"
                                         onClick={() => setIsMenuOpen(false)}
                                     >
@@ -382,6 +405,7 @@ export default function Header() {
                             <>
                                 <Link
                                     href={dashboard()}
+                                    prefetch={true}
                                     className="mt-4 block rounded-lg px-4 py-2 text-lg font-medium text-white hover:bg-white/10 dark:hover:bg-white/10"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
@@ -389,6 +413,7 @@ export default function Header() {
                                 </Link>
                                 <Link
                                     href={favoritesIndex()}
+                                    prefetch={true}
                                     className="block rounded-lg px-4 py-2 text-lg font-medium text-white hover:bg-white/10 dark:hover:bg-white/10"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
@@ -434,6 +459,17 @@ export default function Header() {
                             </>
                         )}
                     </nav>
+                    {/* Mobile Dark Mode Toggle */}
+                    <div className="mt-4 flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-4 py-3">
+                        <span className="text-sm font-medium text-white">
+                            Tema
+                        </span>
+                        <ThemeToggle
+                            checked={isDark}
+                            onCheckedChange={toggleTheme}
+                            aria-label={isDark ? 'Light mode\'a geç' : 'Dark mode\'a geç'}
+                        />
+                    </div>
                 </div>
             )}
         </header>

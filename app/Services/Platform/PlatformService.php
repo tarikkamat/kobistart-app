@@ -7,6 +7,7 @@ use App\Contracts\Platform\PlatformServiceInterface;
 use App\Repository\Platform\PlatformRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class PlatformService extends BaseService implements PlatformServiceInterface
 {
@@ -22,9 +23,11 @@ class PlatformService extends BaseService implements PlatformServiceInterface
      */
     public function getActivePlatforms(): Collection
     {
-        /** @var PlatformRepository $repository */
-        $repository = $this->repository;
-        return $repository->getActivePlatforms();
+        return Cache::remember('platforms.active', 3600, function () {
+            /** @var PlatformRepository $repository */
+            $repository = $this->repository;
+            return $repository->getActivePlatforms();
+        });
     }
 
     /**
@@ -35,9 +38,11 @@ class PlatformService extends BaseService implements PlatformServiceInterface
      */
     public function getPlatformBySlug(string $slug): ?\App\Models\Platform
     {
-        /** @var PlatformRepository $repository */
-        $repository = $this->repository;
-        return $repository->getPlatformBySlug($slug);
+        return Cache::remember("platform.slug.{$slug}", 3600, function () use ($slug) {
+            /** @var PlatformRepository $repository */
+            $repository = $this->repository;
+            return $repository->getPlatformBySlug($slug);
+        });
     }
 
     /**
@@ -48,9 +53,11 @@ class PlatformService extends BaseService implements PlatformServiceInterface
      */
     public function getAllPlatformsWithDetails(): Collection
     {
-        /** @var PlatformRepository $repository */
-        $repository = $this->repository;
-        return $repository->getAllPlatformsWithDetails();
+        return Cache::remember('platforms.with-details', 7200, function () {
+            /** @var PlatformRepository $repository */
+            $repository = $this->repository;
+            return $repository->getAllPlatformsWithDetails();
+        });
     }
 
     /**
