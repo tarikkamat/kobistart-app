@@ -57,10 +57,10 @@ export default function Header() {
         router.post(logout.url());
     };
 
-    const isDark = appearance === 'dark' || 
-        (appearance === 'system' && 
-         typeof window !== 'undefined' && 
-         window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark = appearance === 'dark' ||
+        (appearance === 'system' &&
+            typeof window !== 'undefined' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches);
 
     const toggleTheme = (checked: boolean) => {
         updateAppearance(checked ? 'dark' : 'light');
@@ -113,7 +113,7 @@ export default function Header() {
         },
         {
             name: 'Kampanyalar',
-            href: "#",
+            href: "/kampanyalar",
             icon: Percent,
         },
         {
@@ -226,13 +226,13 @@ export default function Header() {
                             <Bell className="h-5 w-5 text-gray-700 dark:text-gray-200" />
                             {notifications.filter((n) => n.isNew).length >
                                 0 && (
-                                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
-                                    {
-                                        notifications.filter((n) => n.isNew)
-                                            .length
-                                    }
-                                </span>
-                            )}
+                                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                                        {
+                                            notifications.filter((n) => n.isNew)
+                                                .length
+                                        }
+                                    </span>
+                                )}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-80">
