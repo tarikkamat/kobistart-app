@@ -7,27 +7,27 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { dashboard, login, logout, register } from '@/routes';
+import { index as favoritesIndex } from '@/routes/favorites/index';
+import { index as plansIndex } from '@/routes/plans/index';
+import { index as platformsIndex } from '@/routes/platforms/index';
+import { index as wizardIndex } from '@/routes/wizard/index';
+import { type SharedData } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import {
+    Bell,
+    Building2,
     Heart,
     LayoutGrid,
     LogOut,
     Menu,
-    User,
-    X,
-    Building2,
     ShoppingBag,
     Sparkles,
+    User,
     UserCircle2,
-    Bell
+    X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { type SharedData } from '@/types';
-import { dashboard, login, logout, register } from '@/routes';
-import { index as favoritesIndex } from '@/routes/favorites/index';
-import { index as platformsIndex } from '@/routes/platforms/index';
-import { index as plansIndex } from '@/routes/plans/index';
-import { index as wizardIndex } from '@/routes/wizard/index';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,43 +56,59 @@ export default function Header() {
         {
             id: 1,
             title: 'Yeni Özellik: Plan Karşılaştırma',
-            message: 'Artık farklı e-ticaret planlarını kolayca karşılaştırabilirsiniz!',
+            message:
+                'Artık farklı e-ticaret planlarını kolayca karşılaştırabilirsiniz!',
             time: '2 saat önce',
             isNew: true,
         },
         {
             id: 2,
             title: 'Güncelleme: Shopify Planları',
-            message: 'Shopify planlarına yeni özellikler eklendi. Detayları inceleyin.',
+            message:
+                'Shopify planlarına yeni özellikler eklendi. Detayları inceleyin.',
             time: '5 saat önce',
             isNew: true,
         },
         {
             id: 3,
             title: 'Hoş Geldiniz!',
-            message: 'KobiStart\'a hoş geldiniz. Size en uygun planı bulmak için sihirbazı kullanabilirsiniz.',
+            message:
+                "KobiStart'a hoş geldiniz. Size en uygun planı bulmak için sihirbazı kullanabilirsiniz.",
             time: '1 gün önce',
             isNew: false,
         },
     ];
 
     const navLinks = [
-        { name: 'Tüm Platformlar', href: platformsIndex.url(), icon: Building2 },
-        { name: 'Plan Öneri Sihirbazı', href: wizardIndex.url(), icon: Sparkles, highlighted: true },
-        { name: 'E-Ticaret Planları', href: plansIndex.url(), icon: ShoppingBag },
+        {
+            name: 'Tüm Platformlar',
+            href: platformsIndex.url(),
+            icon: Building2,
+        },
+        {
+            name: 'Plan Öneri Sihirbazı',
+            href: wizardIndex.url(),
+            icon: Sparkles,
+            highlighted: true,
+        },
+        {
+            name: 'E-Ticaret Planları',
+            href: plansIndex.url(),
+            icon: ShoppingBag,
+        },
     ];
 
     return (
         <header
             className={cn(
-                'fixed left-1/2 top-6 z-50 flex h-20 w-[95%] -translate-x-1/2 items-center justify-between rounded-full border px-8 transition-all duration-300 md:w-full md:max-w-7xl lg:max-w-[90%]',
+                'fixed top-6 left-1/2 z-50 flex h-20 w-[95%] -translate-x-1/2 items-center justify-between rounded-full border px-8 transition-all duration-300 md:w-full md:max-w-7xl lg:max-w-[90%]',
                 scrolled
                     ? 'border-white/40 bg-white/60 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-slate-900/60'
                     : 'border-transparent bg-transparent',
             )}
         >
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Link href="/" className="flex flex-shrink-0 items-center gap-2">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-violet-600 font-bold text-white shadow-md">
                     K
                 </div>
@@ -109,10 +125,11 @@ export default function Header() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden items-center gap-6 md:flex flex-1 justify-center">
+            <nav className="hidden flex-1 items-center justify-center gap-6 md:flex">
                 {navLinks.map((link) => {
                     const IconComponent = link.icon;
-                    const isHighlighted = 'highlighted' in link && link.highlighted;
+                    const isHighlighted =
+                        'highlighted' in link && link.highlighted;
 
                     if (isHighlighted) {
                         return (
@@ -131,10 +148,12 @@ export default function Header() {
                                     {IconComponent && (
                                         <IconComponent className="h-4 w-4 text-blue-600 transition-transform group-hover:rotate-12 dark:text-blue-400" />
                                     )}
-                                    <span className="relative">{link.name}</span>
+                                    <span className="relative">
+                                        {link.name}
+                                    </span>
 
                                     {/* Küçük bir Sparkle (Parıltı) Animasyonu */}
-                                    <Sparkles className="absolute -right-1 -top-1 h-3 w-3 animate-bounce text-amber-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                                    <Sparkles className="absolute -top-1 -right-1 h-3 w-3 animate-bounce text-amber-400 opacity-0 transition-opacity group-hover:opacity-100" />
                                 </div>
                             </Link>
                         );
@@ -145,7 +164,7 @@ export default function Header() {
                             key={link.name}
                             href={link.href}
                             className={cn(
-                                'group flex items-center gap-2 text-sm font-medium transition-all duration-300 whitespace-nowrap',
+                                'group flex items-center gap-2 text-sm font-medium whitespace-nowrap transition-all duration-300',
                                 scrolled
                                     ? 'text-gray-700 hover:text-blue-600 dark:text-gray-200 dark:hover:text-blue-400'
                                     : 'text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400',
@@ -161,44 +180,52 @@ export default function Header() {
             </nav>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden items-center gap-3 md:flex flex-shrink-0">
+            <div className="hidden flex-shrink-0 items-center gap-3 md:flex">
                 {/* Notifications */}
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="relative rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                            className="relative cursor-pointer rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
                             <Bell className="h-5 w-5 text-gray-700 dark:text-gray-200" />
-                            {notifications.filter(n => n.isNew).length > 0 && (
-                                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white">
-                                    {notifications.filter(n => n.isNew).length}
+                            {notifications.filter((n) => n.isNew).length >
+                                0 && (
+                                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                                    {
+                                        notifications.filter((n) => n.isNew)
+                                            .length
+                                    }
                                 </span>
                             )}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-80">
-                        <div className="px-2 py-1.5 text-sm font-semibold">Bildirimler</div>
+                        <div className="px-2 py-1.5 text-sm font-semibold">
+                            Bildirimler
+                        </div>
                         <DropdownMenuSeparator />
                         <div className="max-h-96 overflow-y-auto">
                             {notifications.map((notification) => (
                                 <DropdownMenuItem
                                     key={notification.id}
-                                    className="flex flex-col items-start gap-1 p-3 cursor-pointer"
+                                    className="flex cursor-pointer flex-col items-start gap-1 p-3"
                                 >
-                                    <div className="flex items-start justify-between w-full">
+                                    <div className="flex w-full items-start justify-between">
                                         <div className="flex-1">
-                                            <div className="font-medium text-sm">{notification.title}</div>
-                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                            <div className="text-sm font-medium">
+                                                {notification.title}
+                                            </div>
+                                            <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                                 {notification.message}
                                             </div>
-                                            <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                            <div className="mt-1 text-xs text-gray-400 dark:text-gray-500">
                                                 {notification.time}
                                             </div>
                                         </div>
                                         {notification.isNew && (
-                                            <div className="h-2 w-2 rounded-full bg-blue-600 ml-2 mt-1 flex-shrink-0" />
+                                            <div className="mt-1 ml-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-600" />
                                         )}
                                     </div>
                                 </DropdownMenuItem>
@@ -212,7 +239,7 @@ export default function Header() {
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="default"
-                                className="text-sm rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                className="rounded-full bg-blue-600 text-sm hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
                             >
                                 <User className="mr-2 h-4 w-4" />
                                 Hesabım
@@ -220,19 +247,28 @@ export default function Header() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuItem asChild>
-                                <Link href={dashboard()} className="flex items-center">
+                                <Link
+                                    href={dashboard()}
+                                    className="flex items-center"
+                                >
                                     <LayoutGrid className="mr-2 h-4 w-4" />
                                     Gösterge Panelim
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link href={favoritesIndex()} className="flex items-center">
+                                <Link
+                                    href={favoritesIndex()}
+                                    className="flex items-center"
+                                >
                                     <Heart className="mr-2 h-4 w-4" />
                                     Favorilerim
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={handleLogout} className="text-red-600 dark:text-red-400">
+                            <DropdownMenuItem
+                                onClick={handleLogout}
+                                className="text-red-600 dark:text-red-400"
+                            >
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Çıkış Yap
                             </DropdownMenuItem>
@@ -243,7 +279,7 @@ export default function Header() {
                         {canRegister && (
                             <Button
                                 variant="default"
-                                className="text-sm rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                className="rounded-full bg-blue-600 text-sm hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"
                                 asChild
                             >
                                 <Link href={login.url()}>
@@ -262,19 +298,34 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
                 {isMenuOpen ? (
-                    <X className={cn("h-6 w-6", scrolled ? "text-gray-900 dark:text-white" : "text-gray-900 dark:text-white")} />
+                    <X
+                        className={cn(
+                            'h-6 w-6',
+                            scrolled
+                                ? 'text-gray-900 dark:text-white'
+                                : 'text-gray-900 dark:text-white',
+                        )}
+                    />
                 ) : (
-                    <Menu className={cn("h-6 w-6", scrolled ? "text-gray-900 dark:text-white" : "text-gray-900 dark:text-white")} />
+                    <Menu
+                        className={cn(
+                            'h-6 w-6',
+                            scrolled
+                                ? 'text-gray-900 dark:text-white'
+                                : 'text-gray-900 dark:text-white',
+                        )}
+                    />
                 )}
             </button>
 
             {/* Mobile Nav */}
             {isMenuOpen && (
-                <div className="absolute left-0 right-0 top-24 flex flex-col gap-4 rounded-3xl border border-slate-700/50 bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-slate-800/95 p-6 shadow-2xl backdrop-blur-xl md:hidden dark:border-white/10 dark:bg-gradient-to-br dark:from-slate-950/95 dark:via-black/95 dark:to-slate-950/95">
+                <div className="absolute top-24 right-0 left-0 flex flex-col gap-4 rounded-3xl border border-slate-700/50 bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-slate-800/95 p-6 shadow-2xl backdrop-blur-xl md:hidden dark:border-white/10 dark:bg-gradient-to-br dark:from-slate-950/95 dark:via-black/95 dark:to-slate-950/95">
                     <nav className="flex flex-col gap-4">
                         {navLinks.map((link) => {
                             const IconComponent = link.icon;
-                            const isHighlighted = 'highlighted' in link && link.highlighted;
+                            const isHighlighted =
+                                'highlighted' in link && link.highlighted;
 
                             if (isHighlighted) {
                                 return (
@@ -287,8 +338,12 @@ export default function Header() {
                                         <div className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#3b82f6_0%,#8b5cf6_50%,#3b82f6_100%)]" />
                                         <div className="relative flex w-full items-center gap-3 rounded-2xl bg-slate-900 px-4 py-4 text-lg font-bold text-white backdrop-blur-3xl">
                                             <div className="absolute inset-0 translate-x-[-100%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                                            {IconComponent && <IconComponent className="h-5 w-5 text-blue-400" />}
-                                            <span className="relative">{link.name}</span>
+                                            {IconComponent && (
+                                                <IconComponent className="h-5 w-5 text-blue-400" />
+                                            )}
+                                            <span className="relative">
+                                                {link.name}
+                                            </span>
                                             <Sparkles className="ml-auto h-5 w-5 animate-bounce text-amber-400" />
                                         </div>
                                     </Link>
@@ -302,7 +357,9 @@ export default function Header() {
                                     className="flex items-center gap-2 text-lg font-medium text-white transition-colors hover:text-blue-400"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    {IconComponent && <IconComponent className="h-5 w-5" />}
+                                    {IconComponent && (
+                                        <IconComponent className="h-5 w-5" />
+                                    )}
                                     {link.name}
                                 </a>
                             );
@@ -339,7 +396,10 @@ export default function Header() {
                                     className="mt-4 w-full rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600"
                                     asChild
                                 >
-                                    <Link href={login.url()} onClick={() => setIsMenuOpen(false)}>
+                                    <Link
+                                        href={login.url()}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
                                         Giriş
                                     </Link>
                                 </Button>
@@ -349,7 +409,10 @@ export default function Header() {
                                         className="mt-2 w-full rounded-full border-white/20 text-white hover:bg-white/10 dark:border-white/20"
                                         asChild
                                     >
-                                        <Link href={register.url()} onClick={() => setIsMenuOpen(false)}>
+                                        <Link
+                                            href={register.url()}
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
                                             Ücretsiz Hesap Oluştur
                                         </Link>
                                     </Button>

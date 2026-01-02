@@ -1,14 +1,14 @@
-import LandingLayout from '@/layouts/LandingLayout';
-import { Head, usePage, Link } from '@inertiajs/react';
-import { Platform, Plan } from '@/types';
-import PlatformHeader from './sections/PlatformHeader';
-import PlansSection from './sections/PlansSection';
-import CapabilitiesSection from './sections/CapabilitiesSection';
-import FeaturesSection from './sections/FeaturesSection';
-import CommentsSection from './sections/CommentsSection';
-import { ChevronLeft, Info, Star, Users } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import LandingLayout from '@/layouts/LandingLayout';
+import { Plan, Platform } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { ChevronLeft, Info, Star, Users } from 'lucide-react';
+import CapabilitiesSection from './sections/CapabilitiesSection';
+import CommentsSection from './sections/CommentsSection';
+import FeaturesSection from './sections/FeaturesSection';
+import PlansSection from './sections/PlansSection';
+import PlatformHeader from './sections/PlatformHeader';
 
 interface PaginatedComments {
     data: Array<{
@@ -42,20 +42,24 @@ interface PageProps extends Record<string, unknown> {
 export default function PlatformShow() {
     const { platform, plans, comments } = usePage<PageProps>().props;
 
-    const averageRating = comments.data.length > 0
-        ? (comments.data.reduce((acc, c) => acc + Number(c.rating), 0) / comments.data.length).toFixed(1)
-        : '0.0';
+    const averageRating =
+        comments.data.length > 0
+            ? (
+                  comments.data.reduce((acc, c) => acc + Number(c.rating), 0) /
+                  comments.data.length
+              ).toFixed(1)
+            : '0.0';
 
     return (
         <LandingLayout>
             <Head title={`${platform.name} - KobiStart`} />
 
             {/* Breadcrumb / Back Navigation */}
-            <div className="bg-white dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-900">
+            <div className="border-b border-zinc-100 bg-white dark:border-zinc-900 dark:bg-zinc-950">
                 <div className="container mx-auto px-4 py-3">
                     <Link
                         href="/platforms"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400 transition-colors"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400"
                     >
                         <ChevronLeft className="h-4 w-4" />
                         Platformlar
@@ -66,57 +70,64 @@ export default function PlatformShow() {
             <PlatformHeader platform={platform} />
 
             <div className="container mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
                     {/* Main Content Area (8/12) */}
-                    <div className="lg:col-span-8 space-y-16">
+                    <div className="space-y-16 lg:col-span-8">
                         <section id="plans">
-                        <PlansSection plans={plans} platform={platform} />
+                            <PlansSection plans={plans} platform={platform} />
                         </section>
 
                         <section id="features">
-                        <FeaturesSection plans={plans} />
+                            <FeaturesSection plans={plans} />
                         </section>
 
                         <section id="comments">
-                        <CommentsSection platform={platform} comments={comments} />
+                            <CommentsSection
+                                platform={platform}
+                                comments={comments}
+                            />
                         </section>
                     </div>
 
                     {/* Sidebar Area (4/12) */}
-                    <div className="lg:col-span-4 space-y-8">
+                    <div className="space-y-8 lg:col-span-4">
                         <div className="sticky top-24 space-y-8">
                             {/* Stats Card */}
-                            <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
-                                <CardHeader className="bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
-                                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                            <Card className="overflow-hidden border-zinc-200 shadow-sm dark:border-zinc-800">
+                                <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/50">
+                                    <CardTitle className="flex items-center gap-2 text-base font-semibold">
                                         <Info className="h-4 w-4 text-blue-600" />
                                         Platform Özeti
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-0">
                                     <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                                        <div className="p-4 flex items-center justify-between">
+                                        <div className="flex items-center justify-between p-4">
                                             <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                                                <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
                                                 Ortalama Puan
                                             </div>
-                                            <span className="font-bold text-zinc-900 dark:text-zinc-50">{averageRating} / 5.0</span>
+                                            <span className="font-bold text-zinc-900 dark:text-zinc-50">
+                                                {averageRating} / 5.0
+                                            </span>
                                         </div>
-                                        <div className="p-4 flex items-center justify-between">
+                                        <div className="flex items-center justify-between p-4">
                                             <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
                                                 <Users className="h-4 w-4 text-blue-500" />
                                                 Toplam Değerlendirme
                                             </div>
-                                            <span className="font-bold text-zinc-900 dark:text-zinc-50">{comments.total}</span>
+                                            <span className="font-bold text-zinc-900 dark:text-zinc-50">
+                                                {comments.total}
+                                            </span>
                                         </div>
-                                        <div className="p-4 flex items-center justify-between">
+                                        <div className="flex items-center justify-between p-4">
                                             <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                                <div className="h-4 w-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                                                <div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500/20">
                                                     <div className="h-1.5 w-1.5 rounded-full bg-green-600" />
                                                 </div>
                                                 Durum
                                             </div>
-                                            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400">
                                                 Aktif
                                             </span>
                                         </div>
@@ -124,16 +135,23 @@ export default function PlatformShow() {
                                 </CardContent>
                             </Card>
 
-                        <CapabilitiesSection />
+                            <CapabilitiesSection />
 
                             {/* Help Card */}
-                            <Card className="bg-blue-600 border-none shadow-lg shadow-blue-500/20 text-white">
-                                <CardContent className="p-6 space-y-4">
-                                    <h3 className="font-bold text-lg">Yardıma mı ihtiyacınız var?</h3>
-                                    <p className="text-blue-100 text-sm leading-relaxed">
-                                        {platform.name} veya diğer platformlar hakkında merak ettiklerinizi uzman ekibimize sorabilirsiniz.
+                            <Card className="border-none bg-blue-600 text-white shadow-lg shadow-blue-500/20">
+                                <CardContent className="space-y-4 p-6">
+                                    <h3 className="text-lg font-bold">
+                                        Yardıma mı ihtiyacınız var?
+                                    </h3>
+                                    <p className="text-sm leading-relaxed text-blue-100">
+                                        {platform.name} veya diğer platformlar
+                                        hakkında merak ettiklerinizi uzman
+                                        ekibimize sorabilirsiniz.
                                     </p>
-                                    <Button variant="secondary" className="w-full bg-white text-blue-600 hover:bg-blue-50">
+                                    <Button
+                                        variant="secondary"
+                                        className="w-full bg-white text-blue-600 hover:bg-blue-50"
+                                    >
                                         Danışmanla Görüş
                                     </Button>
                                 </CardContent>

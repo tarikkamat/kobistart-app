@@ -48,4 +48,3 @@ export interface Platform {
     comments?: any[];
     is_favorited?: boolean;
 }
-

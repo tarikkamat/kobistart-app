@@ -11,11 +11,18 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index as favoritesIndex } from '@/routes/favorites/index';
 import { index as comparisonsIndex } from '@/routes/comparisons';
+import { index as favoritesIndex } from '@/routes/favorites/index';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, Heart, LayoutGrid, GitCompare, Sparkles } from 'lucide-react';
+import {
+    BookOpen,
+    Folder,
+    GitCompare,
+    Heart,
+    LayoutGrid,
+    Sparkles,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [

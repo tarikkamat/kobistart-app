@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\PlanFeature;
 use App\Contracts\BaseRepository;
+use App\Models\PlanFeature;
 use Illuminate\Database\Eloquent\Collection;
 
 class PlanFeatureRepository extends BaseRepository
@@ -16,7 +16,7 @@ class PlanFeatureRepository extends BaseRepository
     /**
      * Get all plan features for a specific plan.
      *
-     * @param int $planId
+     * @param  int  $planId
      * @return Collection<int, PlanFeature>
      */
     public function getByPlanId(int $planId): Collection

@@ -11,14 +11,14 @@ class AiUsageTracker
     /**
      * Track AI service usage.
      *
-     * @param AiServiceInterface $service
-     * @param string $message
-     * @param array<string, mixed> $response
+     * @param  AiServiceInterface  $service
+     * @param  string  $message
+     * @param  array<string, mixed>  $response
      * @return void
      */
     public function track(AiServiceInterface $service, string $message, array $response): void
     {
-        if (! Config::get('ai.track_usage', true)) {
+        if (!Config::get('ai.track_usage', true)) {
             return;
         }
 
@@ -46,8 +46,8 @@ class AiUsageTracker
     /**
      * Get usage statistics for a provider.
      *
-     * @param string $provider
-     * @param int $days
+     * @param  string  $provider
+     * @param  int  $days
      * @return array<string, mixed>
      */
     public function getStatistics(string $provider, int $days = 30): array

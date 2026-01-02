@@ -84,7 +84,8 @@ class EmailVerificationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
-    public function test_already_verified_user_visiting_verification_link_is_redirected_without_firing_event_again(): void
+    public function test_already_verified_user_visiting_verification_link_is_redirected_without_firing_event_again(
+    ): void
     {
         $user = User::factory()->create([
             'email_verified_at' => now(),

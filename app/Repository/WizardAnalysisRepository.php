@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\WizardAnalysis;
 use App\Contracts\BaseRepository;
+use App\Models\WizardAnalysis;
 use Illuminate\Database\Eloquent\Collection;
 
 class WizardAnalysisRepository extends BaseRepository
@@ -16,7 +16,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Create analysis for a user.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return WizardAnalysis
      */
     public function createForUser(array $data): WizardAnalysis
@@ -27,7 +27,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Create analysis for a session.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return WizardAnalysis
      */
     public function createForSession(array $data): WizardAnalysis
@@ -38,7 +38,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Get analyses for a user.
      *
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection<int, WizardAnalysis>
      */
     public function getUserAnalyses(int $userId): Collection
@@ -54,7 +54,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Get analyses for a session.
      *
-     * @param string $sessionId
+     * @param  string  $sessionId
      * @return Collection<int, WizardAnalysis>
      */
     public function getSessionAnalyses(string $sessionId): Collection
@@ -71,8 +71,8 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Migrate session analyses to user.
      *
-     * @param string $sessionId
-     * @param int $userId
+     * @param  string  $sessionId
+     * @param  int  $userId
      * @return int Number of migrated analyses
      */
     public function migrateSessionToUser(string $sessionId, int $userId): int
@@ -90,7 +90,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Get analysis by ID with relations.
      *
-     * @param int $id
+     * @param  int  $id
      * @return WizardAnalysis|null
      */
     public function getAnalysisById(int $id): ?WizardAnalysis
@@ -103,7 +103,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Get latest analysis for session.
      *
-     * @param string $sessionId
+     * @param  string  $sessionId
      * @return WizardAnalysis|null
      */
     public function getLatestBySessionId(string $sessionId): ?WizardAnalysis
@@ -118,7 +118,7 @@ class WizardAnalysisRepository extends BaseRepository
     /**
      * Get latest analysis for user.
      *
-     * @param int $userId
+     * @param  int  $userId
      * @return WizardAnalysis|null
      */
     public function getLatestByUserId(int $userId): ?WizardAnalysis

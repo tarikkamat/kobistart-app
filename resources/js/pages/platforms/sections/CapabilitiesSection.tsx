@@ -13,7 +13,7 @@ interface Props {
     // No props needed for dummy data
 }
 
-export default function CapabilitiesSection({ }: Props) {
+export default function CapabilitiesSection({}: Props) {
     const data = [
         { subject: 'Kullanım Kolaylığı', A: 9, fullMark: 10 },
         { subject: 'Destek', A: 8, fullMark: 10 },
@@ -24,9 +24,9 @@ export default function CapabilitiesSection({ }: Props) {
     ];
 
     return (
-        <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm overflow-hidden">
-            <CardHeader className="bg-zinc-50/50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
+        <Card className="overflow-hidden border-zinc-200 shadow-sm dark:border-zinc-800">
+            <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/50">
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
                     <BarChart3 className="h-4 w-4 text-blue-600" />
                     Platform Yetenekleri
                 </CardTitle>
@@ -34,14 +34,31 @@ export default function CapabilitiesSection({ }: Props) {
             <CardContent className="pt-6">
                 <div className="h-[280px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-                            <PolarGrid stroke="currentColor" className="text-zinc-200 dark:text-zinc-800" />
+                        <RadarChart
+                            cx="50%"
+                            cy="50%"
+                            outerRadius="80%"
+                            data={data}
+                        >
+                            <PolarGrid
+                                stroke="currentColor"
+                                className="text-zinc-200 dark:text-zinc-800"
+                            />
                             <PolarAngleAxis
                                 dataKey="subject"
-                                tick={{ fill: 'currentColor', fontSize: 10, fontWeight: 500 }}
+                                tick={{
+                                    fill: 'currentColor',
+                                    fontSize: 10,
+                                    fontWeight: 500,
+                                }}
                                 className="text-zinc-500 dark:text-zinc-400"
                             />
-                            <PolarRadiusAxis angle={30} domain={[0, 10]} tick={false} axisLine={false} />
+                            <PolarRadiusAxis
+                                angle={30}
+                                domain={[0, 10]}
+                                tick={false}
+                                axisLine={false}
+                            />
                             <Radar
                                 name="Capabilities"
                                 dataKey="A"
@@ -53,13 +70,21 @@ export default function CapabilitiesSection({ }: Props) {
                     </ResponsiveContainer>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                    <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
-                        <span className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">Lider Özellik</span>
-                        <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-50">Kolay Kurulum</span>
+                    <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/50">
+                        <span className="block text-[10px] font-bold tracking-wider text-zinc-400 uppercase">
+                            Lider Özellik
+                        </span>
+                        <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-50">
+                            Kolay Kurulum
+                        </span>
                     </div>
-                    <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800">
-                        <span className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">Hız</span>
-                        <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-50">Yüksek Performans</span>
+                    <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/50">
+                        <span className="block text-[10px] font-bold tracking-wider text-zinc-400 uppercase">
+                            Hız
+                        </span>
+                        <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-50">
+                            Yüksek Performans
+                        </span>
                     </div>
                 </div>
             </CardContent>

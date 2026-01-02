@@ -21,18 +21,6 @@ class PlanFeature extends Model
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'is_included' => 'boolean',
-        ];
-    }
-
-    /**
      * Get the plan that owns the feature.
      *
      * @return BelongsTo<Plan>
@@ -50,5 +38,17 @@ class PlanFeature extends Model
     public function feature(): BelongsTo
     {
         return $this->belongsTo(Feature::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_included' => 'boolean',
+        ];
     }
 }

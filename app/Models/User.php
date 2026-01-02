@@ -39,6 +39,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the favorites for the user.
+     *
+     * @return HasMany<Favorite>
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -51,15 +61,5 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'role' => Role::class,
         ];
-    }
-
-    /**
-     * Get the favorites for the user.
-     *
-     * @return HasMany<Favorite>
-     */
-    public function favorites(): HasMany
-    {
-        return $this->hasMany(Favorite::class);
     }
 }

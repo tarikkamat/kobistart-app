@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\FeatureKey;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Enums\FeatureKey;
 
 class FilterItem extends Model
 {
@@ -27,20 +27,6 @@ class FilterItem extends Model
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-            'order' => 'integer',
-            'feature_key' => FeatureKey::class,
-        ];
-    }
-
-    /**
      * Get the filter group that owns the item.
      *
      * @return BelongsTo<FilterGroup>
@@ -58,5 +44,19 @@ class FilterItem extends Model
     public function feature(): BelongsTo
     {
         return $this->belongsTo(Feature::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean',
+            'order' => 'integer',
+            'feature_key' => FeatureKey::class,
+        ];
     }
 }

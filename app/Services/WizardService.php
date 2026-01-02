@@ -12,8 +12,8 @@ class WizardService
     /**
      * Prepare the agent prompt with wizard data and platform information.
      *
-     * @param array<string, mixed> $wizardData
-     * @param Collection<int, Platform> $platforms
+     * @param  array<string, mixed>  $wizardData
+     * @param  Collection<int, Platform>  $platforms
      * @return string
      */
     public function prepareAgentPrompt(array $wizardData, Collection $platforms): string
@@ -71,9 +71,9 @@ class WizardService
         // Build the prompt
         $prompt = "Aşağıdaki kullanıcı bilgileri ve platform verilerine göre e-ticaret platform önerisi yap.\n\n";
         $prompt .= "KULLANICI BİLGİLERİ:\n";
-        $prompt .= json_encode($wizardData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n\n";
+        $prompt .= json_encode($wizardData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)."\n\n";
         $prompt .= "PLATFORM VERİLERİ:\n";
-        $prompt .= json_encode($platformsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n\n";
+        $prompt .= json_encode($platformsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)."\n\n";
         $prompt .= "Lütfen analiz yap ve JSON formatında yanıt ver. Yanıt formatı şu şekilde olmalı:\n";
         $prompt .= "{\n";
         $prompt .= "  \"primary\": {\n";
@@ -95,10 +95,37 @@ class WizardService
     }
 
     /**
+     * Calculate monthly price from plan price.
+     *
+     * @param  PlanPrice  $planPrice
+     * @return float
+     */
+    public function calculateMonthlyPrice(PlanPrice $planPrice): float
+    {
+        $price = $planPrice->discounted_price ?? $planPrice->original_price;
+
+        if ($planPrice->is_monthly_payment) {
+            return (float) $price;
+        }
+
+        // Convert yearly to monthly
+        if ($planPrice->period === 'yearly') {
+            return (float) ($price / 12);
+        }
+
+        if ($planPrice->period === 'two_yearly') {
+            return (float) ($price / 24);
+        }
+
+        // Default to monthly if period is monthly or unknown
+        return (float) $price;
+    }
+
+    /**
      * Format agent response for frontend.
      *
-     * @param string $agentResponse
-     * @param Collection<int, Platform> $platforms
+     * @param  string  $agentResponse
+     * @param  Collection<int, Platform>  $platforms
      * @return array<string, mixed>
      */
     public function formatAgentResponse(string $agentResponse, Collection $platforms): array
@@ -106,7 +133,7 @@ class WizardService
         try {
             // Try to extract JSON from response (might contain markdown code blocks)
             $json = $this->extractJsonFromResponse($agentResponse);
-            
+
             if (!$json) {
                 throw new \Exception('No valid JSON found in agent response');
             }
@@ -114,7 +141,7 @@ class WizardService
             $data = json_decode($json, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('Invalid JSON: ' . json_last_error_msg());
+                throw new \Exception('Invalid JSON: '.json_last_error_msg());
             }
 
             // Map platform IDs to actual platform data
@@ -156,36 +183,9 @@ class WizardService
     }
 
     /**
-     * Calculate monthly price from plan price.
-     *
-     * @param PlanPrice $planPrice
-     * @return float
-     */
-    public function calculateMonthlyPrice(PlanPrice $planPrice): float
-    {
-        $price = $planPrice->discounted_price ?? $planPrice->original_price;
-
-        if ($planPrice->is_monthly_payment) {
-            return (float) $price;
-        }
-
-        // Convert yearly to monthly
-        if ($planPrice->period === 'yearly') {
-            return (float) ($price / 12);
-        }
-
-        if ($planPrice->period === 'two_yearly') {
-            return (float) ($price / 24);
-        }
-
-        // Default to monthly if period is monthly or unknown
-        return (float) $price;
-    }
-
-    /**
      * Extract JSON from agent response (might be wrapped in markdown code blocks).
      *
-     * @param string $response
+     * @param  string  $response
      * @return string|null
      */
     private function extractJsonFromResponse(string $response): ?string
@@ -229,7 +229,7 @@ class WizardService
     /**
      * Extract complete JSON by finding matching braces.
      *
-     * @param string $text
+     * @param  string  $text
      * @return string|null
      */
     private function extractCompleteJson(string $text): ?string
@@ -280,8 +280,8 @@ class WizardService
     /**
      * Format a recommendation (primary or secondary).
      *
-     * @param array<string, mixed> $recommendation
-     * @param \Illuminate\Support\Collection<int, Platform> $platformsMap
+     * @param  array<string, mixed>  $recommendation
+     * @param  \Illuminate\Support\Collection<int, Platform>  $platformsMap
      * @return array<string, mixed>
      */
     private function formatRecommendation(array $recommendation, $platformsMap): array
@@ -301,10 +301,10 @@ class WizardService
             $plan = $recommendation['recommendedPlan'];
             if (!isset($plan['monthlyPrice']) && isset($plan['id'])) {
                 // Try to find plan and calculate price
-                $platformId = is_array($recommendation['platform']) 
+                $platformId = is_array($recommendation['platform'])
                     ? ($recommendation['platform']['id'] ?? null)
                     : ($recommendation['platform']->id ?? null);
-                    
+
                 if ($platformId && $platformsMap->has($platformId)) {
                     $platform = $platformsMap->get($platformId);
                     if ($platform) {
@@ -325,7 +325,7 @@ class WizardService
     /**
      * Format platform data for frontend.
      *
-     * @param Platform $platform
+     * @param  Platform  $platform
      * @return array<string, mixed>
      */
     private function formatPlatformData(Platform $platform): array

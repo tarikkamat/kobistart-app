@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\ComparisonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +18,7 @@ class ComparisonController extends Controller
     /**
      * Store a newly created comparison.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -78,7 +77,7 @@ class ComparisonController extends Controller
     /**
      * Display the specified comparison.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function show(int $id): Response
@@ -109,7 +108,7 @@ class ComparisonController extends Controller
     /**
      * Check if comparison exists for given plans.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function check(Request $request)
@@ -134,7 +133,7 @@ class ComparisonController extends Controller
     /**
      * Remove the specified comparison.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)

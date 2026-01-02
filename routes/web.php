@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PlatformController;
-use App\Http\Controllers\PlanController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ComparisonController;
-use App\Http\Controllers\WizardController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\WizardAnalysisController;
+use App\Http\Controllers\WizardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,7 +19,8 @@ Route::get('/wizard/analyses/{analysis}/pdf', [WizardController::class, 'downloa
 Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
 Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');
 Route::get('/platforms/{platform:slug}', [PlatformController::class, 'show'])->name('platforms.show');
-Route::get('/platforms/{platform:slug}/{plan:slug}', [PlatformController::class, 'planShow'])->name('platforms.plans.show');
+Route::get('/platforms/{platform:slug}/{plan:slug}',
+    [PlatformController::class, 'planShow'])->name('platforms.plans.show');
 Route::get('/compare/{comparison}', [PlatformController::class, 'compare'])->name('platforms.compare');
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth'])->name('comments.store');
 
@@ -36,8 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/wizard/analyses', [WizardAnalysisController::class, 'index'])->name('wizard.analyses.index');
     Route::get('/wizard/analyses/{analysis}', [WizardAnalysisController::class, 'show'])->name('wizard.analyses.show');
-    Route::delete('/wizard/analyses/{analysis}', [WizardAnalysisController::class, 'destroy'])->name('wizard.analyses.destroy');
+    Route::delete('/wizard/analyses/{analysis}',
+        [WizardAnalysisController::class, 'destroy'])->name('wizard.analyses.destroy');
 });
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/settings.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/settings.php';

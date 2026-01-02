@@ -35,7 +35,7 @@ class PlatformController extends Controller
     /**
      * Display the specified platform.
      *
-     * @param string $platformId
+     * @param  string  $platformId
      * @return JsonResponse
      */
     public function show(string $platformId): JsonResponse
@@ -54,7 +54,7 @@ class PlatformController extends Controller
     /**
      * Store a newly created platform.
      *
-     * @param CreatePlatformRequest $request
+     * @param  CreatePlatformRequest  $request
      * @return JsonResponse
      */
     public function store(CreatePlatformRequest $request): JsonResponse
@@ -73,8 +73,8 @@ class PlatformController extends Controller
     /**
      * Update the specified platform.
      *
-     * @param UpdatePlatformRequest $request
-     * @param string $platformId
+     * @param  UpdatePlatformRequest  $request
+     * @param  string  $platformId
      * @return JsonResponse
      */
     public function update(UpdatePlatformRequest $request, string $platformId): JsonResponse
@@ -94,7 +94,7 @@ class PlatformController extends Controller
     /**
      * Delete a platform.
      *
-     * @param string $platformId
+     * @param  string  $platformId
      * @return JsonResponse
      */
     public function destroy(string $platformId): JsonResponse

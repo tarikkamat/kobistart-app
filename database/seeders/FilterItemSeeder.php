@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\Feature;
 use App\Models\FilterGroup;
 use App\Models\FilterItem;
-use App\Models\Feature;
+use Illuminate\Database\Seeder;
 
 class FilterItemSeeder extends Seeder
 {

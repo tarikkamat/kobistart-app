@@ -1,15 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
 import { Pagination } from '@/components/ui/pagination';
-import { Platform, SharedData } from '@/types';
-import { useForm, usePage, Link } from '@inertiajs/react';
-import { MessageSquare, Star, UserCircle2 } from 'lucide-react';
-import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 import { login } from '@/routes';
 import commentRoutes from '@/routes/comments';
-import { cn } from '@/lib/utils';
+import { Platform, SharedData } from '@/types';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import { MessageSquare, Star, UserCircle2 } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface PaginatedComment {
@@ -64,16 +64,20 @@ export default function CommentsSection({ platform, comments }: Props) {
         });
     };
 
-    const averageRating = comments.data.length > 0
-        ? (comments.data.reduce((acc, c) => acc + Number(c.rating), 0) / comments.data.length).toFixed(1)
-        : '0.0';
+    const averageRating =
+        comments.data.length > 0
+            ? (
+                  comments.data.reduce((acc, c) => acc + Number(c.rating), 0) /
+                  comments.data.length
+              ).toFixed(1)
+            : '0.0';
 
     return (
         <div className="space-y-12">
-        <div className="space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-6">
+                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="space-y-1">
-                        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
+                        <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                             <MessageSquare className="h-6 w-6 text-blue-600" />
                             Kullanıcı Yorumları
                         </h2>
@@ -82,14 +86,16 @@ export default function CommentsSection({ platform, comments }: Props) {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-4 bg-zinc-50 dark:bg-zinc-900/50 p-2 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-                        <div className="flex items-center gap-1 bg-white dark:bg-zinc-800 px-3 py-1.5 rounded-xl shadow-sm border border-zinc-100 dark:border-zinc-700">
+                    <div className="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-800 dark:bg-zinc-900/50">
+                        <div className="flex items-center gap-1 rounded-xl border border-zinc-100 bg-white px-3 py-1.5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="font-bold text-zinc-900 dark:text-zinc-50">{averageRating}</span>
+                            <span className="font-bold text-zinc-900 dark:text-zinc-50">
+                                {averageRating}
+                            </span>
                         </div>
-                        <span className="text-sm text-zinc-500 dark:text-zinc-400 pr-2">
+                        <span className="pr-2 text-sm text-zinc-500 dark:text-zinc-400">
                             {comments.total} Değerlendirme
-                                </span>
+                        </span>
                     </div>
                 </div>
 
@@ -97,42 +103,55 @@ export default function CommentsSection({ platform, comments }: Props) {
                     {comments.data.map((comment) => (
                         <div
                             key={comment.id}
-                            className="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm transition-all hover:shadow-md"
+                            className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
                         >
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <Avatar className="h-12 w-12 border-2 border-white dark:border-zinc-800 shadow-sm">
-                                <AvatarImage src={comment.user.profile_photo_url} />
-                                    <AvatarFallback className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
-                                    {comment.user.name.charAt(0).toUpperCase()}
-                                </AvatarFallback>
-                            </Avatar>
+                            <div className="flex flex-col gap-4 sm:flex-row">
+                                <Avatar className="h-12 w-12 border-2 border-white shadow-sm dark:border-zinc-800">
+                                    <AvatarImage
+                                        src={comment.user.profile_photo_url}
+                                    />
+                                    <AvatarFallback className="bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                                        {comment.user.name
+                                            .charAt(0)
+                                            .toUpperCase()}
+                                    </AvatarFallback>
+                                </Avatar>
                                 <div className="flex-1 space-y-3">
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
                                         <div>
-                                            <h4 className="font-bold text-zinc-900 dark:text-zinc-50">{comment.user.name}</h4>
-                                            <div className="flex items-center gap-0.5 mt-1">
-                                        {Array.from({ length: 5 }).map((_, i) => (
-                                            <Star
-                                                key={i}
-                                                        className={cn(
-                                                            "h-3.5 w-3.5",
-                                                            i < Number(comment.rating)
-                                                                ? "fill-yellow-400 text-yellow-400"
-                                                                : "text-zinc-200 dark:text-zinc-700"
-                                                        )}
-                                            />
-                                        ))}
+                                            <h4 className="font-bold text-zinc-900 dark:text-zinc-50">
+                                                {comment.user.name}
+                                            </h4>
+                                            <div className="mt-1 flex items-center gap-0.5">
+                                                {Array.from({ length: 5 }).map(
+                                                    (_, i) => (
+                                                        <Star
+                                                            key={i}
+                                                            className={cn(
+                                                                'h-3.5 w-3.5',
+                                                                i <
+                                                                    Number(
+                                                                        comment.rating,
+                                                                    )
+                                                                    ? 'fill-yellow-400 text-yellow-400'
+                                                                    : 'text-zinc-200 dark:text-zinc-700',
+                                                            )}
+                                                        />
+                                                    ),
+                                                )}
                                             </div>
                                         </div>
                                         <time className="text-xs text-zinc-400 tabular-nums">
-                                            {new Date(comment.created_at).toLocaleDateString('tr-TR', {
+                                            {new Date(
+                                                comment.created_at,
+                                            ).toLocaleDateString('tr-TR', {
                                                 year: 'numeric',
                                                 month: 'long',
-                                                day: 'numeric'
+                                                day: 'numeric',
                                             })}
                                         </time>
                                     </div>
-                                    <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm">
+                                    <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
                                         {comment.comment}
                                     </p>
                                 </div>
@@ -141,88 +160,104 @@ export default function CommentsSection({ platform, comments }: Props) {
                     ))}
 
                     {comments.data.length === 0 && (
-                        <div className="py-20 text-center rounded-3xl border-2 border-dashed border-zinc-200 dark:border-zinc-800">
-                            <UserCircle2 className="h-12 w-12 text-zinc-300 dark:text-zinc-700 mx-auto mb-4" />
+                        <div className="rounded-3xl border-2 border-dashed border-zinc-200 py-20 text-center dark:border-zinc-800">
+                            <UserCircle2 className="mx-auto mb-4 h-12 w-12 text-zinc-300 dark:text-zinc-700" />
                             <p className="text-zinc-500 dark:text-zinc-400">
-                            Henüz yorum yapılmamış. İlk yorumu siz yapın!
-                        </p>
+                                Henüz yorum yapılmamış. İlk yorumu siz yapın!
+                            </p>
                         </div>
                     )}
 
                     <div className="pt-4">
-                    <Pagination
-                        currentPage={comments.current_page}
-                        lastPage={comments.last_page}
-                    />
+                        <Pagination
+                            currentPage={comments.current_page}
+                            lastPage={comments.last_page}
+                        />
                     </div>
                 </div>
             </div>
 
             <div className="pt-8">
-            {auth.user ? (
-                    <Card className="rounded-3xl border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+                {auth.user ? (
+                    <Card className="overflow-hidden rounded-3xl border-zinc-200 bg-white/50 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/50">
                         <CardHeader className="pb-4">
-                            <CardTitle className="text-xl font-bold">Deneyimlerini Paylaş</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                            <CardTitle className="text-xl font-bold">
+                                Deneyimlerini Paylaş
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
                             <form onSubmit={submit} className="space-y-6">
                                 <div className="space-y-3">
-                                    <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Değerlendirmeniz</label>
-                                    <div className="flex gap-2 p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 w-fit">
-                                    {Array.from({ length: 5 }).map((_, i) => (
-                                        <button
-                                            type="button"
-                                            key={i}
-                                            onClick={() => {
-                                                setRating(i + 1);
-                                                setData('rating', i + 1);
-                                            }}
-                                                className="focus:outline-none group"
-                                        >
-                                            <Star
-                                                    className={cn(
-                                                        "h-8 w-8 transition-all",
-                                                        i < rating
-                                                            ? "fill-yellow-400 text-yellow-400 scale-110"
-                                                            : "text-zinc-300 dark:text-zinc-700 group-hover:text-yellow-200"
-                                                    )}
-                                            />
-                                        </button>
-                                    ))}
+                                    <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                                        Değerlendirmeniz
+                                    </label>
+                                    <div className="flex w-fit gap-2 rounded-2xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
+                                        {Array.from({ length: 5 }).map(
+                                            (_, i) => (
+                                                <button
+                                                    type="button"
+                                                    key={i}
+                                                    onClick={() => {
+                                                        setRating(i + 1);
+                                                        setData(
+                                                            'rating',
+                                                            i + 1,
+                                                        );
+                                                    }}
+                                                    className="group focus:outline-none"
+                                                >
+                                                    <Star
+                                                        className={cn(
+                                                            'h-8 w-8 transition-all',
+                                                            i < rating
+                                                                ? 'scale-110 fill-yellow-400 text-yellow-400'
+                                                                : 'text-zinc-300 group-hover:text-yellow-200 dark:text-zinc-700',
+                                                        )}
+                                                    />
+                                                </button>
+                                            ),
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
                                 <div className="space-y-2">
-                                <Textarea
+                                    <Textarea
                                         placeholder="Platform hakkındaki görüşlerinizi buraya yazın..."
-                                    value={data.comment}
-                                    onChange={(e) => setData('comment', e.target.value)}
-                                        className="min-h-[120px] rounded-2xl bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 focus:ring-blue-600 transition-all"
-                                />
-                                {errors.comment && (
-                                        <p className="text-xs font-medium text-red-500">{errors.comment}</p>
-                                )}
-                            </div>
+                                        value={data.comment}
+                                        onChange={(e) =>
+                                            setData('comment', e.target.value)
+                                        }
+                                        className="min-h-[120px] rounded-2xl border-zinc-200 bg-white transition-all focus:ring-blue-600 dark:border-zinc-800 dark:bg-zinc-900"
+                                    />
+                                    {errors.comment && (
+                                        <p className="text-xs font-medium text-red-500">
+                                            {errors.comment}
+                                        </p>
+                                    )}
+                                </div>
                                 <Button
                                     type="submit"
                                     disabled={processing}
-                                    className="h-12 rounded-2xl px-8 bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-lg shadow-blue-600/20 disabled:opacity-50"
+                                    className="h-12 rounded-2xl bg-blue-600 px-8 font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 disabled:opacity-50"
                                 >
-                                Gönder
-                            </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-            ) : (
-                    <div className="p-10 text-center rounded-3xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
-                        <p className="text-zinc-600 dark:text-zinc-400 font-medium">
+                                    Gönder
+                                </Button>
+                            </form>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="rounded-3xl border border-blue-100 bg-blue-50/50 p-10 text-center dark:border-blue-900/30 dark:bg-blue-900/10">
+                        <p className="font-medium text-zinc-600 dark:text-zinc-400">
                             Yorum yapmak için lütfen{' '}
-                            <Link href={login.url()} className="text-blue-600 dark:text-blue-400 font-bold hover:underline underline-offset-4">
+                            <Link
+                                href={login.url()}
+                                className="font-bold text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
+                            >
                                 giriş yapın
                             </Link>
                             .
                         </p>
                     </div>
-            )}
+                )}
             </div>
         </div>
     );

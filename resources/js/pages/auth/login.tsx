@@ -2,16 +2,16 @@ import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { GlassCard } from '@/components/ui/glass-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { GlassCard } from '@/components/ui/glass-card';
 import AuthLayout from '@/layouts/auth-layout';
+import { cn } from '@/lib/utils';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
-import { Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ShieldCheck } from 'lucide-react';
 
 interface LoginProps {
     status?: string;
@@ -25,17 +25,15 @@ export default function Login({
     canRegister,
 }: LoginProps) {
     return (
-        <AuthLayout
-            title="Kobistart | Giriş yap"
-        >
+        <AuthLayout title="Kobistart | Giriş yap">
             <Head title="Giriş yap" />
 
             <div className="relative w-full max-w-md">
-                <div className="absolute top-0 left-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] animate-pulse dark:from-blue-500/20 dark:via-violet-500/10" />
-                <div className="absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-float dark:bg-blue-500/20" />
-                <div className="absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] animate-float [animation-delay:2s] dark:bg-violet-500/20" />
+                <div className="absolute top-0 left-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 animate-pulse rounded-full bg-gradient-to-b from-blue-500/10 via-violet-500/5 to-transparent blur-[120px] dark:from-blue-500/20 dark:via-violet-500/10" />
+                <div className="animate-float absolute top-[20%] right-[-10%] -z-10 h-[400px] w-[400px] rounded-full bg-blue-400/10 blur-[100px] dark:bg-blue-500/20" />
+                <div className="animate-float absolute bottom-[10%] left-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-violet-400/10 blur-[80px] [animation-delay:2s] dark:bg-violet-500/20" />
 
-                <GlassCard className="relative z-10 p-8 sm:p-10 rounded-3xl border-white/40 dark:border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4)] bg-white/40 dark:bg-white/5 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                <GlassCard className="relative z-10 animate-in rounded-3xl border-white/40 bg-white/40 p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] duration-1000 fade-in slide-in-from-bottom-8 sm:p-10 dark:border-white/10 dark:bg-white/5 dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4)]">
                     <Form
                         {...store.form()}
                         resetOnSuccess={['password']}
@@ -44,8 +42,11 @@ export default function Login({
                         {({ processing, errors }) => (
                             <>
                                 <div className="grid gap-6">
-                                    <div className="grid gap-2 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                                        <Label htmlFor="email" className="text-sm font-semibold text-gray-900 dark:text-slate-100">
+                                    <div className="grid animate-in gap-2 delay-200 duration-1000 fade-in slide-in-from-bottom-8">
+                                        <Label
+                                            htmlFor="email"
+                                            className="text-sm font-semibold text-gray-900 dark:text-slate-100"
+                                        >
                                             E-Posta
                                         </Label>
                                         <Input
@@ -57,20 +58,23 @@ export default function Login({
                                             tabIndex={1}
                                             autoComplete="email"
                                             placeholder="ornek@kobistart.com"
-                                            className="h-12 rounded-xl border-2 border-gray-200 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/5 transition-all duration-300"
+                                            className="h-12 rounded-xl border-2 border-gray-200 bg-white/90 transition-all duration-300 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/5 dark:border-white/10 dark:bg-slate-900/90"
                                         />
                                         <InputError message={errors.email} />
                                     </div>
 
-                                    <div className="grid gap-2 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                                    <div className="grid animate-in gap-2 delay-300 duration-1000 fade-in slide-in-from-bottom-8">
                                         <div className="flex items-center">
-                                            <Label htmlFor="password" className="text-sm font-semibold text-gray-900 dark:text-slate-100">
+                                            <Label
+                                                htmlFor="password"
+                                                className="text-sm font-semibold text-gray-900 dark:text-slate-100"
+                                            >
                                                 Şifre
                                             </Label>
                                             {canResetPassword && (
                                                 <TextLink
                                                     href={request()}
-                                                    className="ml-auto text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                                                    className="ml-auto text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                                     tabIndex={5}
                                                 >
                                                     Şifremi unuttum?
@@ -85,19 +89,22 @@ export default function Login({
                                             tabIndex={2}
                                             autoComplete="current-password"
                                             placeholder="Şifre"
-                                            className="h-12 rounded-xl border-2 border-gray-200 dark:border-white/10 bg-white/90 dark:bg-slate-900/90 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/5 transition-all duration-300"
+                                            className="h-12 rounded-xl border-2 border-gray-200 bg-white/90 transition-all duration-300 focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/5 dark:border-white/10 dark:bg-slate-900/90"
                                         />
                                         <InputError message={errors.password} />
                                     </div>
 
-                                    <div className="flex items-center space-x-3 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
+                                    <div className="flex animate-in items-center space-x-3 delay-400 duration-1000 fade-in slide-in-from-bottom-8">
                                         <Checkbox
                                             id="remember"
                                             name="remember"
                                             tabIndex={3}
                                             className="h-5 w-5 rounded-md border-2 border-gray-300 dark:border-white/20"
                                         />
-                                        <Label htmlFor="remember" className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                                        <Label
+                                            htmlFor="remember"
+                                            className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300"
+                                        >
                                             Beni hatırla
                                         </Label>
                                     </div>
@@ -105,10 +112,10 @@ export default function Login({
                                     <Button
                                         type="submit"
                                         className={cn(
-                                            "mt-4 w-full h-14 rounded-full text-lg font-bold transition-all duration-500 shadow-xl disabled:cursor-not-allowed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500",
+                                            'mt-4 h-14 w-full animate-in rounded-full text-lg font-bold shadow-xl transition-all delay-500 duration-500 duration-1000 fade-in slide-in-from-bottom-8 disabled:cursor-not-allowed',
                                             processing
-                                                ? "bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500"
-                                                : "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20 hover:shadow-blue-500/30"
+                                                ? 'bg-gray-100 text-gray-400 dark:bg-slate-800 dark:text-gray-500'
+                                                : 'bg-blue-600 text-white shadow-blue-500/20 hover:bg-blue-700 hover:shadow-blue-500/30',
                                         )}
                                         tabIndex={4}
                                         disabled={processing}
@@ -116,7 +123,7 @@ export default function Login({
                                     >
                                         {processing ? (
                                             <div className="flex items-center gap-2">
-                                                <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                                                 Giriş yapılıyor...
                                             </div>
                                         ) : (
@@ -128,12 +135,12 @@ export default function Login({
                                 </div>
 
                                 {canRegister && (
-                                    <div className="text-center text-sm text-muted-foreground animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-600">
+                                    <div className="animate-in text-center text-sm text-muted-foreground delay-600 duration-1000 fade-in slide-in-from-bottom-8">
                                         Henüz hesabınız yok mu?{' '}
                                         <TextLink
                                             href={register()}
                                             tabIndex={5}
-                                            className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                                            className="font-semibold text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                         >
                                             Hesap Oluştur
                                         </TextLink>
@@ -144,7 +151,7 @@ export default function Login({
                     </Form>
 
                     {status && (
-                        <div className="mt-6 flex items-center justify-center gap-2 rounded-xl bg-green-50 dark:bg-green-500/10 px-4 py-3 text-sm font-medium text-green-600 dark:text-green-400 border border-green-200 dark:border-green-500/20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                        <div className="mt-6 flex animate-in items-center justify-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-600 duration-700 fade-in slide-in-from-bottom-4 dark:border-green-500/20 dark:bg-green-500/10 dark:text-green-400">
                             <ShieldCheck className="h-4 w-4" />
                             {status}
                         </div>

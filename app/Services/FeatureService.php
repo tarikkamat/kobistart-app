@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\FeatureRepository;
 use App\Contracts\BaseService;
+use App\Repository\FeatureRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class FeatureService extends BaseService
@@ -28,7 +28,7 @@ class FeatureService extends BaseService
     /**
      * Get features by category ordered by order field.
      *
-     * @param string $category
+     * @param  string  $category
      * @return Collection<int, \App\Models\Feature>
      */
     public function getByCategory(string $category): Collection

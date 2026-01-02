@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Contracts\BaseService;
 use App\Repository\FilterGroupRepository;
 use App\Repository\FilterItemRepository;
-use App\Contracts\BaseService;
 use Illuminate\Database\Eloquent\Collection;
 
 class FilterService extends BaseService
@@ -31,7 +31,7 @@ class FilterService extends BaseService
     /**
      * Get filter items by their IDs.
      *
-     * @param array<int> $filterItemIds
+     * @param  array<int>  $filterItemIds
      * @return Collection<int, \App\Models\FilterItem>
      */
     public function getFilterItemsByIds(array $filterItemIds): Collection
@@ -50,7 +50,7 @@ class FilterService extends BaseService
     /**
      * Extract feature IDs and feature keys from filter items.
      *
-     * @param Collection<int, \App\Models\FilterItem> $filterItems
+     * @param  Collection<int, \App\Models\FilterItem>  $filterItems
      * @return array{feature_ids: array<int>, feature_keys: array<string>}
      */
     public function extractFeatureFilters(Collection $filterItems): array

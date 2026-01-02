@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\WizardAnalysis;
 use App\Services\Ai\AiServiceFactory;
 use App\Services\PlatformService;
 use App\Services\WizardAnalysisService;
@@ -62,7 +61,7 @@ class ProcessWizardAnalysis implements ShouldQueue
             $response = $aiService->sendMessage($prompt);
 
             if (!$response['success'] || !isset($response['response'])) {
-                throw new \Exception('AI service failed: ' . ($response['error'] ?? 'Unknown error'));
+                throw new \Exception('AI service failed: '.($response['error'] ?? 'Unknown error'));
             }
 
             // Format agent response

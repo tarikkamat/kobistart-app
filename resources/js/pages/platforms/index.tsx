@@ -1,6 +1,6 @@
 import LandingLayout from '@/layouts/LandingLayout';
-import { Head, usePage } from '@inertiajs/react';
 import { Platform } from '@/types';
+import { Head, usePage } from '@inertiajs/react';
 import PlatformGrid from './sections/PlatformGrid';
 
 interface PageProps extends Record<string, unknown> {
@@ -18,4 +18,3 @@ export default function PlatformsIndex() {
         </LandingLayout>
     );
 }
-

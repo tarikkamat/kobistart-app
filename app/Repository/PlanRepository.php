@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\Plan;
 use App\Contracts\BaseRepository;
+use App\Models\Plan;
 use Illuminate\Database\Eloquent\Collection;
 
 class PlanRepository extends BaseRepository
@@ -36,8 +36,8 @@ class PlanRepository extends BaseRepository
     /**
      * Get plan by slug with relations.
      *
-     * @param string $slug
-     * @param int $platformId
+     * @param  string  $slug
+     * @param  int  $platformId
      * @return Plan|null
      */
     public function getPlanBySlug(string $slug, int $platformId): ?Plan
@@ -59,8 +59,8 @@ class PlanRepository extends BaseRepository
     /**
      * Get plans with filters applied.
      *
-     * @param array<int> $featureIds
-     * @param array<string> $featureKeys
+     * @param  array<int>  $featureIds
+     * @param  array<string>  $featureKeys
      * @return Collection<int, Plan>
      */
     public function getPlansWithFilters(array $featureIds = [], array $featureKeys = []): Collection

@@ -1,13 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/glass-card';
-import { AlertCircle, ArrowRight, CheckCircle2, ChevronRight, Zap } from 'lucide-react';
+import {
+    AlertCircle,
+    ArrowRight,
+    CheckCircle2,
+    ChevronRight,
+    Zap,
+} from 'lucide-react';
 
 export default function Recommendation() {
     return (
-        <section className="relative py-20 overflow-hidden bg-gradient-to-b from-amber-50/40 via-orange-50/20 to-white dark:from-amber-950/15 dark:via-orange-950/10 dark:to-transparent">
+        <section className="relative overflow-hidden bg-gradient-to-b from-amber-50/40 via-orange-50/20 to-white py-20 dark:from-amber-950/15 dark:via-orange-950/10 dark:to-transparent">
             {/* Background Decor */}
-            <div className="absolute right-0 top-1/2 -z-10 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-amber-500/10 blur-[120px] dark:bg-amber-500/5" />
-            <div className="absolute left-0 bottom-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-orange-500/10 blur-[100px] dark:bg-orange-500/5" />
+            <div className="absolute top-1/2 right-0 -z-10 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-amber-500/10 blur-[120px] dark:bg-amber-500/5" />
+            <div className="absolute bottom-1/4 left-0 -z-10 h-[400px] w-[400px] rounded-full bg-orange-500/10 blur-[100px] dark:bg-orange-500/5" />
 
             <div className="container mx-auto px-4">
                 <div className="mb-12 text-center">
@@ -16,10 +22,13 @@ export default function Recommendation() {
                         KobiStart Farkı
                     </div>
                     <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
-                        Sadece <span className="italic">ne</span> olduğunu değil, <span className="italic">neden</span> olduğunu görün.
+                        Sadece <span className="italic">ne</span> olduğunu
+                        değil, <span className="italic">neden</span> olduğunu
+                        görün.
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-                        Bir platformun neden sizin özel kısıtlamalarınıza uyduğunu tam olarak vurguluyoruz.
+                        Bir platformun neden sizin özel kısıtlamalarınıza
+                        uyduğunu tam olarak vurguluyoruz.
                     </p>
                 </div>
 
@@ -37,18 +46,30 @@ export default function Recommendation() {
                                         />
                                     </div>
                                     <div>
-                                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">WooCommerce</h3>
-                                        <div className="flex items-center gap-2 mt-1">
+                                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                                            WooCommerce
+                                        </h3>
+                                        <div className="mt-1 flex items-center gap-2">
                                             <span className="flex items-center rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">
                                                 ★ %92 Eşleşme
                                             </span>
-                                            <span className="text-sm text-gray-500">Teknik Kullanıcılar İçin En İyisi</span>
+                                            <span className="text-sm text-gray-500">
+                                                Teknik Kullanıcılar İçin En
+                                                İyisi
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="hidden text-right sm:block">
-                                    <div className="text-sm font-medium text-gray-500">Tahmini Maliyet</div>
-                                    <div className="text-xl font-bold text-gray-900 dark:text-white">$25<span className="text-sm font-normal text-gray-500">/ay</span></div>
+                                    <div className="text-sm font-medium text-gray-500">
+                                        Tahmini Maliyet
+                                    </div>
+                                    <div className="text-xl font-bold text-gray-900 dark:text-white">
+                                        $25
+                                        <span className="text-sm font-normal text-gray-500">
+                                            /ay
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -61,11 +82,14 @@ export default function Recommendation() {
                                     <ul className="mt-2 space-y-2 text-sm text-gray-700 dark:text-gray-300">
                                         <li className="flex items-start gap-2">
                                             <span className="mt-1.5 h-1 w-1 rounded-full bg-green-500"></span>
-                                            Zaten WordPress barındırma hizmetiniz var, bu da ayda yaklaşık 30$ tasarruf sağlar.
+                                            Zaten WordPress barındırma
+                                            hizmetiniz var, bu da ayda yaklaşık
+                                            30$ tasarruf sağlar.
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <span className="mt-1.5 h-1 w-1 rounded-full bg-green-500"></span>
-                                            Tam kod özelleştirme erişimi talep ettiniz.
+                                            Tam kod özelleştirme erişimi talep
+                                            ettiniz.
                                         </li>
                                     </ul>
                                 </div>
@@ -76,13 +100,19 @@ export default function Recommendation() {
                                         Dikkat edilmesi gerekenler
                                     </h4>
                                     <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                                        Manuel güvenlik güncellemeleri gerektirir. Teknik becerilerinizi "Orta" olarak işaretlediğiniz için bir bakım eklentisi kullanmayı düşünün.
+                                        Manuel güvenlik güncellemeleri
+                                        gerektirir. Teknik becerilerinizi "Orta"
+                                        olarak işaretlediğiniz için bir bakım
+                                        eklentisi kullanmayı düşünün.
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-center justify-between border-t border-gray-200 pt-6 dark:border-white/10">
-                                <Button variant="link" className="px-0 text-blue-600 dark:text-blue-400">
+                                <Button
+                                    variant="link"
+                                    className="px-0 text-blue-600 dark:text-blue-400"
+                                >
                                     Tam Analizi Görüntüle
                                 </Button>
                                 <Button className="bg-gray-900 text-white hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-200">
@@ -95,21 +125,35 @@ export default function Recommendation() {
                         {/* Comparative Insight & Next Best */}
                         <div className="flex flex-col gap-6">
                             <GlassCard className="relative overflow-hidden">
-                                <div className="absolute -right-4 -top-4 -z-10 h-24 w-24 rounded-full bg-purple-500/10 blur-2xl dark:bg-purple-900/20" />
+                                <div className="absolute -top-4 -right-4 -z-10 h-24 w-24 rounded-full bg-purple-500/10 blur-2xl dark:bg-purple-900/20" />
 
-                                <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                                <h4 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
                                     Ya Şöyle Olsaydı?
                                 </h4>
                                 <p className="mb-4 text-sm text-gray-700 dark:text-gray-300">
-                                    Bütçenizi <strong className="text-gray-900 dark:text-white">aylık 50$</strong>'a çıkarırsanız, daha iyi entegre ödemeler nedeniyle <strong className="text-blue-600 dark:text-blue-400">Shopify</strong> 1 numaralı tercih haline gelir.
+                                    Bütçenizi{' '}
+                                    <strong className="text-gray-900 dark:text-white">
+                                        aylık 50$
+                                    </strong>
+                                    'a çıkarırsanız, daha iyi entegre ödemeler
+                                    nedeniyle{' '}
+                                    <strong className="text-blue-600 dark:text-blue-400">
+                                        Shopify
+                                    </strong>{' '}
+                                    1 numaralı tercih haline gelir.
                                 </p>
-                                <Button variant="outline" size="sm" className="w-full justify-between dark:bg-transparent">
-                                    Değişiklikleri Simüle Et <ArrowRight className="h-3 w-3" />
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full justify-between dark:bg-transparent"
+                                >
+                                    Değişiklikleri Simüle Et{' '}
+                                    <ArrowRight className="h-3 w-3" />
                                 </Button>
                             </GlassCard>
 
                             <GlassCard>
-                                <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                                <h4 className="mb-3 text-sm font-semibold tracking-wider text-gray-500 uppercase">
                                     İkinci Sırada
                                 </h4>
                                 <div className="flex items-center gap-3">
@@ -117,11 +161,15 @@ export default function Recommendation() {
                                         B
                                     </div>
                                     <div>
-                                        <div className="font-bold text-gray-900 dark:text-white">BigCommerce</div>
-                                        <div className="text-xs text-gray-500">%85 Eşleşme</div>
+                                        <div className="font-bold text-gray-900 dark:text-white">
+                                            BigCommerce
+                                        </div>
+                                        <div className="text-xs text-gray-500">
+                                            %85 Eşleşme
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="mt-3 text-xs text-red-500 flex items-center gap-1">
+                                <div className="mt-3 flex items-center gap-1 text-xs text-red-500">
                                     <AlertCircle className="h-3 w-3" />
                                     Kritik entegrasyon eksik: Klaviyo
                                 </div>

@@ -1,8 +1,8 @@
-import { Head, router, usePage } from '@inertiajs/react';
 import LandingLayout from '@/layouts/LandingLayout';
-import { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
 import wizardRoutes from '@/routes/wizard';
+import { Head, router, usePage } from '@inertiajs/react';
+import { Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface PageProps extends Record<string, unknown> {
     sessionId?: string;
@@ -10,7 +10,9 @@ interface PageProps extends Record<string, unknown> {
 
 export default function WizardProcessing() {
     const { sessionId } = usePage<PageProps>().props;
-    const [status, setStatus] = useState<'processing' | 'ready' | 'error'>('processing');
+    const [status, setStatus] = useState<'processing' | 'ready' | 'error'>(
+        'processing',
+    );
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -28,20 +30,29 @@ export default function WizardProcessing() {
                     return;
                 }
 
-                const response = await fetch(wizardRoutes.checkAnalysis.url({ query: { session_id: sessionId } }), {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
+                const response = await fetch(
+                    wizardRoutes.checkAnalysis.url({
+                        query: { session_id: sessionId },
+                    }),
+                    {
+                        method: 'GET',
+                        headers: {
+                            Accept: 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
                     },
-                });
+                );
 
                 const data = await response.json();
 
                 if (data.ready && data.result && data.analysisId) {
                     setStatus('ready');
                     // Redirect to result page with analysisId
-                    router.visit(wizardRoutes.result.url({ query: { analysisId: data.analysisId } }));
+                    router.visit(
+                        wizardRoutes.result.url({
+                            query: { analysisId: data.analysisId },
+                        }),
+                    );
                 }
             } catch (err) {
                 console.error('Polling error:', err);
@@ -63,41 +74,44 @@ export default function WizardProcessing() {
     return (
         <LandingLayout>
             <Head title="Analiz İşleniyor - Platform Önerisi" />
-            <div className="container mx-auto px-4 py-12 max-w-4xl">
-                <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8">
+            <div className="container mx-auto max-w-4xl px-4 py-12">
+                <div className="flex min-h-[60vh] flex-col items-center justify-center space-y-8">
                     {status === 'processing' && (
                         <>
                             <div className="relative">
                                 <Loader2 className="h-16 w-16 animate-spin text-primary" />
                             </div>
-                            <div className="text-center space-y-4">
+                            <div className="space-y-4 text-center">
                                 <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                                     Analiz İşleniyor
                                 </h1>
-                                <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-md">
-                                    AI asistanınız işletmenizin ihtiyaçlarına en uygun platformu analiz ediyor.
-                                    Bu işlem birkaç dakika sürebilir...
+                                <p className="max-w-md text-lg text-zinc-600 dark:text-zinc-400">
+                                    AI asistanınız işletmenizin ihtiyaçlarına en
+                                    uygun platformu analiz ediyor. Bu işlem
+                                    birkaç dakika sürebilir...
                                 </p>
                                 <div className="flex items-center justify-center space-x-2 text-sm text-zinc-500 dark:text-zinc-400">
                                     <Loader2 className="h-4 w-4 animate-spin" />
-                                    <span>Lütfen bekleyin, sayfayı kapatmayın</span>
+                                    <span>
+                                        Lütfen bekleyin, sayfayı kapatmayın
+                                    </span>
                                 </div>
                             </div>
                         </>
                     )}
 
                     {status === 'error' && (
-                        <div className="text-center space-y-4">
-                            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+                        <div className="space-y-4 text-center">
+                            <div className="mb-4 text-6xl text-red-500">⚠️</div>
                             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                                 Bir Hata Oluştu
                             </h1>
-                            <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-md">
+                            <p className="max-w-md text-lg text-zinc-600 dark:text-zinc-400">
                                 {error || 'Analiz sırasında bir hata oluştu.'}
                             </p>
                             <button
                                 onClick={() => router.visit('/wizard')}
-                                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                                className="rounded-lg bg-primary px-6 py-3 text-white transition-colors hover:bg-primary/90"
                             >
                                 Tekrar Dene
                             </button>
@@ -108,4 +122,3 @@ export default function WizardProcessing() {
         </LandingLayout>
     );
 }
-

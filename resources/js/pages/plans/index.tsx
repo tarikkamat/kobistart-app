@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LandingLayout from '@/layouts/LandingLayout';
 import { Head, router, usePage } from '@inertiajs/react';
 import { Plan, Platform } from '@/types';
@@ -23,7 +23,10 @@ export default function PlansIndex() {
         const urlParams = new URLSearchParams(window.location.search);
         const filtersParam = urlParams.get('filters');
         if (filtersParam) {
-            const filterIds = filtersParam.split(',').map(Number).filter(Boolean);
+            const filterIds = filtersParam
+                .split(',')
+                .map(Number)
+                .filter(Boolean);
             setSelectedFilters(filterIds);
         }
     }, []);
@@ -50,10 +53,14 @@ export default function PlansIndex() {
             params.set('filters', filterIds.join(','));
         }
         const queryString = params.toString();
-        router.get(`/plans${queryString ? `?${queryString}` : ''}`, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            `/plans${queryString ? `?${queryString}` : ''}`,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     // Extract platform from plan
@@ -71,28 +78,29 @@ export default function PlansIndex() {
             <div className="container mx-auto px-4 py-12">
                 {/* Header */}
                 <div className="mb-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-100 dark:border-blue-800 mb-4">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold tracking-wider text-blue-600 uppercase dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
                         E-Ticaret Planları
                     </div>
-                    <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-4">
+                    <h1 className="mb-4 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                         Tüm E-Ticaret Planları
                     </h1>
-                    <p className="text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl">
-                        Platformların sunduğu tüm planları karşılaştırın ve ihtiyacınıza en uygun olanı seçin.
+                    <p className="max-w-2xl text-lg text-zinc-500 dark:text-zinc-400">
+                        Platformların sunduğu tüm planları karşılaştırın ve
+                        ihtiyacınıza en uygun olanı seçin.
                     </p>
                 </div>
 
                 {/* Mobile Filter Button */}
-                <div className="lg:hidden mb-6">
+                <div className="mb-6 lg:hidden">
                     <Button
                         variant="outline"
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
                         className="w-full"
                     >
-                        <Filter className="h-4 w-4 mr-2" />
+                        <Filter className="mr-2 h-4 w-4" />
                         Filtrele
                         {selectedFilters.length > 0 && (
-                            <span className="ml-2 px-2 py-0.5 bg-blue-600 text-white rounded-full text-xs">
+                            <span className="ml-2 rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
                                 {selectedFilters.length}
                             </span>
                         )}
@@ -101,7 +109,7 @@ export default function PlansIndex() {
 
                 <div className="flex gap-8">
                     {/* Filter Sidebar */}
-                    <div className="hidden lg:block lg:w-80 flex-shrink-0">
+                    <div className="hidden flex-shrink-0 lg:block lg:w-80">
                         <FilterSidebar
                             filterGroups={filterGroups}
                             selectedFilters={selectedFilters}
@@ -128,13 +136,17 @@ export default function PlansIndex() {
                     <div className="flex-1">
                         {/* Active Filters */}
                         {selectedFilters.length > 0 && (
-                            <div className="mb-6 flex flex-wrap gap-2 items-center">
-                                <span className="text-sm text-zinc-600 dark:text-zinc-400">Aktif Filtreler:</span>
+                            <div className="mb-6 flex flex-wrap items-center gap-2">
+                                <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                                    Aktif Filtreler:
+                                </span>
                                 {selectedFilters.map((filterId) => {
                                     // Find filter item name
                                     let filterName = '';
                                     for (const group of filterGroups) {
-                                        const item = group.filter_items?.find((item) => item.id === filterId);
+                                        const item = group.filter_items?.find(
+                                            (item) => item.id === filterId,
+                                        );
                                         if (item) {
                                             filterName = item.name;
                                             break;
@@ -143,8 +155,13 @@ export default function PlansIndex() {
                                     return (
                                         <button
                                             key={filterId}
-                                            onClick={() => handleFilterChange(filterId, false)}
-                                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                                            onClick={() =>
+                                                handleFilterChange(
+                                                    filterId,
+                                                    false,
+                                                )
+                                            }
+                                            className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-700 transition-colors hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50"
                                         >
                                             {filterName}
                                             <X className="h-3 w-3" />
@@ -166,7 +183,7 @@ export default function PlansIndex() {
 
                         {/* Plans Grid */}
                         {plans.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                                 {plans.map((plan) => {
                                     const platform = getPlatformFromPlan(plan);
                                     if (!platform) {
@@ -182,9 +199,10 @@ export default function PlansIndex() {
                                 })}
                             </div>
                         ) : (
-                            <div className="rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-12 text-center">
-                                <p className="text-lg text-zinc-500 dark:text-zinc-400 mb-4">
-                                    Seçtiğiniz filtrelerle eşleşen plan bulunamadı.
+                            <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
+                                <p className="mb-4 text-lg text-zinc-500 dark:text-zinc-400">
+                                    Seçtiğiniz filtrelerle eşleşen plan
+                                    bulunamadı.
                                 </p>
                                 <Button
                                     variant="outline"
@@ -200,4 +218,3 @@ export default function PlansIndex() {
         </LandingLayout>
     );
 }
-

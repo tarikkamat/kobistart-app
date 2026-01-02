@@ -41,4 +41,3 @@ export interface SaveComparisonData {
     };
     notes?: string | null;
 }
-

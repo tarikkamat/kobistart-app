@@ -4,14 +4,13 @@ namespace App\Services;
 
 use App\Models\WizardAnalysis;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\View;
 
 class PdfService
 {
     /**
      * Generate PDF for wizard analysis.
      *
-     * @param WizardAnalysis $analysis
+     * @param  WizardAnalysis  $analysis
      * @return \Barryvdh\DomPDF\PDF
      */
     public function generateWizardAnalysisPdf(WizardAnalysis $analysis): \Barryvdh\DomPDF\PDF

@@ -16,9 +16,7 @@ export default function LandingLayout({ children }: PropsWithChildren) {
 
             <Header />
 
-            <main className="flex flex-col pt-24">
-                {children}
-            </main>
+            <main className="flex flex-col pt-24">{children}</main>
 
             <Footer />
         </div>

@@ -48,7 +48,7 @@ class WizardController extends Controller
      * Analyze wizard data and return platform recommendations.
      * Now uses queue for async processing.
      *
-     * @param WizardAnalyzeRequest $request
+     * @param  WizardAnalyzeRequest  $request
      * @return Response|RedirectResponse
      */
     public function analyze(WizardAnalyzeRequest $request)
@@ -85,7 +85,7 @@ class WizardController extends Controller
     /**
      * Check if analysis is ready (polling endpoint).
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function checkAnalysis(Request $request)
@@ -134,7 +134,7 @@ class WizardController extends Controller
     /**
      * Display the wizard result page.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response|RedirectResponse
      */
     public function result(Request $request)
@@ -171,7 +171,7 @@ class WizardController extends Controller
     /**
      * Download PDF for wizard analysis.
      *
-     * @param WizardAnalysis $analysis
+     * @param  WizardAnalysis  $analysis
      * @return BinaryFileResponse|RedirectResponse
      */
     public function downloadPdf(WizardAnalysis $analysis)
@@ -186,7 +186,7 @@ class WizardController extends Controller
 
         try {
             $pdf = $this->pdfService->generateWizardAnalysisPdf($analysis);
-            $filename = 'platform-onerisi-' . $analysis->id . '-' . now()->format('Y-m-d') . '.pdf';
+            $filename = 'platform-onerisi-'.$analysis->id.'-'.now()->format('Y-m-d').'.pdf';
 
             return $pdf->download($filename);
         } catch (\Exception $e) {

@@ -1,15 +1,15 @@
 import LandingLayout from '@/layouts/LandingLayout';
+import { Platform } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { Platform } from '@/types';
 import CallToAction from './sections/CallToAction';
 import Comparison from './sections/Comparison';
+import FinancialSolutions from './sections/FinancialSolutions';
 import Hero from './sections/Hero';
 import HowItWorks from './sections/HowItWorks';
 import Problem from './sections/Problem';
 import Recommendation from './sections/Recommendation';
 import Trust from './sections/Trust';
-import FinancialSolutions from './sections/FinancialSolutions';
 
 interface PageProps extends Record<string, unknown> {
     platforms: Platform[];
@@ -18,7 +18,9 @@ interface PageProps extends Record<string, unknown> {
 
 export default function Home() {
     const { platforms } = usePage<PageProps>().props;
-    const [selectedItems, setSelectedItems] = useState<{ platform: string, plan: string, planSlug: string }[]>([]);
+    const [selectedItems, setSelectedItems] = useState<
+        { platform: string; plan: string; planSlug: string }[]
+    >([]);
 
     return (
         <LandingLayout>

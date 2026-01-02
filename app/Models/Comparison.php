@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comparison extends Model
@@ -26,20 +26,6 @@ class Comparison extends Model
         'comparison_data',
         'notes',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'plan1_data' => 'array',
-            'plan2_data' => 'array',
-            'comparison_data' => 'array',
-        ];
-    }
 
     /**
      * Get the user that owns the comparison.
@@ -69,5 +55,19 @@ class Comparison extends Model
     public function plan2(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'plan2_id');
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'plan1_data' => 'array',
+            'plan2_data' => 'array',
+            'comparison_data' => 'array',
+        ];
     }
 }

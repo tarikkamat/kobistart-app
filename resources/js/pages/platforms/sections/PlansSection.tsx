@@ -1,7 +1,5 @@
-import { GlassCard } from '@/components/ui/glass-card';
-import { Check, Sparkles, Zap } from 'lucide-react';
+import { Check, Zap } from 'lucide-react';
 import { Plan, Platform } from '@/types';
-import type { PlanPrice } from '@/types/platform';
 import { Link } from '@inertiajs/react';
 import {
     Carousel,
@@ -15,7 +13,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from '@/components/ui/popover';
+} from '@/components/ui/popover'; // Helper function to format price with dynamic currency
 
 // Helper function to format price with dynamic currency
 const formatPrice = (price: number, currency: string = 'TRY'): string => {
@@ -38,7 +36,10 @@ const getPeriodLabel = (period: string): string => {
 };
 
 // Helper function to get period label with pricing context
-const getPeriodLabelWithContext = (period: string, isMonthlyPayment: boolean = false): string => {
+const getPeriodLabelWithContext = (
+    period: string,
+    isMonthlyPayment: boolean = false,
+): string => {
     if (period === 'monthly') {
         return 'Aylık';
     }
@@ -61,7 +62,7 @@ const getPeriodLabelWithContext = (period: string, isMonthlyPayment: boolean = f
 // Helper function to get best price for a plan
 const getBestPrice = (plan: Plan) => {
     // Support both camelCase and snake_case from backend
-    const prices = (plan.planPrices || (plan as any).plan_prices) || [];
+    const prices = plan.planPrices || (plan as any).plan_prices || [];
 
     if (!prices || prices.length === 0) {
         return null;
@@ -81,7 +82,7 @@ const getBestPrice = (plan: Plan) => {
 
     // If no discount, find the lowest original price
     const lowestPrice = prices.reduce((min: any, p: any) =>
-        p.original_price < min.original_price ? p : min
+        p.original_price < min.original_price ? p : min,
     );
 
     return {
@@ -101,58 +102,67 @@ interface PlansSectionProps {
 export default function PlansSection({ plans, platform }: PlansSectionProps) {
     if (!plans || plans.length === 0) {
         return (
-            <div className="rounded-3xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-12 text-center">
+            <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
                 <p className="text-lg text-zinc-500 dark:text-zinc-400">
-                            Bu platform için henüz paket bilgisi bulunmamaktadır.
-                        </p>
-                    </div>
+                    Bu platform için henüz paket bilgisi bulunmamaktadır.
+                </p>
+            </div>
         );
     }
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
                 <div className="space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-100 dark:border-blue-800">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold tracking-wider text-blue-600 uppercase dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
                         <Zap className="h-3.5 w-3.5 fill-blue-600/20" />
                         Abonelik Planları
                     </div>
                     <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
                         Size Uygun Paketi Seçin
                     </h2>
-                    <p className="text-zinc-500 dark:text-zinc-400 max-w-xl">
-                        İhtiyaçlarınıza en uygun özelliklere sahip paketi seçerek hemen başlayın.
+                    <p className="max-w-xl text-zinc-500 dark:text-zinc-400">
+                        İhtiyaçlarınıza en uygun özelliklere sahip paketi
+                        seçerek hemen başlayın.
                     </p>
                 </div>
-                </div>
+            </div>
 
             <div className="relative">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                        }}
-                        className="w-full"
-                    >
+                <Carousel
+                    opts={{
+                        align: 'start',
+                    }}
+                    className="w-full"
+                >
                     <CarouselContent className="-ml-6">
-                            {plans.map((plan, index) => (
-                            <CarouselItem key={plan.id} className="pl-6 basis-full md:basis-1/2 xl:basis-1/3">
-                                <div className="group h-full relative">
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-violet-600 rounded-3xl blur opacity-0 group-hover:opacity-10 transition duration-500"></div>
-                                    <div className="relative h-full flex flex-col p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300">
+                        {plans.map((plan, index) => (
+                            <CarouselItem
+                                key={plan.id}
+                                className="basis-full pl-6 md:basis-1/2 xl:basis-1/3"
+                            >
+                                <div className="group relative h-full">
+                                    <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-blue-600 to-violet-600 opacity-0 blur transition duration-500 group-hover:opacity-10"></div>
+                                    <div className="relative flex h-full flex-col rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
                                         <div className="mb-8">
-                                            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-1">
-                                                    {plan.name}
-                                                </h3>
-                                            <div className="h-1 w-8 bg-blue-600 rounded-full mb-4" />
+                                            <h3 className="mb-1 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                                                {plan.name}
+                                            </h3>
+                                            <div className="mb-4 h-1 w-8 rounded-full bg-blue-600" />
 
                                             {/* Price Display */}
                                             {(() => {
-                                                const prices = (plan.planPrices || (plan as any).plan_prices) || [];
-                                                const bestPrice = getBestPrice(plan);
+                                                const prices =
+                                                    plan.planPrices ||
+                                                    (plan as any).plan_prices ||
+                                                    [];
+                                                const bestPrice =
+                                                    getBestPrice(plan);
                                                 if (!bestPrice) {
                                                     return (
                                                         <div className="text-sm text-zinc-500 dark:text-zinc-400">
-                                                            Fiyat bilgisi mevcut değil
+                                                            Fiyat bilgisi mevcut
+                                                            değil
                                                         </div>
                                                     );
                                                 }
@@ -161,80 +171,135 @@ export default function PlansSection({ plans, platform }: PlansSectionProps) {
                                                     <div className="space-y-2">
                                                         <div className="flex items-baseline gap-2">
                                                             <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-                                                                {formatPrice(bestPrice.price, bestPrice.currency)}
+                                                                {formatPrice(
+                                                                    bestPrice.price,
+                                                                    bestPrice.currency,
+                                                                )}
                                                             </span>
                                                             <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                                                                / {getPeriodLabel(bestPrice.period)}
+                                                                /{' '}
+                                                                {getPeriodLabel(
+                                                                    bestPrice.period,
+                                                                )}
                                                             </span>
                                                         </div>
-                                                        {bestPrice.hasDiscount && bestPrice.originalPrice && (
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">
-                                                                    {formatPrice(bestPrice.originalPrice, bestPrice.currency)}
-                                                                </span>
-                                                                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                                                                    İndirimli
-                                                                </span>
-                                                            </div>
-                                                        )}
+                                                        {bestPrice.hasDiscount &&
+                                                            bestPrice.originalPrice && (
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className="text-sm text-zinc-400 line-through dark:text-zinc-500">
+                                                                        {formatPrice(
+                                                                            bestPrice.originalPrice,
+                                                                            bestPrice.currency,
+                                                                        )}
+                                                                    </span>
+                                                                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                                                        İndirimli
+                                                                    </span>
+                                                                </div>
+                                                            )}
                                                         {prices.length > 1 && (
                                                             <Popover>
-                                                                <PopoverTrigger asChild>
-                                                                    <button className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 hover:text-blue-600 dark:hover:text-blue-400 underline underline-offset-2 cursor-pointer transition-colors">
-                                                                        {prices.length} farklı ödeme seçeneği
+                                                                <PopoverTrigger
+                                                                    asChild
+                                                                >
+                                                                    <button className="mt-2 cursor-pointer text-xs text-zinc-500 underline underline-offset-2 transition-colors hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400">
+                                                                        {
+                                                                            prices.length
+                                                                        }{' '}
+                                                                        farklı
+                                                                        ödeme
+                                                                        seçeneği
                                                                     </button>
                                                                 </PopoverTrigger>
-                                                                <PopoverContent className="w-80 p-0" align="start">
+                                                                <PopoverContent
+                                                                    className="w-80 p-0"
+                                                                    align="start"
+                                                                >
                                                                     <div className="p-4">
-                                                                        <h4 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 mb-3">
-                                                                            Tüm Ödeme Seçenekleri
+                                                                        <h4 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                                                                            Tüm
+                                                                            Ödeme
+                                                                            Seçenekleri
                                                                         </h4>
                                                                         <div className="space-y-3">
-                                                                            {prices.map((price: any) => {
-                                                                                const currency = price.currency || 'TRY';
-                                                                                const displayPrice = price.discounted_price ?? price.original_price;
-                                                                                const hasDiscount = price.discounted_price !== null;
-                                                                                const isMonthlyPayment = price.is_monthly_payment ?? false;
+                                                                            {prices.map(
+                                                                                (
+                                                                                    price: any,
+                                                                                ) => {
+                                                                                    const currency =
+                                                                                        price.currency ||
+                                                                                        'TRY';
+                                                                                    const displayPrice =
+                                                                                        price.discounted_price ??
+                                                                                        price.original_price;
+                                                                                    const hasDiscount =
+                                                                                        price.discounted_price !==
+                                                                                        null;
+                                                                                    const isMonthlyPayment =
+                                                                                        price.is_monthly_payment ??
+                                                                                        false;
 
-                                                                                return (
-                                                                                    <div
-                                                                                        key={price.id}
-                                                                                        className="flex items-center justify-between p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700"
-                                                                                    >
-                                                                                        <div className="flex flex-col">
-                                                                                            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                                                                                                {getPeriodLabelWithContext(price.period, isMonthlyPayment)}
-                                                                                            </span>
-                                                                                            {hasDiscount && (
-                                                                                                <span className="text-xs text-zinc-400 dark:text-zinc-500 line-through mt-0.5">
-                                                                                                    {formatPrice(price.original_price, currency)}
-                                                                                                    {isMonthlyPayment && price.period !== 'monthly' && ' / ay'}
+                                                                                    return (
+                                                                                        <div
+                                                                                            key={
+                                                                                                price.id
+                                                                                            }
+                                                                                            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/50"
+                                                                                        >
+                                                                                            <div className="flex flex-col">
+                                                                                                <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                                                                                                    {getPeriodLabelWithContext(
+                                                                                                        price.period,
+                                                                                                        isMonthlyPayment,
+                                                                                                    )}
                                                                                                 </span>
-                                                                                            )}
-                                                                                            {!hasDiscount && isMonthlyPayment && price.period !== 'monthly' && (
-                                                                                                <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                                                                                                    Aylık ödeme
-                                                                                                </span>
-                                                                                            )}
-                                                                                        </div>
-                                                                                        <div className="flex flex-col items-end">
-                                                                                            <span className="text-base font-bold text-zinc-900 dark:text-zinc-50">
-                                                                                                {formatPrice(displayPrice, currency)}
-                                                                                                {isMonthlyPayment && price.period !== 'monthly' && (
-                                                                                                    <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400 ml-1">
-                                                                                                        / ay
+                                                                                                {hasDiscount && (
+                                                                                                    <span className="mt-0.5 text-xs text-zinc-400 line-through dark:text-zinc-500">
+                                                                                                        {formatPrice(
+                                                                                                            price.original_price,
+                                                                                                            currency,
+                                                                                                        )}
+                                                                                                        {isMonthlyPayment &&
+                                                                                                            price.period !==
+                                                                                                                'monthly' &&
+                                                                                                            ' / ay'}
                                                                                                     </span>
                                                                                                 )}
-                                                                                            </span>
-                                                                                            {hasDiscount && (
-                                                                                                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 mt-1">
-                                                                                                    İndirimli
+                                                                                                {!hasDiscount &&
+                                                                                                    isMonthlyPayment &&
+                                                                                                    price.period !==
+                                                                                                        'monthly' && (
+                                                                                                        <span className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                                                                                                            Aylık
+                                                                                                            ödeme
+                                                                                                        </span>
+                                                                                                    )}
+                                                                                            </div>
+                                                                                            <div className="flex flex-col items-end">
+                                                                                                <span className="text-base font-bold text-zinc-900 dark:text-zinc-50">
+                                                                                                    {formatPrice(
+                                                                                                        displayPrice,
+                                                                                                        currency,
+                                                                                                    )}
+                                                                                                    {isMonthlyPayment &&
+                                                                                                        price.period !==
+                                                                                                            'monthly' && (
+                                                                                                            <span className="ml-1 text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                                                                                                                /
+                                                                                                                ay
+                                                                                                            </span>
+                                                                                                        )}
                                                                                                 </span>
-                                                                                            )}
+                                                                                                {hasDiscount && (
+                                                                                                    <span className="mt-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                                                                                        İndirimli
+                                                                                                    </span>
+                                                                                                )}
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                );
-                                                                            })}
+                                                                                    );
+                                                                                },
+                                                                            )}
                                                                         </div>
                                                                     </div>
                                                                 </PopoverContent>
@@ -243,23 +308,35 @@ export default function PlansSection({ plans, platform }: PlansSectionProps) {
                                                     </div>
                                                 );
                                             })()}
-                                            </div>
+                                        </div>
 
-                                        <div className="flex-1 space-y-4 mb-8">
+                                        <div className="mb-8 flex-1 space-y-4">
                                             {(() => {
-                                                const planFeatures = plan.features || [];
-                                                const displayedFeatures = planFeatures
-                                                    .filter(pf => pf.is_included && pf.feature)
-                                                    .slice(0, 5); // İlk 5 özelliği göster
+                                                const planFeatures =
+                                                    plan.features || [];
+                                                const displayedFeatures =
+                                                    planFeatures
+                                                        .filter(
+                                                            (pf) =>
+                                                                pf.is_included &&
+                                                                pf.feature,
+                                                        )
+                                                        .slice(0, 5); // İlk 5 özelliği göster
 
-                                                if (displayedFeatures.length === 0) {
+                                                if (
+                                                    displayedFeatures.length ===
+                                                    0
+                                                ) {
                                                     return (
                                                         <div className="space-y-3">
                                                             <div className="flex items-start gap-3">
-                                                                <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                                                                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-500/10">
                                                                     <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
                                                                 </div>
-                                                                <span className="text-sm text-zinc-600 dark:text-zinc-400">Tüm temel özellikler</span>
+                                                                <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                                                                    Tüm temel
+                                                                    özellikler
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     );
@@ -267,28 +344,54 @@ export default function PlansSection({ plans, platform }: PlansSectionProps) {
 
                                                 return (
                                                     <div className="space-y-3">
-                                                        {displayedFeatures.map((pf) => {
-                                                            const displayName = pf.platform_label || pf.feature?.name || 'Özellik';
-                                                            return (
-                                                                <div key={pf.id} className="flex items-start gap-3">
-                                                                    <div className="mt-1 h-5 w-5 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                                                                        <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                                        {displayedFeatures.map(
+                                                            (pf) => {
+                                                                const displayName =
+                                                                    pf.platform_label ||
+                                                                    pf.feature
+                                                                        ?.name ||
+                                                                    'Özellik';
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            pf.id
+                                                                        }
+                                                                        className="flex items-start gap-3"
+                                                                    >
+                                                                        <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green-500/10">
+                                                                            <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                                                        </div>
+                                                                        <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                                                                            {
+                                                                                displayName
+                                                                            }
+                                                                            {pf.value &&
+                                                                                pf.value !==
+                                                                                    'true' &&
+                                                                                pf.value !==
+                                                                                    'false' && (
+                                                                                    <span className="ml-1 text-xs text-zinc-500 dark:text-zinc-500">
+                                                                                        (
+                                                                                        {
+                                                                                            pf.value
+                                                                                        }
+
+                                                                                        )
+                                                                                    </span>
+                                                                                )}
+                                                                        </span>
                                                                     </div>
-                                                                    <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                                                                        {displayName}
-                                                                        {pf.value && pf.value !== 'true' && pf.value !== 'false' && (
-                                                                            <span className="ml-1 text-xs text-zinc-500 dark:text-zinc-500">
-                                                                                ({pf.value})
-                                                                            </span>
-                                                                        )}
-                                                                    </span>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                        {planFeatures.length > 5 && (
+                                                                );
+                                                            },
+                                                        )}
+                                                        {planFeatures.length >
+                                                            5 && (
                                                             <div className="pt-2">
-                                                                <span className="text-xs text-zinc-500 dark:text-zinc-400 italic">
-                                                                    +{planFeatures.length - 5} özellik daha
+                                                                <span className="text-xs text-zinc-500 italic dark:text-zinc-400">
+                                                                    +
+                                                                    {planFeatures.length -
+                                                                        5}{' '}
+                                                                    özellik daha
                                                                 </span>
                                                             </div>
                                                         )}
@@ -297,22 +400,27 @@ export default function PlansSection({ plans, platform }: PlansSectionProps) {
                                             })()}
                                         </div>
 
-                                        <Button asChild className="w-full rounded-2xl bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 hover:bg-blue-600 dark:hover:bg-blue-500 dark:hover:text-white transition-colors">
-                                            <Link href={`/platforms/${platform.slug}/${plan.slug}`}>
+                                        <Button
+                                            asChild
+                                            className="w-full rounded-2xl bg-zinc-900 text-white transition-colors hover:bg-blue-600 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-blue-500 dark:hover:text-white"
+                                        >
+                                            <Link
+                                                href={`/platforms/${platform.slug}/${plan.slug}`}
+                                            >
                                                 Detayları Gör
                                             </Link>
                                         </Button>
                                     </div>
                                 </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
                     <div className="hidden md:block">
-                        <CarouselPrevious className="-left-4 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800" />
-                        <CarouselNext className="-right-4 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800" />
+                        <CarouselPrevious className="-left-4 border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900" />
+                        <CarouselNext className="-right-4 border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900" />
                     </div>
-                    </Carousel>
-                </div>
+                </Carousel>
             </div>
+        </div>
     );
 }

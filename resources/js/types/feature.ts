@@ -208,7 +208,7 @@ export const FEATURE_KEYS = {
     SHOPIFY_FORMS: 'shopify_forms',
 } as const;
 
-export type FeatureKey = typeof FEATURE_KEYS[keyof typeof FEATURE_KEYS];
+export type FeatureKey = (typeof FEATURE_KEYS)[keyof typeof FEATURE_KEYS];
 
 export const FEATURE_CATEGORIES = {
     CORE: 'core',
@@ -233,7 +233,8 @@ export const FEATURE_CATEGORIES = {
     MOBILE: 'mobile',
 } as const;
 
-export type FeatureCategory = typeof FEATURE_CATEGORIES[keyof typeof FEATURE_CATEGORIES];
+export type FeatureCategory =
+    (typeof FEATURE_CATEGORIES)[keyof typeof FEATURE_CATEGORIES];
 
 export interface Feature {
     id: number;
@@ -257,4 +258,3 @@ export interface PlanFeature {
     updated_at: string;
     feature?: Feature;
 }
-

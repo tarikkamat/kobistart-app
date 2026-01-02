@@ -35,7 +35,7 @@ class FilterItemController extends Controller
     /**
      * Display the specified filter item.
      *
-     * @param string $filterItemId
+     * @param  string  $filterItemId
      * @return JsonResponse
      */
     public function show(string $filterItemId): JsonResponse
@@ -54,7 +54,7 @@ class FilterItemController extends Controller
     /**
      * Store a newly created filter item.
      *
-     * @param CreateFilterItemRequest $request
+     * @param  CreateFilterItemRequest  $request
      * @return JsonResponse
      */
     public function store(CreateFilterItemRequest $request): JsonResponse
@@ -73,8 +73,8 @@ class FilterItemController extends Controller
     /**
      * Update the specified filter item.
      *
-     * @param UpdateFilterItemRequest $request
-     * @param string $filterItemId
+     * @param  UpdateFilterItemRequest  $request
+     * @param  string  $filterItemId
      * @return JsonResponse
      */
     public function update(UpdateFilterItemRequest $request, string $filterItemId): JsonResponse
@@ -94,7 +94,7 @@ class FilterItemController extends Controller
     /**
      * Delete a filter item.
      *
-     * @param string $filterItemId
+     * @param  string  $filterItemId
      * @return JsonResponse
      */
     public function destroy(string $filterItemId): JsonResponse

@@ -35,7 +35,7 @@ class FilterGroupController extends Controller
     /**
      * Display the specified filter group.
      *
-     * @param string $filterGroupId
+     * @param  string  $filterGroupId
      * @return JsonResponse
      */
     public function show(string $filterGroupId): JsonResponse
@@ -54,7 +54,7 @@ class FilterGroupController extends Controller
     /**
      * Store a newly created filter group.
      *
-     * @param CreateFilterGroupRequest $request
+     * @param  CreateFilterGroupRequest  $request
      * @return JsonResponse
      */
     public function store(CreateFilterGroupRequest $request): JsonResponse
@@ -73,8 +73,8 @@ class FilterGroupController extends Controller
     /**
      * Update the specified filter group.
      *
-     * @param UpdateFilterGroupRequest $request
-     * @param string $filterGroupId
+     * @param  UpdateFilterGroupRequest  $request
+     * @param  string  $filterGroupId
      * @return JsonResponse
      */
     public function update(UpdateFilterGroupRequest $request, string $filterGroupId): JsonResponse
@@ -94,7 +94,7 @@ class FilterGroupController extends Controller
     /**
      * Delete a filter group.
      *
-     * @param string $filterGroupId
+     * @param  string  $filterGroupId
      * @return JsonResponse
      */
     public function destroy(string $filterGroupId): JsonResponse

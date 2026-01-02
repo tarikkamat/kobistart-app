@@ -46,9 +46,7 @@ export default function TwoFactorChallenge() {
     };
 
     return (
-        <AuthLayout
-            title={authConfigContent.title}
-        >
+        <AuthLayout title={authConfigContent.title}>
             <Head title="Two-Factor Authentication" />
 
             <div className="space-y-6">

@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Repository\WizardAnalysisRepository;
 use App\Contracts\BaseService;
 use App\Models\WizardAnalysis;
+use App\Repository\WizardAnalysisRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -19,8 +19,8 @@ class WizardAnalysisService extends BaseService
     /**
      * Save analysis for user or session.
      *
-     * @param array<string, mixed> $wizardData
-     * @param array<string, mixed> $analysisResult
+     * @param  array<string, mixed>  $wizardData
+     * @param  array<string, mixed>  $analysisResult
      * @return WizardAnalysis
      */
     public function saveAnalysis(array $wizardData, array $analysisResult): WizardAnalysis
@@ -72,7 +72,7 @@ class WizardAnalysisService extends BaseService
     /**
      * Migrate session analyses to user.
      *
-     * @param int $userId
+     * @param  int  $userId
      * @return int Number of migrated analyses
      */
     public function migrateSessionAnalyses(int $userId): int
@@ -87,7 +87,7 @@ class WizardAnalysisService extends BaseService
     /**
      * Get analysis by ID.
      *
-     * @param int $id
+     * @param  int  $id
      * @return WizardAnalysis|null
      */
     public function getAnalysis(int $id): ?WizardAnalysis

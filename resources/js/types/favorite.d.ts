@@ -9,4 +9,3 @@ export interface Favorite {
     updated_at: string;
     favoritable?: Platform | any; // Platform or Plan
 }
-

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\PlatformService;
-use App\Services\PlanService;
 use App\Services\FavoriteService;
+use App\Services\PlanService;
+use App\Services\PlatformService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -110,7 +109,7 @@ class PlatformController extends Controller
     {
         // Parse comparison string: "shopify-grow-vs-ticimax-advanced"
         $parts = explode('-vs-', $comparison);
-        
+
         if (count($parts) !== 2) {
             abort(404);
         }
@@ -191,12 +190,12 @@ class PlatformController extends Controller
         $platformSlugs = $this->platformService->getActivePlatforms()
             ->pluck('slug')
             ->toArray();
-        
+
         // Sort by length (longest first) to handle cases where one platform slug might be a prefix of another
         usort($platformSlugs, fn($a, $b) => strlen($b) <=> strlen($a));
-        
+
         foreach ($platformSlugs as $platformSlug) {
-            if (str_starts_with($identifier, $platformSlug . '-')) {
+            if (str_starts_with($identifier, $platformSlug.'-')) {
                 $planSlug = substr($identifier, strlen($platformSlug) + 1);
                 if (!empty($planSlug)) {
                     return [

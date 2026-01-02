@@ -9,7 +9,7 @@ class GeminiService implements AiServiceInterface
     /**
      * Create a new Gemini service instance.
      *
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private array $config = []
@@ -19,7 +19,7 @@ class GeminiService implements AiServiceInterface
     /**
      * Send a message to Gemini (dummy implementation).
      *
-     * @param string $message
+     * @param  string  $message
      * @return array<string, mixed>
      */
     public function sendMessage(string $message): array
@@ -29,7 +29,7 @@ class GeminiService implements AiServiceInterface
             'success' => true,
             'provider' => 'gemini',
             'message' => $message,
-            'response' => 'This is a dummy response from Gemini. The message you sent was: ' . $message,
+            'response' => 'This is a dummy response from Gemini. The message you sent was: '.$message,
             'timestamp' => now()->toIso8601String(),
         ];
     }

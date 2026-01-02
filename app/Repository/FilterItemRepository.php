@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\FilterItem;
 use App\Contracts\BaseRepository;
+use App\Models\FilterItem;
 use Illuminate\Database\Eloquent\Collection;
 
 class FilterItemRepository extends BaseRepository
@@ -29,7 +29,7 @@ class FilterItemRepository extends BaseRepository
     /**
      * Get filter items by group ID.
      *
-     * @param int $groupId
+     * @param  int  $groupId
      * @return Collection<int, FilterItem>
      */
     public function getItemsByGroup(int $groupId): Collection

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\WizardAnalysisService;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -43,7 +41,7 @@ class WizardAnalysisController extends Controller
     /**
      * Display the specified wizard analysis.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      */
     public function show(int $id): Response
@@ -69,7 +67,7 @@ class WizardAnalysisController extends Controller
     /**
      * Remove the specified wizard analysis.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id)

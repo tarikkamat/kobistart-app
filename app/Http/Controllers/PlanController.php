@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Services\PlanService;
 use App\Services\FilterService;
+use App\Services\PlanService;
 use Inertia\Inertia;
 use Inertia\Response;
 

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FilterGroup extends Model
 {
@@ -25,6 +25,16 @@ class FilterGroup extends Model
     ];
 
     /**
+     * Get the filter items for the group.
+     *
+     * @return HasMany<FilterItem>
+     */
+    public function filterItems(): HasMany
+    {
+        return $this->hasMany(FilterItem::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -35,15 +45,5 @@ class FilterGroup extends Model
             'status' => 'boolean',
             'order' => 'integer',
         ];
-    }
-
-    /**
-     * Get the filter items for the group.
-     *
-     * @return HasMany<FilterItem>
-     */
-    public function filterItems(): HasMany
-    {
-        return $this->hasMany(FilterItem::class);
     }
 }

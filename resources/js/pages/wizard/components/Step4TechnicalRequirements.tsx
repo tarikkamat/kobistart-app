@@ -36,7 +36,10 @@ export default function Step4TechnicalRequirements({
     state,
     updateState,
 }: Step4TechnicalRequirementsProps) {
-    const handleToggle = (field: keyof typeof state.technicalRequirements, pressed: boolean) => {
+    const handleToggle = (
+        field: keyof typeof state.technicalRequirements,
+        pressed: boolean,
+    ) => {
         updateState({
             technicalRequirements: {
                 ...state.technicalRequirements,
@@ -52,21 +55,25 @@ export default function Step4TechnicalRequirements({
         >
             <div className="grid grid-cols-1 gap-4">
                 {requirements.map((req) => {
-                    const field = req.id as keyof typeof state.technicalRequirements;
+                    const field =
+                        req.id as keyof typeof state.technicalRequirements;
                     const value = state.technicalRequirements[field];
 
                     return (
                         <div
                             key={req.id}
                             className={cn(
-                                "flex items-center justify-between rounded-xl border p-6 transition-all duration-300",
+                                'flex items-center justify-between rounded-xl border p-6 transition-all duration-300',
                                 value
-                                    ? "bg-primary/10 border-primary/30 shadow-[0_0_15px_rgba(var(--primary),0.1)]"
-                                    : "bg-white/5 border-white/10 hover:bg-white/10"
+                                    ? 'border-primary/30 bg-primary/10 shadow-[0_0_15px_rgba(var(--primary),0.1)]'
+                                    : 'border-white/10 bg-white/5 hover:bg-white/10',
                             )}
                         >
                             <div className="flex-1 space-y-1">
-                                <Label htmlFor={req.id} className="cursor-pointer text-lg font-semibold">
+                                <Label
+                                    htmlFor={req.id}
+                                    className="cursor-pointer text-lg font-semibold"
+                                >
                                     {req.label}
                                 </Label>
                                 <p className="text-sm text-muted-foreground">
@@ -76,11 +83,20 @@ export default function Step4TechnicalRequirements({
                             <Toggle
                                 id={req.id}
                                 pressed={value}
-                                onPressedChange={(pressed) => handleToggle(field, pressed)}
+                                onPressedChange={(pressed) =>
+                                    handleToggle(field, pressed)
+                                }
                                 aria-label={req.label}
-                                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground h-10 w-10 p-2 rounded-full"
+                                className="h-10 w-10 rounded-full p-2 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
                             >
-                                <div className={cn("w-4 h-4 rounded-full transition-all", value ? "bg-current" : "bg-transparent border-2 border-current")} />
+                                <div
+                                    className={cn(
+                                        'h-4 w-4 rounded-full transition-all',
+                                        value
+                                            ? 'bg-current'
+                                            : 'border-2 border-current bg-transparent',
+                                    )}
+                                />
                             </Toggle>
                         </div>
                     );
@@ -89,4 +105,3 @@ export default function Step4TechnicalRequirements({
         </WizardStep>
     );
 }
-

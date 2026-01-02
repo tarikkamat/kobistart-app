@@ -30,11 +30,19 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import { index as favoritesIndex } from '@/routes/favorites/index';
 import { index as comparisonsIndex } from '@/routes/comparisons';
+import { index as favoritesIndex } from '@/routes/favorites/index';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, Heart, LayoutGrid, Menu, Search, GitCompare } from 'lucide-react';
+import {
+    BookOpen,
+    Folder,
+    GitCompare,
+    Heart,
+    LayoutGrid,
+    Menu,
+    Search,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 

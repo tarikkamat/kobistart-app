@@ -6,21 +6,24 @@ const steps = [
     {
         icon: ClipboardList,
         title: 'İşinizden bahsedin',
-        description: 'Ürünleriniz, bütçeniz ve teknik becerileriniz hakkında birkaç basit soruyu yanıtlayın.',
+        description:
+            'Ürünleriniz, bütçeniz ve teknik becerileriniz hakkında birkaç basit soruyu yanıtlayın.',
         color: 'text-blue-500',
         bgColor: 'bg-blue-500/10',
     },
     {
         icon: BrainCircuit,
         title: 'Avantaj ve dezavantajları analiz ediyoruz',
-        description: 'Sistemimiz, platformları ihtiyaçlarınıza özel 50\'den fazla veri noktasına göre puanlar.',
+        description:
+            "Sistemimiz, platformları ihtiyaçlarınıza özel 50'den fazla veri noktasına göre puanlar.",
         color: 'text-indigo-500',
         bgColor: 'bg-indigo-500/10',
     },
     {
         icon: BarChart3,
         title: 'Açıklamalı sonuçları alın',
-        description: 'Bir platformun neden kazandığını ve diğerlerinin nerede yetersiz kaldığını tam olarak görün.',
+        description:
+            'Bir platformun neden kazandığını ve diğerlerinin nerede yetersiz kaldığını tam olarak görün.',
         color: 'text-violet-500',
         bgColor: 'bg-violet-500/10',
     },
@@ -57,7 +60,7 @@ export default function HowItWorks() {
                     if (intervalId) clearInterval(intervalId);
                 }
             },
-            { threshold: 0.15 }
+            { threshold: 0.15 },
         );
 
         if (sectionRef.current) {
@@ -71,34 +74,40 @@ export default function HowItWorks() {
     }, []);
 
     return (
-        <section id="how-it-works" ref={sectionRef} className="relative overflow-hidden py-24 lg:py-32 bg-white dark:bg-[#030712]">
+        <section
+            id="how-it-works"
+            ref={sectionRef}
+            className="relative overflow-hidden bg-white py-24 lg:py-32 dark:bg-[#030712]"
+        >
             {/* Background Decorative Elements */}
             <div className="absolute top-1/2 left-1/4 -z-10 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-blue-500/10 blur-[120px] dark:bg-blue-500/10" />
-            <div className="absolute bottom-1/4 right-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-indigo-500/10 blur-[100px] dark:bg-indigo-500/10" />
+            <div className="absolute right-1/4 bottom-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-indigo-500/10 blur-[100px] dark:bg-indigo-500/10" />
 
             <div className="container mx-auto px-4">
                 <div className="mb-20 text-center">
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-100 dark:bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-100 px-4 py-1.5 text-sm font-medium text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                         <Sparkles className="h-4 w-4" />
                         <span>Süreç</span>
                     </div>
-                    <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl">
-                        KobiStart <span className="text-blue-600">Nasıl Çalışır?</span>
+                    <h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl dark:text-white">
+                        KobiStart{' '}
+                        <span className="text-blue-600">Nasıl Çalışır?</span>
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                        Kafa karışıklığından güvene üç basit adımda. Biz karmaşıklığı hallederiz, siz işinizi kurmaya odaklanın.
+                        Kafa karışıklığından güvene üç basit adımda. Biz
+                        karmaşıklığı hallederiz, siz işinizi kurmaya odaklanın.
                     </p>
                 </div>
 
                 <div className="relative grid gap-8 md:grid-cols-3">
                     {/* Connecting Flow Line (Desktop) */}
-                    <div className="absolute top-[60px] left-[15%] hidden h-[2px] w-[70%] bg-gray-200 dark:bg-white/5 md:block overflow-hidden rounded-full">
+                    <div className="absolute top-[60px] left-[15%] hidden h-[2px] w-[70%] overflow-hidden rounded-full bg-gray-200 md:block dark:bg-white/5">
                         <div
                             className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-transform duration-[2400ms] ease-out"
                             style={{
                                 transform: `scaleX(${isVisible ? 1 : 0})`,
                                 transformOrigin: 'left',
-                                boxShadow: '0 0 15px rgba(99,102,241,0.5)'
+                                boxShadow: '0 0 15px rgba(99,102,241,0.5)',
                             }}
                         />
                     </div>
@@ -108,32 +117,40 @@ export default function HowItWorks() {
                         return (
                             <div key={index} className="group relative">
                                 <GlassCard
-                                    className={`relative h-full overflow-hidden border-gray-200 transition-all duration-700 dark:border-white/5
-                                        ${isActive ? 'border-blue-500/40 bg-blue-50/50 translate-y-[-8px] dark:bg-white/[0.08]' : 'bg-white dark:bg-white/5'}
-                                        hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-white/[0.08]`}
+                                    className={`relative h-full overflow-hidden border-gray-200 transition-all duration-700 dark:border-white/5 ${isActive ? 'translate-y-[-8px] border-blue-500/40 bg-blue-50/50 dark:bg-white/[0.08]' : 'bg-white dark:bg-white/5'} hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-white/[0.08]`}
                                 >
                                     {/* Step Number Background */}
-                                    <div className={`absolute -right-4 -top-8 select-none text-9xl font-bold transition-colors duration-700
-                                        ${isActive ? 'text-blue-500/[0.05]' : 'text-gray-100 dark:text-white/[0.02]'}`}>
+                                    <div
+                                        className={`absolute -top-8 -right-4 text-9xl font-bold transition-colors duration-700 select-none ${isActive ? 'text-blue-500/[0.05]' : 'text-gray-100 dark:text-white/[0.02]'}`}
+                                    >
                                         0{index + 1}
                                     </div>
 
-                                    <div className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} border border-blue-100 dark:border-white/10 shadow-lg transition-transform duration-700 ${isActive ? 'scale-110 shadow-blue-500/20' : ''}`}>
-                                        <step.icon className={`h-7 w-7 ${step.color}`} />
+                                    <div
+                                        className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} border border-blue-100 shadow-lg transition-transform duration-700 dark:border-white/10 ${isActive ? 'scale-110 shadow-blue-500/20' : ''}`}
+                                    >
+                                        <step.icon
+                                            className={`h-7 w-7 ${step.color}`}
+                                        />
                                     </div>
 
                                     <div className="relative">
-                                        <h3 className={`mb-4 text-xl font-bold transition-colors duration-700 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-white'}`}>
+                                        <h3
+                                            className={`mb-4 text-xl font-bold transition-colors duration-700 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-white'}`}
+                                        >
                                             {index + 1}. {step.title}
                                         </h3>
-                                        <p className={`leading-relaxed transition-colors duration-700 ${isActive ? 'text-gray-700 dark:text-gray-200' : 'text-gray-500 dark:text-gray-400'}`}>
+                                        <p
+                                            className={`leading-relaxed transition-colors duration-700 ${isActive ? 'text-gray-700 dark:text-gray-200' : 'text-gray-500 dark:text-gray-400'}`}
+                                        >
                                             {step.description}
                                         </p>
                                     </div>
 
                                     {/* Bottom Accent Line */}
-                                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-700 
-                                        ${isActive ? 'w-full' : 'w-0'}`} />
+                                    <div
+                                        className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-700 ${isActive ? 'w-full' : 'w-0'}`}
+                                    />
                                 </GlassCard>
                             </div>
                         );

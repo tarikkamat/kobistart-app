@@ -21,4 +21,3 @@ export interface FilterGroup {
     updated_at: string;
     filter_items?: FilterItem[];
 }
-

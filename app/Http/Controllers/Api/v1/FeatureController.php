@@ -35,7 +35,7 @@ class FeatureController extends Controller
     /**
      * Display the specified feature.
      *
-     * @param string $featureId
+     * @param  string  $featureId
      * @return JsonResponse
      */
     public function show(string $featureId): JsonResponse
@@ -54,7 +54,7 @@ class FeatureController extends Controller
     /**
      * Store a newly created feature.
      *
-     * @param CreateFeatureRequest $request
+     * @param  CreateFeatureRequest  $request
      * @return JsonResponse
      */
     public function store(CreateFeatureRequest $request): JsonResponse
@@ -73,8 +73,8 @@ class FeatureController extends Controller
     /**
      * Update the specified feature.
      *
-     * @param UpdateFeatureRequest $request
-     * @param string $featureId
+     * @param  UpdateFeatureRequest  $request
+     * @param  string  $featureId
      * @return JsonResponse
      */
     public function update(UpdateFeatureRequest $request, string $featureId): JsonResponse
@@ -94,7 +94,7 @@ class FeatureController extends Controller
     /**
      * Delete a feature.
      *
-     * @param string $featureId
+     * @param  string  $featureId
      * @return JsonResponse
      */
     public function destroy(string $featureId): JsonResponse

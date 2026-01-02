@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WizardAnalysis extends Model
@@ -27,20 +27,6 @@ class WizardAnalysis extends Model
         'score',
         'confidence',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'wizard_data' => 'array',
-            'analysis_result' => 'array',
-            'score' => 'integer',
-        ];
-    }
 
     /**
      * Get the user that owns the analysis.
@@ -70,6 +56,20 @@ class WizardAnalysis extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'wizard_data' => 'array',
+            'analysis_result' => 'array',
+            'score' => 'integer',
+        ];
     }
 }
 

@@ -7,7 +7,7 @@ interface AiServiceInterface
     /**
      * Send a message to the AI service and get a response.
      *
-     * @param string $message
+     * @param  string  $message
      * @return array<string, mixed>
      */
     public function sendMessage(string $message): array;

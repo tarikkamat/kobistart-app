@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\FilterGroupRepository;
 use App\Contracts\BaseService;
+use App\Repository\FilterGroupRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class FilterGroupService extends BaseService

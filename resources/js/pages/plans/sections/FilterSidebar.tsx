@@ -1,7 +1,7 @@
-import { FilterGroup } from '@/types/filter';
-import FilterGroupComponent from './FilterGroup';
 import { Button } from '@/components/ui/button';
+import { FilterGroup } from '@/types/filter';
 import { X } from 'lucide-react';
+import FilterGroupComponent from './FilterGroup';
 
 interface FilterSidebarProps {
     filterGroups: FilterGroup[];
@@ -27,23 +27,16 @@ export default function FilterSidebar({
             {/* Mobile Overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    className="fixed inset-0 z-40 bg-black/50 lg:hidden"
                     onClick={onClose}
                 />
             )}
 
             {/* Sidebar */}
             <aside
-                className={`
-                    fixed lg:sticky top-0 left-0 h-full lg:h-auto
-                    w-80 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800
-                    z-50 lg:z-auto
-                    transform transition-transform duration-300 ease-in-out
-                    ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-                    overflow-y-auto
-                `}
+                className={`fixed top-0 left-0 z-50 h-full w-80 transform border-r border-zinc-200 bg-white transition-transform duration-300 ease-in-out lg:sticky lg:z-auto lg:h-auto dark:border-zinc-800 dark:bg-zinc-900 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} overflow-y-auto`}
             >
-                <div className="p-6 space-y-6">
+                <div className="space-y-6 p-6">
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-50">
@@ -51,7 +44,7 @@ export default function FilterSidebar({
                         </h2>
                         <button
                             onClick={onClose}
-                            className="lg:hidden p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                            className="rounded-lg p-2 transition-colors hover:bg-zinc-100 lg:hidden dark:hover:bg-zinc-800"
                         >
                             <X className="h-5 w-5 text-zinc-500" />
                         </button>
@@ -75,7 +68,7 @@ export default function FilterSidebar({
                             filterGroups.map((group) => (
                                 <div
                                     key={group.id}
-                                    className="pb-4 border-b border-zinc-200 dark:border-zinc-800 last:border-0"
+                                    className="border-b border-zinc-200 pb-4 last:border-0 dark:border-zinc-800"
                                 >
                                     <FilterGroupComponent
                                         group={group}
@@ -85,7 +78,7 @@ export default function FilterSidebar({
                                 </div>
                             ))
                         ) : (
-                            <p className="text-sm text-zinc-500 dark:text-zinc-400 text-center py-8">
+                            <p className="py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
                                 Filtre bulunmamaktadır.
                             </p>
                         )}
@@ -95,4 +88,3 @@ export default function FilterSidebar({
         </>
     );
 }
-

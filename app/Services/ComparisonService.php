@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\ComparisonRepository;
 use App\Contracts\BaseService;
+use App\Repository\ComparisonRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class ComparisonService extends BaseService
@@ -16,7 +16,7 @@ class ComparisonService extends BaseService
     /**
      * Save a comparison.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return \App\Models\Comparison
      */
     public function saveComparison(array $data): \App\Models\Comparison
@@ -53,7 +53,7 @@ class ComparisonService extends BaseService
     /**
      * Get user comparisons.
      *
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection<int, \App\Models\Comparison>
      */
     public function getUserComparisons(int $userId): Collection
@@ -66,7 +66,7 @@ class ComparisonService extends BaseService
     /**
      * Get comparison by ID.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \App\Models\Comparison|null
      */
     public function getComparisonById(int $id): ?\App\Models\Comparison
@@ -79,9 +79,9 @@ class ComparisonService extends BaseService
     /**
      * Get comparison by user and plans.
      *
-     * @param int $userId
-     * @param int $plan1Id
-     * @param int $plan2Id
+     * @param  int  $userId
+     * @param  int  $plan1Id
+     * @param  int  $plan2Id
      * @return \App\Models\Comparison|null
      */
     public function getComparisonByPlans(int $userId, int $plan1Id, int $plan2Id): ?\App\Models\Comparison

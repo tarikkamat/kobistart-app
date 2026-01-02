@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreatePlanRequest;
 use App\Http\Requests\CreatePlanFeatureRequest;
 use App\Http\Requests\CreatePlanPriceRequest;
-use App\Http\Requests\UpdatePlanRequest;
+use App\Http\Requests\CreatePlanRequest;
 use App\Http\Requests\UpdatePlanFeatureRequest;
 use App\Http\Requests\UpdatePlanPriceRequest;
-use App\Services\PlanService;
+use App\Http\Requests\UpdatePlanRequest;
 use App\Services\PlanFeatureService;
 use App\Services\PlanPriceService;
+use App\Services\PlanService;
 use Illuminate\Http\JsonResponse;
 
 class PlanController extends Controller
@@ -44,7 +44,7 @@ class PlanController extends Controller
     /**
      * Display the specified plan.
      *
-     * @param string $planId
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function show(string $planId): JsonResponse
@@ -63,7 +63,7 @@ class PlanController extends Controller
     /**
      * Store a newly created plan.
      *
-     * @param CreatePlanRequest $request
+     * @param  CreatePlanRequest  $request
      * @return JsonResponse
      */
     public function store(CreatePlanRequest $request): JsonResponse
@@ -80,30 +80,9 @@ class PlanController extends Controller
     }
 
     /**
-     * Update the specified plan.
-     *
-     * @param UpdatePlanRequest $request
-     * @param string $planId
-     * @return JsonResponse
-     */
-    public function update(UpdatePlanRequest $request, string $planId): JsonResponse
-    {
-        $this->planService->update($planId, $request->validated());
-        $plan = $this->planService->findOrFail($planId);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Plan updated successfully',
-            'data' => [
-                'plan' => $plan,
-            ],
-        ], 200);
-    }
-
-    /**
      * Delete a plan.
      *
-     * @param string $planId
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function destroy(string $planId): JsonResponse
@@ -112,12 +91,10 @@ class PlanController extends Controller
         return response()->json(null, 204);
     }
 
-    // ========== Plan Features (Nested Resource) ==========
-
     /**
      * Display a listing of the plan features for a specific plan.
      *
-     * @param string $planId
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function indexPlanFeatures(string $planId): JsonResponse
@@ -136,11 +113,13 @@ class PlanController extends Controller
         ], 200);
     }
 
+    // ========== Plan Features (Nested Resource) ==========
+
     /**
      * Display the specified plan feature.
      *
-     * @param string $planId
-     * @param string $planFeatureId
+     * @param  string  $planId
+     * @param  string  $planFeatureId
      * @return JsonResponse
      */
     public function showPlanFeature(string $planId, string $planFeatureId): JsonResponse
@@ -170,8 +149,8 @@ class PlanController extends Controller
     /**
      * Store a newly created plan feature for a specific plan.
      *
-     * @param CreatePlanFeatureRequest $request
-     * @param string $planId
+     * @param  CreatePlanFeatureRequest  $request
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function storePlanFeature(CreatePlanFeatureRequest $request, string $planId): JsonResponse
@@ -196,13 +175,16 @@ class PlanController extends Controller
     /**
      * Update the specified plan feature.
      *
-     * @param UpdatePlanFeatureRequest $request
-     * @param string $planId
-     * @param string $planFeatureId
+     * @param  UpdatePlanFeatureRequest  $request
+     * @param  string  $planId
+     * @param  string  $planFeatureId
      * @return JsonResponse
      */
-    public function updatePlanFeature(UpdatePlanFeatureRequest $request, string $planId, string $planFeatureId): JsonResponse
-    {
+    public function updatePlanFeature(
+        UpdatePlanFeatureRequest $request,
+        string $planId,
+        string $planFeatureId
+    ): JsonResponse {
         // Verify plan exists
         $this->planService->findOrFail($planId);
 
@@ -229,10 +211,31 @@ class PlanController extends Controller
     }
 
     /**
+     * Update the specified plan.
+     *
+     * @param  UpdatePlanRequest  $request
+     * @param  string  $planId
+     * @return JsonResponse
+     */
+    public function update(UpdatePlanRequest $request, string $planId): JsonResponse
+    {
+        $this->planService->update($planId, $request->validated());
+        $plan = $this->planService->findOrFail($planId);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Plan updated successfully',
+            'data' => [
+                'plan' => $plan,
+            ],
+        ], 200);
+    }
+
+    /**
      * Delete a plan feature.
      *
-     * @param string $planId
-     * @param string $planFeatureId
+     * @param  string  $planId
+     * @param  string  $planFeatureId
      * @return JsonResponse
      */
     public function destroyPlanFeature(string $planId, string $planFeatureId): JsonResponse
@@ -259,7 +262,7 @@ class PlanController extends Controller
     /**
      * Display a listing of the plan prices for a specific plan.
      *
-     * @param string $planId
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function indexPlanPrices(string $planId): JsonResponse
@@ -281,8 +284,8 @@ class PlanController extends Controller
     /**
      * Display the specified plan price.
      *
-     * @param string $planId
-     * @param string $planPriceId
+     * @param  string  $planId
+     * @param  string  $planPriceId
      * @return JsonResponse
      */
     public function showPlanPrice(string $planId, string $planPriceId): JsonResponse
@@ -312,8 +315,8 @@ class PlanController extends Controller
     /**
      * Store a newly created plan price for a specific plan.
      *
-     * @param CreatePlanPriceRequest $request
-     * @param string $planId
+     * @param  CreatePlanPriceRequest  $request
+     * @param  string  $planId
      * @return JsonResponse
      */
     public function storePlanPrice(CreatePlanPriceRequest $request, string $planId): JsonResponse
@@ -338,9 +341,9 @@ class PlanController extends Controller
     /**
      * Update the specified plan price.
      *
-     * @param UpdatePlanPriceRequest $request
-     * @param string $planId
-     * @param string $planPriceId
+     * @param  UpdatePlanPriceRequest  $request
+     * @param  string  $planId
+     * @param  string  $planPriceId
      * @return JsonResponse
      */
     public function updatePlanPrice(UpdatePlanPriceRequest $request, string $planId, string $planPriceId): JsonResponse
@@ -373,8 +376,8 @@ class PlanController extends Controller
     /**
      * Delete a plan price.
      *
-     * @param string $planId
-     * @param string $planPriceId
+     * @param  string  $planId
+     * @param  string  $planPriceId
      * @return JsonResponse
      */
     public function destroyPlanPrice(string $planId, string $planPriceId): JsonResponse

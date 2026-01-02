@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\Comparison;
 use App\Contracts\BaseRepository;
+use App\Models\Comparison;
 use Illuminate\Database\Eloquent\Collection;
 
 class ComparisonRepository extends BaseRepository
@@ -16,7 +16,7 @@ class ComparisonRepository extends BaseRepository
     /**
      * Create a new comparison.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return Comparison
      */
     public function createComparison(array $data): Comparison
@@ -27,7 +27,7 @@ class ComparisonRepository extends BaseRepository
     /**
      * Get comparisons for a user.
      *
-     * @param int $userId
+     * @param  int  $userId
      * @return Collection<int, Comparison>
      */
     public function getUserComparisons(int $userId): Collection
@@ -43,7 +43,7 @@ class ComparisonRepository extends BaseRepository
     /**
      * Get comparison by ID with relations.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Comparison|null
      */
     public function getComparisonById(int $id): ?Comparison
@@ -56,9 +56,9 @@ class ComparisonRepository extends BaseRepository
     /**
      * Check if comparison exists for user and plans.
      *
-     * @param int $userId
-     * @param int $plan1Id
-     * @param int $plan2Id
+     * @param  int  $userId
+     * @param  int  $plan1Id
+     * @param  int  $plan2Id
      * @return bool
      */
     public function comparisonExists(int $userId, int $plan1Id, int $plan2Id): bool
@@ -81,9 +81,9 @@ class ComparisonRepository extends BaseRepository
     /**
      * Find existing comparison for user and plans.
      *
-     * @param int $userId
-     * @param int $plan1Id
-     * @param int $plan2Id
+     * @param  int  $userId
+     * @param  int  $plan1Id
+     * @param  int  $plan2Id
      * @return Comparison|null
      */
     public function findExistingComparison(int $userId, int $plan1Id, int $plan2Id): ?Comparison

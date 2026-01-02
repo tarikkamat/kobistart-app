@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\FilterGroup;
 use App\Contracts\BaseRepository;
+use App\Models\FilterGroup;
 use Illuminate\Database\Eloquent\Collection;
 
 class FilterGroupRepository extends BaseRepository
@@ -35,10 +35,12 @@ class FilterGroupRepository extends BaseRepository
     {
         return $this->model
             ->where('status', true)
-            ->with(['filterItems' => function ($query) {
-                $query->where('status', true)
-                    ->orderBy('order');
-            }])
+            ->with([
+                'filterItems' => function ($query) {
+                    $query->where('status', true)
+                        ->orderBy('order');
+                }
+            ])
             ->orderBy('order')
             ->get();
     }

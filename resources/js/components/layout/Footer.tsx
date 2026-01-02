@@ -18,7 +18,8 @@ export default function Footer() {
                             </span>
                         </Link>
                         <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                            Empowering small businesses with explainable AI platform recommendations.
+                            Empowering small businesses with explainable AI
+                            platform recommendations.
                         </p>
                     </div>
 
@@ -29,12 +30,18 @@ export default function Footer() {
                         </h3>
                         <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                             <li>
-                                <a href="#how-it-works" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <a
+                                    href="#how-it-works"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     Nasıl Çalışır
                                 </a>
                             </li>
                             <li>
-                                <a href="#comparison" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <a
+                                    href="#comparison"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     Karşılaştır
                                 </a>
                             </li>
@@ -47,12 +54,18 @@ export default function Footer() {
                         </h3>
                         <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                             <li>
-                                <Link href="#" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <Link
+                                    href="#"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     Hakkımızda
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <Link
+                                    href="#"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     İletişim
                                 </Link>
                             </li>
@@ -65,12 +78,18 @@ export default function Footer() {
                         </h3>
                         <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                             <li>
-                                <Link href="#" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <Link
+                                    href="#"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     Gizlilik
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="hover:text-blue-600 dark:hover:text-blue-400">
+                                <Link
+                                    href="#"
+                                    className="hover:text-blue-600 dark:hover:text-blue-400"
+                                >
                                     KVKK
                                 </Link>
                             </li>

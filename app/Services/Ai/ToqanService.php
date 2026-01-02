@@ -14,7 +14,7 @@ class ToqanService implements AiServiceInterface
     /**
      * Create a new Toqan service instance.
      *
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private array $config = []
@@ -25,7 +25,7 @@ class ToqanService implements AiServiceInterface
      * Send a message to Toqan API.
      * Toqan API uses a two-step process: create conversation, then get answer.
      *
-     * @param string $message
+     * @param  string  $message
      * @return array<string, mixed>
      */
     public function sendMessage(string $message): array
@@ -40,7 +40,7 @@ class ToqanService implements AiServiceInterface
             'base_url' => $baseUrl,
         ]);
 
-        if (! $apiKey) {
+        if (!$apiKey) {
             return [
                 'success' => false,
                 'provider' => 'toqan',
@@ -60,7 +60,7 @@ class ToqanService implements AiServiceInterface
                 'user_message' => $message,
             ]);
 
-            if (! $createResponse->successful()) {
+            if (!$createResponse->successful()) {
                 return [
                     'success' => false,
                     'provider' => 'toqan',
@@ -75,7 +75,7 @@ class ToqanService implements AiServiceInterface
             $conversationId = $createData['conversation_id'] ?? null;
             $requestId = $createData['request_id'] ?? null;
 
-            if (! $conversationId || ! $requestId) {
+            if (!$conversationId || !$requestId) {
                 return [
                     'success' => false,
                     'provider' => 'toqan',
@@ -262,7 +262,7 @@ class ToqanService implements AiServiceInterface
                 'success' => false,
                 'provider' => 'toqan',
                 'message' => $message,
-                'error' => 'Connection error: ' . $e->getMessage(),
+                'error' => 'Connection error: '.$e->getMessage(),
             ];
         } catch (RequestException $e) {
             Log::error('Toqan API request error', [
@@ -275,7 +275,7 @@ class ToqanService implements AiServiceInterface
                 'success' => false,
                 'provider' => 'toqan',
                 'message' => $message,
-                'error' => 'Request error: ' . $e->getMessage(),
+                'error' => 'Request error: '.$e->getMessage(),
                 'status_code' => $e->response?->status(),
             ];
         } catch (\Exception $e) {
@@ -289,7 +289,7 @@ class ToqanService implements AiServiceInterface
                 'success' => false,
                 'provider' => 'toqan',
                 'message' => $message,
-                'error' => 'Unexpected error: ' . $e->getMessage(),
+                'error' => 'Unexpected error: '.$e->getMessage(),
             ];
         }
     }
@@ -314,7 +314,7 @@ class ToqanService implements AiServiceInterface
         $apiKey = $this->config['api_key'] ?? null;
         $baseUrl = $this->config['base_url'] ?? 'https://api.coco.prod.toqan.ai';
 
-        if (! $apiKey) {
+        if (!$apiKey) {
             return false;
         }
 
@@ -327,7 +327,7 @@ class ToqanService implements AiServiceInterface
                 'Content-Type' => 'application/json',
                 'Accept' => '*/*',
             ])->timeout(5)->post("{$baseUrl}/api/find_conversation", [
-                'conversation_id' => 'health-check-' . time(),
+                'conversation_id' => 'health-check-'.time(),
             ]);
 
             // Even if conversation not found, if we get a response, API is available
@@ -335,7 +335,7 @@ class ToqanService implements AiServiceInterface
         } catch (\Exception $e) {
             // If health check fails, still return true if API key exists
             // The actual availability will be checked during sendMessage
-            return ! empty($apiKey);
+            return !empty($apiKey);
         }
     }
 }

@@ -9,7 +9,7 @@ class DeepSeekService implements AiServiceInterface
     /**
      * Create a new DeepSeek service instance.
      *
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private array $config = []
@@ -19,7 +19,7 @@ class DeepSeekService implements AiServiceInterface
     /**
      * Send a message to DeepSeek (dummy implementation).
      *
-     * @param string $message
+     * @param  string  $message
      * @return array<string, mixed>
      */
     public function sendMessage(string $message): array
@@ -29,7 +29,7 @@ class DeepSeekService implements AiServiceInterface
             'success' => true,
             'provider' => 'deepseek',
             'message' => $message,
-            'response' => 'This is a dummy response from DeepSeek. The message you sent was: ' . $message,
+            'response' => 'This is a dummy response from DeepSeek. The message you sent was: '.$message,
             'timestamp' => now()->toIso8601String(),
         ];
     }

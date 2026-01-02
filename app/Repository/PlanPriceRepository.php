@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\PlanPrice;
 use App\Contracts\BaseRepository;
+use App\Models\PlanPrice;
 use Illuminate\Database\Eloquent\Collection;
 
 class PlanPriceRepository extends BaseRepository
@@ -16,7 +16,7 @@ class PlanPriceRepository extends BaseRepository
     /**
      * Get all plan prices for a specific plan.
      *
-     * @param int $planId
+     * @param  int  $planId
      * @return Collection<int, PlanPrice>
      */
     public function getByPlanId(int $planId): Collection

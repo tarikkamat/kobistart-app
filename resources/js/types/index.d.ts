@@ -56,4 +56,4 @@ export interface Comment {
 }
 
 // Re-export platform types
-export type { Platform, Plan } from './platform';
+export type { Plan, Platform } from './platform';

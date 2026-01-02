@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Services\PlatformService;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 use Inertia\Response;
+use Laravel\Fortify\Features;
 
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @param PlatformService $platformService
+     * @param  PlatformService  $platformService
      */
     public function __construct(private PlatformService $platformService)
     {

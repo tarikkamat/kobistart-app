@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Repository\PlanRepository;
 use App\Contracts\BaseService;
+use App\Repository\PlanRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class PlanService extends BaseService
@@ -28,8 +28,8 @@ class PlanService extends BaseService
     /**
      * Get plan by slug.
      *
-     * @param string $slug
-     * @param int $platformId
+     * @param  string  $slug
+     * @param  int  $platformId
      * @return \App\Models\Plan|null
      */
     public function getPlanBySlug(string $slug, int $platformId): ?\App\Models\Plan
@@ -42,8 +42,8 @@ class PlanService extends BaseService
     /**
      * Get plans with filters applied.
      *
-     * @param array<int> $featureIds
-     * @param array<string> $featureKeys
+     * @param  array<int>  $featureIds
+     * @param  array<string>  $featureKeys
      * @return Collection<int, \App\Models\Plan>
      */
     public function getPlansWithFilters(array $featureIds = [], array $featureKeys = []): Collection

@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Models\Platform;
 use App\Contracts\BaseRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Platform;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class PlatformRepository extends BaseRepository
 {
@@ -37,7 +37,7 @@ class PlatformRepository extends BaseRepository
     /**
      * Get platform by slug with relations.
      *
-     * @param string $slug
+     * @param  string  $slug
      * @return Platform|null
      */
     public function getPlatformBySlug(string $slug): ?Platform
@@ -88,13 +88,16 @@ class PlatformRepository extends BaseRepository
     /**
      * Get paginated comments for a platform.
      *
-     * @param int $platformId
-     * @param int $perPage
-     * @param int $page
+     * @param  int  $platformId
+     * @param  int  $perPage
+     * @param  int  $page
      * @return LengthAwarePaginator
      */
-    public function getPlatformCommentsPaginated(int $platformId, int $perPage = 10, int $page = 1): LengthAwarePaginator
-    {
+    public function getPlatformCommentsPaginated(
+        int $platformId,
+        int $perPage = 10,
+        int $page = 1
+    ): LengthAwarePaginator {
         $platform = $this->model->findOrFail($platformId);
 
         return $platform->comments()

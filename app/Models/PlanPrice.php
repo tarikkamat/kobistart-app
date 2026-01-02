@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PlanPrice extends Model
 {
@@ -27,6 +27,16 @@ class PlanPrice extends Model
     ];
 
     /**
+     * Get the plan that the plan price belongs to.
+     *
+     * @return BelongsTo<Plan>
+     */
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -39,15 +49,5 @@ class PlanPrice extends Model
             'currency' => 'string',
             'is_monthly_payment' => 'boolean',
         ];
-    }
-
-    /**
-     * Get the plan that the plan price belongs to.
-     *
-     * @return BelongsTo<Plan>
-     */
-    public function plan(): BelongsTo
-    {
-        return $this->belongsTo(Plan::class);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Models\Feature;
 use App\Contracts\BaseRepository;
+use App\Models\Feature;
 use Illuminate\Database\Eloquent\Collection;
 
 class FeatureRepository extends BaseRepository
@@ -28,7 +28,7 @@ class FeatureRepository extends BaseRepository
     /**
      * Get features by category ordered by order field.
      *
-     * @param string $category
+     * @param  string  $category
      * @return Collection<int, Feature>
      */
     public function getByCategory(string $category): Collection
